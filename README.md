@@ -1,7 +1,8 @@
 # Abraham Naiborhu — portfolio rebrand
 
-Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprint 1 provides
-the static-readable React/TypeScript foundation; later visual/content sprints are not complete.
+Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprint 2 adds the
+responsive navigation, finite hero animation and credential strip to the static-readable
+React/TypeScript foundation. Full project/content sprints are not complete.
 
 ## Development
 
@@ -34,6 +35,7 @@ as reference, not imported into the rebuilt shell. No files from `rules/` are pu
 - [Static-rendering decision and dependency constraints](docs/decisions/001-static-react-foundation.md)
 - [Sprint 0 design packet](docs/rebuild/README.md)
 - [Sprint 1 checkpoint](docs/rebuild/sprint1.md)
+- [Sprint 2 signature review](docs/rebuild/sprint2.md)
 
 Do not run the legacy deploy command as a release step yet: its domain remains `.me`, while
 the proposed `.com` cutover still requires verification. No deployment has been performed.

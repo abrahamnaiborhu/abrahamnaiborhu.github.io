@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 for (const javaScriptEnabled of [false, true]) {
-  for (const width of [320, 390, 768, 1024, 1440]) {
+  for (const width of [320, 375, 390, 430, 768, 1024, 1280, 1440]) {
     test(`readable production shell at ${width}px with JS ${javaScriptEnabled}`, async ({ browser }) => {
       const context = await browser.newContext({ javaScriptEnabled, viewport: { width, height: 1000 } });
       const page = await context.newPage();
@@ -69,13 +69,13 @@ test('blocking JavaScript downloads leaves real content and links available', as
   await expect(page).toHaveURL(/#work$/);
 });
 
-test('save desktop and mobile foundation evidence', async ({ page }) => {
+test('save desktop and mobile signature evidence', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const [label, width, height] of [['desktop', 1440, 1000], ['mobile', 390, 844]] as const) {
     await page.setViewportSize({ width, height });
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await page.screenshot({ path: `docs/rebuild/captures/sprint1-${label}-hero.png` });
-    await page.screenshot({ path: `docs/rebuild/captures/sprint1-${label}-full.png`, fullPage: true });
+    await page.screenshot({ path: `docs/rebuild/captures/sprint2-${label}-hero.png` });
+    await page.screenshot({ path: `docs/rebuild/captures/sprint2-${label}-full.png`, fullPage: true });
   }
 });
