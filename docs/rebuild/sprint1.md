@@ -58,3 +58,12 @@ Known limitations:
 5. The public résumé link is omitted rather than serving the outdated PDF. Contact remains usable.
 
 Next: **S2.1 navigation**, then the Direction A signature hero and credential strip. Keep the original screenshots and S0 studies as the C2 elegance comparison.
+
+## Reload correction
+
+The initial development shell exposed unstyled HTML while JavaScript fetched the CSS import.
+Moved the stylesheet into a native head link and removed the entry-module CSS import.
+No loading overlay or artificial delay was introduced. The new browser regression failed
+on development before the change and now passes for development and production, on initial
+load and reload with all scripts blocked. Build, lint, typecheck, 3 unit tests and all
+16 browser tests pass after the correction. This supersedes the original dev-CSS limitation.

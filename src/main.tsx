@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import App from './App.tsx';
-import './rebrand/styles.css';
 
 // Both development and production inject the same App before hydration.
 // https://18.react.dev/reference/react-dom/client/hydrateRoot

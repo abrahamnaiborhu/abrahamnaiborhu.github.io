@@ -72,8 +72,10 @@ not automatically imported into the new browser bundle. Their audit/removal is s
 
 This is a foundation, not the complete rebrand. The signature topology, drawer, credential
 strip and full case studies belong to later sprints. System fonts are currently used; no
-external font request blocks content. Production output is the no-JavaScript styling reference:
-Vite's development CSS transport still depends on JavaScript.
+external font request blocks content. The stylesheet is linked directly in the HTML head,
+so development and production receive render-blocking CSS independently of JavaScript.
+This corrects the initial development reload flash caused by importing CSS from `main.tsx`.
+Vite processes the linked stylesheet into a hashed production asset; no duplicate JS CSS import is kept.
 
 Domain/CNAME, remote deployment and the outdated résumé are intentionally unchanged.
 No canonical-domain cutover is asserted before ownership and hosting are verified.
