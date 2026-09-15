@@ -43,7 +43,7 @@ full-page captures retain the real navigation.
 - S3.3: Four concise capability groups with technology lists and scroll-distance review.
 - C3 remains open until all three projects and capabilities are complete.
 
-No deployment, push, résumé replacement, domain change, or later-sprint work performed.
+No deployment, push, Resume replacement, domain change, or later-sprint work performed.
 
 ## S3.2 complete · 15 September 2026
 
@@ -112,11 +112,11 @@ Kubernetes work. Technology coverage is supplied by the user, not independently 
 
 Measured at a 1000px viewport height with JavaScript disabled:
 
-| Width | Capabilities height | Hero end → first project |
-| --- | ---: | ---: |
-| 390px | 810px | 1468px |
-| 768px | 524px | 1106px |
-| 1440px | 474px | 1012px |
+| Width  | Capabilities height | Hero end → first project |
+| ------ | ------------------: | -----------------------: |
+| 390px  |               810px |                   1468px |
+| 768px  |               524px |                   1106px |
+| 1440px |               474px |                   1012px |
 
 The second distance includes the credential strip and Work introduction. The complete
 inventory adds visible reading length, particularly on mobile; the existing hero Work
@@ -141,4 +141,4 @@ All three S3 implementation checkpoints are complete. C3 is ready for user revie
 three source-backed projects, meaningful text-equivalent diagrams, public evidence links,
 and four capability groups. No fabricated live-health, availability, future-project,
 or employment claims. Next is S4.1 (career timeline and full credentials).
-No push, deployment, domain change, or résumé replacement.
+No push, deployment, domain change, or Resume replacement.

@@ -77,5 +77,5 @@ so development and production receive render-blocking CSS independently of JavaS
 This corrects the initial development reload flash caused by importing CSS from `main.tsx`.
 Vite processes the linked stylesheet into a hashed production asset; no duplicate JS CSS import is kept.
 
-Domain/CNAME, remote deployment and the outdated résumé are intentionally unchanged.
+Domain/CNAME, remote deployment and the outdated Resume are intentionally unchanged.
 No canonical-domain cutover is asserted before ownership and hosting are verified.

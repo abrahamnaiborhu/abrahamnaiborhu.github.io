@@ -2,6 +2,8 @@ import * as React from 'react';
 import { foundation, delivery, platform, type Project } from './projectData';
 import { DeliveryDiagram, PlatformDiagram } from './ProjectDiagrams';
 import { ProjectDiagram } from './ProjectDiagram';
+import { gsap, useGSAP, reveal } from './motion';
+import { useReducedMotion } from './useReducedMotion';
 
 function ProjectCard({ project, children }: { project: Project; children: React.ReactNode }) {
   return <article className="project" aria-labelledby={`${project.id}-title`}>
@@ -21,7 +23,29 @@ function ProjectCard({ project, children }: { project: Project; children: React.
 }
 
 export function Projects() {
-  return <section id="work" tabIndex={-1} className="section wrap" aria-labelledby="work-title">
+  const scope = React.useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const entered = React.useRef(false);
+
+  // Each project settles individually, so a long section never animates as one block.
+  useGSAP(() => {
+    const el = scope.current;
+    if (!el || reducedMotion || entered.current) return;
+    entered.current = true;
+    el.querySelectorAll('.project').forEach(project => {
+      gsap.from(project.querySelectorAll('.project-copy > *, .project-diagram'), {
+        opacity: 0.85,
+        y: reveal.y,
+        duration: reveal.duration,
+        ease: reveal.ease,
+        stagger: reveal.stagger,
+        clearProps: 'opacity,transform',
+        scrollTrigger: { trigger: project, start: 'top 82%', once: true },
+      });
+    });
+  }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
+
+  return <section ref={scope} id="work" tabIndex={-1} className="section wrap" aria-labelledby="work-title">
     <p className="eyebrow">Selected engineering work</p>
     <h2 id="work-title">Infrastructure built to be repeatable, secure, and operable.</h2>
     <p>Selected architecture and engineering work across Google Cloud, Terraform, CI/CD, and platform reliability.</p>

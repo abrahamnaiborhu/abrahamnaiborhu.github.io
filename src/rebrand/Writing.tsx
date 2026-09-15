@@ -1,10 +1,31 @@
 import * as React from 'react';
 import { articles } from './articles';
 import { profile } from './profile';
+import { gsap, useGSAP, reveal } from './motion';
+import { useReducedMotion } from './useReducedMotion';
 
 export function Writing() {
+  const scope = React.useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const entered = React.useRef(false);
+
+  useGSAP(() => {
+    const el = scope.current;
+    if (!el || reducedMotion || entered.current) return;
+    entered.current = true;
+    gsap.from(el.querySelectorAll('.writing-list > li'), {
+      opacity: 0.85,
+      y: reveal.y,
+      duration: reveal.duration,
+      ease: reveal.ease,
+      stagger: reveal.stagger,
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: el.querySelector('.writing-list'), start: 'top 84%', once: true },
+    });
+  }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
+
   return <React.Fragment>
-    <section id="writing" tabIndex={-1} className="section wrap" aria-labelledby="writing-title">
+    <section ref={scope} id="writing" tabIndex={-1} className="section wrap" aria-labelledby="writing-title">
       <p className="eyebrow">Technical writing</p>
       <h2 id="writing-title">Documenting the engineering decisions behind the implementation.</h2>
       <p>Architecture notes, infrastructure experiments, and implementation breakdowns covering Google Cloud, Terraform, CI/CD, DevOps, and SRE practices.</p>

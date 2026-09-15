@@ -3,7 +3,7 @@
 Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprints 1–3
 deliver the static-readable React/TypeScript foundation, responsive navigation, finite hero
 animation, credentials, capability inventory, and three evidence-led engineering case studies.
-Sprint 4 adds career, credentials, writing, About, contact, and the current résumé.
+Sprint 4 adds career, credentials, writing, About, contact, and the current Resume.
 Sprint 5 motion and accessibility auditing is in progress. This is not a production release.
 
 ## Development
@@ -15,14 +15,14 @@ npm ci
 npm run dev
 ```
 
-| Command | Purpose |
-|---|---|
-| `npm run lint` | New TypeScript application and active tooling |
-| `npm run lint:legacy` | Historical JS audit; existing failures are expected |
-| `npm run typecheck` | Strict TypeScript verification |
-| `npm test` | Static content and rendering contract tests |
-| `npm run build` | Vite assets plus mandatory HTML prerender |
-| `npm run preview` | Inspect production output, including with JS disabled |
+| Command                | Purpose                                                      |
+| ---------------------- | ------------------------------------------------------------ |
+| `npm run lint`         | New TypeScript application and active tooling                |
+| `npm run lint:legacy`  | Historical JS audit; existing failures are expected          |
+| `npm run typecheck`    | Strict TypeScript verification                               |
+| `npm test`             | Static content and rendering contract tests                  |
+| `npm run build`        | Vite assets plus mandatory HTML prerender                    |
+| `npm run preview`      | Inspect production output, including with JS disabled        |
 | `npm run test:browser` | Chrome checks; run build first; ports 4174/5174 must be free |
 
 Browser tests use installed Google Chrome; alternatively install its Playwright channel with
@@ -54,7 +54,7 @@ as reference, not imported into the rebuilt shell. No files from `rules/` are pu
 - [Sprint 4 career and content review](docs/rebuild/sprint4.md)
 - [Sprint 5 motion/accessibility audit](docs/rebuild/sprint5-audit.md)
 
-The résumé source is typeset by `npm run resume:generate` using installed Chrome.
+The Resume source is typeset by `npm run resume:generate` using installed Chrome.
 Review and commit both `public/resume.html` and `public/Abraham-Naiborhu-Resume.pdf`
 after updating `scripts/resume.tsx` or the shared content it imports. Normal builds
 copy these reviewed artifacts and do not require Chrome.

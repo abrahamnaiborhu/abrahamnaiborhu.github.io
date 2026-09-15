@@ -3,22 +3,22 @@
 Checked 2026-09-14. Source of approved personal claims: `rules/ABRAHAM_NAIBORHU_WEBSITE_REBRAND_SPEC.md`.
 “Ready” means supplied in the brief, not independently certified. Public endpoint availability is separate from verification of engineering claims.
 
-| Item / destination section | Status | Implementation decision |
-|---|---|---|
-| Abraham Pardomuan Naiborhu; compact Abraham Naiborhu / identity | Ready | Replace old handles in public copy. |
-| Application Engineer, PointStar PTE LTD; Sep 2025–present; Jakarta / Hero and Experience | Ready | Keep actual title; Cloud / Platform / DevOps is target positioning, not an invented employment title. |
-| Hero headline and credential-led subtitle / Hero | Ready | Used verbatim in studies. |
-| Infrastructure, delivery, Kubernetes/Linux, software engineering / Capabilities | Ready | Four concise capability groups, no proficiency percentages. |
-| Hand Global Solutions, Oracle NetSuite Technical Consultant; Apr 2024–Sep 2025 | Ready | Replace obsolete “NOW” dates. |
-| Indomaret, VB.NET Developer; Nov 2023–Apr 2024 | Ready | Use supplied role and scope. |
-| Mattel, Software Engineer Intern; Nov 2022–Nov 2023 | Ready | Use supplied impact only; no invented metrics or employer-private diagrams. |
-| Google PCA, CKA, Terraform Associate (004), Google ACE / Credentials and Certifications | Ready claims; missing verification links | Render names; omit verification CTA until genuine URLs supplied. Never invent IDs/expiration dates. |
-| AWS Academy Cloud Foundations / Certifications | Ready secondary credential | Distinguish course/academy credential from the four primary certifications. |
-| Education, GPA 3.95, Magna Cum Laude, Bangkit top 15/433, scholarship and thesis / About | Ready as supplied | Old PDF corroborates several historical details, but does not replace current brief. Keep exact institution/date wording from brief. |
-| Employment descriptions / Experience | Ready at brief's public-summary level | No permission inferred for internal code, client names, screenshots, credentials or architecture. Obtain permission for new confidential detail. |
-| Current résumé / navigation, Hero, Contact | Missing | Existing PDF calls Abraham a student and Mattel an ongoing internship; omits later roles/new certifications. Request replacement; do not relabel it as current. |
-| On-prem Kubernetes project | Excluded from release | Future work is not completed evidence. Never ship confidential unpublished data behind a CSS flag. |
-| Old website projects, WM Developer ongoing role, student-style headline | Excluded from primary release | Preserve historical files only; do not silently merge superseded facts. |
+| Item / destination section                                                               | Status                                   | Implementation decision                                                                                                                                         |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Abraham Naiborhu; compact Abraham Naiborhu / identity                                    | Ready                                    | Replace old handles in public copy.                                                                                                                             |
+| Application Engineer, PointStar PTE LTD; Sep 2025–present; Jakarta / Hero and Experience | Ready                                    | Keep actual title; Cloud / Platform / DevOps is target positioning, not an invented employment title.                                                           |
+| Hero headline and credential-led subtitle / Hero                                         | Ready                                    | Used verbatim in studies.                                                                                                                                       |
+| Infrastructure, delivery, Kubernetes/Linux, software engineering / Capabilities          | Ready                                    | Four concise capability groups, no proficiency percentages.                                                                                                     |
+| Hand Global Solutions, Oracle NetSuite Technical Consultant; Apr 2024–Sep 2025           | Ready                                    | Replace obsolete “NOW” dates.                                                                                                                                   |
+| Indomaret, VB.NET Developer; Nov 2023–Apr 2024                                           | Ready                                    | Use supplied role and scope.                                                                                                                                    |
+| Mattel, Software Engineer Intern; Nov 2022–Nov 2023                                      | Ready                                    | Use supplied impact only; no invented metrics or employer-private diagrams.                                                                                     |
+| Google PCA, CKA, Terraform Associate (004), Google ACE / Credentials and Certifications  | Ready claims; missing verification links | Render names; omit verification CTA until genuine URLs supplied. Never invent IDs/expiration dates.                                                             |
+| AWS Academy Cloud Foundations / Certifications                                           | Ready secondary credential               | Distinguish course/academy credential from the four primary certifications.                                                                                     |
+| Education, GPA 3.95, Magna Cum Laude, Bangkit top 15/433, scholarship and thesis / About | Ready as supplied                        | Old PDF corroborates several historical details, but does not replace current brief. Keep exact institution/date wording from brief.                            |
+| Employment descriptions / Experience                                                     | Ready at brief's public-summary level    | No permission inferred for internal code, client names, screenshots, credentials or architecture. Obtain permission for new confidential detail.                |
+| Current Resume / navigation, Hero, Contact                                               | Missing                                  | Existing PDF calls Abraham a student and Mattel an ongoing internship; omits later roles/new certifications. Request replacement; do not relabel it as current. |
+| On-prem Kubernetes project                                                               | Excluded from release                    | Future work is not completed evidence. Never ship confidential unpublished data behind a CSS flag.                                                              |
+| Old website projects, WM Developer ongoing role, student-style headline                  | Excluded from primary release            | Preserve historical files only; do not silently merge superseded facts.                                                                                         |
 
 ## Public destination checks
 
@@ -32,11 +32,11 @@ Direct HTTP checks and public APIs were used after the search tool returned inco
 
 ## Engineering projects
 
-| Project | Supplied scope | Evidence status |
-|---|---|---|
-| GCP Terraform Foundation | Reusable VPC modules, automated firewall provisioning, versioned GCS remote state | [Public repository candidate](https://github.com/abrahamnaiborhu/GCP-Terraform-Foundation-Lite) exists in account API; foundation article below matches. Review README/source before attaching detailed claims in S3. |
-| Keyless CI/CD on Google Cloud | GitHub Actions, WIF, approval, drift detection | Matching CI/CD and drift articles below found. No uniquely matching standalone repository established; do not guess one. |
-| Production-Lite GCP Web Platform | MIG, Cloud NAT, private backends, health checks, HTTP load balancer | [Public repository candidate](https://github.com/abrahamnaiborhu/terraform-gcp-production-lite-web-platform) exists in account API; matching article below. README/source audit remains S3. |
+| Project                          | Supplied scope                                                                    | Evidence status                                                                                                                                                                                                       |
+| -------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GCP Terraform Foundation         | Reusable VPC modules, automated firewall provisioning, versioned GCS remote state | [Public repository candidate](https://github.com/abrahamnaiborhu/GCP-Terraform-Foundation-Lite) exists in account API; foundation article below matches. Review README/source before attaching detailed claims in S3. |
+| Keyless CI/CD on Google Cloud    | GitHub Actions, WIF, approval, drift detection                                    | Matching CI/CD and drift articles below found. No uniquely matching standalone repository established; do not guess one.                                                                                              |
+| Production-Lite GCP Web Platform | MIG, Cloud NAT, private backends, health checks, HTTP load balancer               | [Public repository candidate](https://github.com/abrahamnaiborhu/terraform-gcp-production-lite-web-platform) exists in account API; matching article below. README/source audit remains S3.                           |
 
 These are project narratives, not claims of enterprise-scale production operations. Conceptual preview diagrams are not deployment evidence.
 
@@ -51,4 +51,4 @@ Status: URLs and exact titles verified through Dev.to's public article listing, 
 
 ## Remaining dependencies
 
-Abraham: choose direction; supply current résumé, optional genuine credential links, and confirm LinkedIn. Hosting owner: confirm domain settings before launch. Implementer: review project evidence in S3 and recheck all links before release. Missing optional verification links do not block the readable shell.
+Abraham: choose direction; supply current Resume, optional genuine credential links, and confirm LinkedIn. Hosting owner: confirm domain settings before launch. Implementer: review project evidence in S3 and recheck all links before release. Missing optional verification links do not block the readable shell.

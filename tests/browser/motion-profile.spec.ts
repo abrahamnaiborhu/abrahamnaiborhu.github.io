@@ -9,16 +9,18 @@ test('record a CPU-throttled signature trace and its resting state', async ({ pa
   await page.goto('/');
   await expect(page.locator('.topology')).toHaveAttribute('data-motion-state', 'complete');
   const resting = await page.locator('.topology').getAttribute('style');
-  // A second observation after the original six-second proposed pulse window guards against looping.
-  const laterStyleChanges = await page.locator('.topology').evaluate(element => new Promise<number>(resolve => {
-    let changes = 0;
-    const observer = new MutationObserver(records => { changes += records.length; });
-    observer.observe(element, { attributes: true, subtree: true, attributeFilter: ['style'] });
-    setTimeout(() => { observer.disconnect(); resolve(changes); }, 6500);
-  }));
-  expect(laterStyleChanges).toBe(0);
+  // The entrance figure itself still rests; only the branch paths keep working (rebrand §11 pulse).
+  const observeStyleChanges = (selector: string, windowMs: number) => page.locator(selector)
+    .evaluate((element, ms) => new Promise<number>(resolve => {
+      let changes = 0;
+      const observer = new MutationObserver(records => { changes += records.length; });
+      observer.observe(element, { attributes: true, subtree: true, attributeFilter: ['style'] });
+      setTimeout(() => { observer.disconnect(); resolve(changes); }, ms);
+    }), windowMs);
+  expect(await observeStyleChanges('.diagram-accent', 6500)).toBeGreaterThan(0);
   expect(await page.locator('.topology').getAttribute('style')).toBe(resting);
   await expect(page.locator('.topology')).toHaveAttribute('data-motion-state', 'complete');
+  await expect(page.locator('.topology')).toHaveAttribute('data-ambient', 'running');
   const completed = new Promise<{ stream?: string }>(resolve => session.once('Tracing.tracingComplete', resolve));
   await session.send('Tracing.end');
   const { stream } = await completed;
@@ -39,7 +41,8 @@ test('record a CPU-throttled signature trace and its resting state', async ({ pa
   });
   await writeFile('docs/rebuild/captures/sprint4-motion-profile.json', JSON.stringify({
     browser: browser.version(), cpuThrottle: 4, network: 'local, unthrottled',
-    configuredTimelineSeconds: 1.08, restingStateRecheckedAfterMs: 6500, categories,
+    configuredTimelineSeconds: 1.08, ambientLoop: 'random branch redraw, 2.6-4.4s gap, paused off-screen and on hidden tabs',
+    ambientObservedForMs: 6500, categories,
     scope: 'Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification.',
   }, null, 2));
 });

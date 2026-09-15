@@ -18,30 +18,30 @@ A more balanced 7/5 hero, 64px desktop headline and boxed topology give engineer
 
 Graphite/off-white base with small blue/cyan accents, 1180px maximum content width, 44px mobile headline and stacked mobile CTAs. No photography is required for the hero. The figure is explicitly conceptual; green dots are illustrative, not live health indicators. One H1; the narrative remains legible without the figure.
 
-Previews request Inter with Arial fallback, without loading external font files. Final font delivery/licensing and font-metric checks belong to S1. Review-strip labels are review tooling, not production UI. Social labels are not pretend links. Résumé links disclose the missing current PDF. Remaining-section anchors disclose the limited preview scope.
+Previews request Inter with Arial fallback, without loading external font files. Final font delivery/licensing and font-metric checks belong to S1. Review-strip labels are review tooling, not production UI. Social labels are not pretend links. Resume links disclose the missing current PDF. Remaining-section anchors disclose the limited preview scope.
 
 The supplied section order is retained. On mobile, credentials/capabilities add considerable distance before Work; the direct Work CTA is therefore important. C2 must review that distance with the full shell before adding further decorative height. Do not shrink body text to compensate.
 
 ## Motion storyboard — A
 
-| Beat | Normal-motion proposal | Reduced motion / failure |
-|---|---|---|
-| First paint | Headline, subtitle and CTAs visible immediately; no text splitting or loader | Same readable layout. |
-| 0–500 ms after enhancement | Small metadata groups settle from 8px offset using opacity/transform; `power3.out` | No offset or delay. |
-| 200–1100 ms | Static topology remains visible; a subtle accent passes source → CI/CD → branches once, using opacity/transform overlays | Static complete topology. |
-| After 1100 ms | Entire diagram rests. No blinking status lights or repeated pulses | Same resting composition. |
-| Work enters viewport | Nonessential visual settles 12px over 450 ms, once; content is not gated by it | Immediate static visual. |
-| Hover/focus | 160 ms underline/accent feedback; arrow moves no more than 3px on pointer hover | Visible focus ring; omit movement. |
+| Beat                       | Normal-motion proposal                                                                                                   | Reduced motion / failure           |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| First paint                | Headline, subtitle and CTAs visible immediately; no text splitting or loader                                             | Same readable layout.              |
+| 0–500 ms after enhancement | Small metadata groups settle from 8px offset using opacity/transform; `power3.out`                                       | No offset or delay.                |
+| 200–1100 ms                | Static topology remains visible; a subtle accent passes source → CI/CD → branches once, using opacity/transform overlays | Static complete topology.          |
+| After 1100 ms              | Figure rests; the accent redraws one randomly chosen branch every 2.6–4.4 s (rebrand §11 pulse, implemented 2026-09-15). No blinking status lights | Same resting composition.          |
+| Work enters viewport       | Nonessential visual settles 12px over 450 ms, once; content is not gated by it                                           | Immediate static visual.           |
+| Hover/focus                | 160 ms underline/accent feedback; arrow moves no more than 3px on pointer hover                                          | Visible focus ring; omit movement. |
 
 ## Motion storyboard — B
 
-| Beat | Normal-motion proposal | Reduced motion / failure |
-|---|---|---|
-| First paint | All hero copy and complete topology visible | Same. |
-| 0–600 ms | Diagram surface settles 10px; typography stays still | Static surface. |
-| 250–1450 ms | Finite three-beat emphasis: source, delivery, destinations; small blue overlay highlights, not node disappearance | Complete static diagram. |
-| After 1450 ms | No ambient loop; diagram and project surface rest | Same. |
-| Work enters viewport | One restrained 500 ms visual entrance, then static evidence | Immediate static content. |
+| Beat                 | Normal-motion proposal                                                                                            | Reduced motion / failure  |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| First paint          | All hero copy and complete topology visible                                                                       | Same.                     |
+| 0–600 ms             | Diagram surface settles 10px; typography stays still                                                              | Static surface.           |
+| 250–1450 ms          | Finite three-beat emphasis: source, delivery, destinations; small blue overlay highlights, not node disappearance | Complete static diagram.  |
+| After 1450 ms        | Ambient branch redraw on the hero topology only; project surfaces rest                                            | Same.                     |
+| Work enters viewport | One restrained 500 ms visual entrance, then static evidence                                                       | Immediate static content. |
 
 Implementation gate for either direction: native scroll; scoped GSAP only where useful; cleanup on unmount and live reduced-motion changes; no hidden terminal states; no scroll hijack, infinite arrows, cursor trails, neon glow, 3D, typing effects or mandatory loader. Prefer transforms/opacity; SVG stroke drawing needs a separately profiled exception. Keyboard focus must not depend on hover.
 

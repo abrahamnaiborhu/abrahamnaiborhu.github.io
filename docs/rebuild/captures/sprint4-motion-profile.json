@@ -3,25 +3,26 @@
   "cpuThrottle": 4,
   "network": "local, unthrottled",
   "configuredTimelineSeconds": 1.08,
-  "restingStateRecheckedAfterMs": 6500,
+  "ambientLoop": "random branch redraw, 2.6-4.4s gap, paused off-screen and on hidden tabs",
+  "ambientObservedForMs": 6500,
   "categories": [
     {
       "name": "Layout",
-      "count": 7,
-      "maxDurationMs": 131.627,
-      "totalDurationMs": 139.70100000000002
+      "count": 79,
+      "maxDurationMs": 127.521,
+      "totalDurationMs": 153.227
     },
     {
       "name": "Paint",
-      "count": 35,
-      "maxDurationMs": 8.215,
-      "totalDurationMs": 28.431000000000008
+      "count": 190,
+      "maxDurationMs": 8.418,
+      "totalDurationMs": 59.87199999999996
     },
     {
       "name": "FunctionCall",
-      "count": 159,
-      "maxDurationMs": 26.096,
-      "totalDurationMs": 71.80300000000018
+      "count": 1134,
+      "maxDurationMs": 64.736,
+      "totalDurationMs": 161.5409999999986
     }
   ],
   "scope": "Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification."

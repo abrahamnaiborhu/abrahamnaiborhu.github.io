@@ -4,7 +4,7 @@ Implemented locally 2026-09-15. **C2 visual review is ready; no deployment.**
 
 ## Delivered
 
-- S2.1: sticky navigation, active-section underline, mobile modal drawer, no-JavaScript details fallback, résumé availability anchor, and About destination.
+- S2.1: sticky navigation, active-section underline, mobile modal drawer, no-JavaScript details fallback, Resume availability anchor, and About destination.
 - S2.2: approved headline/subtitle, personal identity, real GitHub/Dev.to links, and the unboxed conceptual infrastructure diagram.
 - S2.3: four equal-weight primary credentials immediately after the hero; compact capabilities-to-Work transition.
 
@@ -52,7 +52,7 @@ Final bundle snapshot: 225.45 kB JavaScript / 77.83 kB gzip; 8.07 kB CSS / 2.38 
 
 ## Remaining boundaries
 
-The résumé actions lead to an explicit availability note because the current PDF is missing. LinkedIn is not enabled until its destination is confirmed. No credential verification URLs were invented. Credentials/capabilities stay static rather than adding more entrance sequences around the signature animation. The header uses an opaque/translucent dark surface without a backdrop-blur effect.
+The Resume actions lead to an explicit availability note because the current PDF is missing. LinkedIn is not enabled until its destination is confirmed. No credential verification URLs were invented. Credentials/capabilities stay static rather than adding more entrance sequences around the signature animation. The header uses an opaque/translucent dark surface without a backdrop-blur effect.
 
 Work case studies, the complete experience timeline, full Writing, About/Education and remaining certification details are later-sprint content. Existing shell headings are not a claim those sections are finished. Domain cutover, dependency audit availability and legacy tooling debt remain open from S1.
 

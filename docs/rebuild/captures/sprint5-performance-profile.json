@@ -1,0 +1,53 @@
+{
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 4,
+  "network": "local, unthrottled",
+  "viewport": "1440x900 scroll; 390x844 drawer",
+  "scroll": {
+    "distancePx": 8070,
+    "elapsedMs": 5016,
+    "sampledFrames": 301,
+    "intervalMedianMs": 16.7,
+    "intervalP95Ms": 16.7,
+    "intervalMaxMs": 16.8,
+    "framesWithin20msPercent": 100
+  },
+  "observed": {
+    "cls": 0,
+    "lcpMs": 272,
+    "longTaskCount": 1,
+    "maxLongTaskMs": 59,
+    "maxInteractionMs": 72
+  },
+  "categories": [
+    {
+      "name": "Layout",
+      "count": 230,
+      "over50ms": 1,
+      "maxDurationMs": 146.424,
+      "totalDurationMs": 237.53200000000004
+    },
+    {
+      "name": "Paint",
+      "count": 223,
+      "over50ms": 0,
+      "maxDurationMs": 8.995,
+      "totalDurationMs": 134.36800000000008
+    },
+    {
+      "name": "FunctionCall",
+      "count": 2152,
+      "over50ms": 1,
+      "maxDurationMs": 58.588,
+      "totalDurationMs": 389.396999999995
+    },
+    {
+      "name": "RunTask",
+      "count": 16774,
+      "over50ms": 2,
+      "maxDurationMs": 188.863,
+      "totalDurationMs": 2014.6939999998158
+    }
+  ],
+  "scope": "Synthetic local Chrome stress recording. Frame intervals cover scripted full-page scroll; not field CWV or physical-device certification."
+}

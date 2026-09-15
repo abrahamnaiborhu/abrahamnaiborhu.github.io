@@ -36,7 +36,7 @@ unused in production; retained it rather than deleting the user's new abstractio
 - All 46 Chrome browser tests passed (51.4 seconds), including the new readable-motion,
   no-replay, list structure, touch target, heading, text size, and reflow checks.
 - Existing reload CSS, slow hydration, no-JavaScript, navigation, reduced-motion, and
-  project cleanup tests passed. The résumé view/download/contact journey also passed.
+  project cleanup tests passed. The Resume view/download/contact journey also passed.
 - JS 288.57 kB / 100.22 kB gzip; CSS 14.90 kB / 3.81 kB gzip. Roughly +18 kB gzip JS
   versus the pre-ScrollTrigger implementation. No new package installation.
 - [4× CPU load trace](captures/sprint5-audit-motion-profile.json): 49 Layout events,
@@ -64,10 +64,10 @@ default suite. No production animation, layout, or bundle changes were needed.
 - Coverage: eight responsive widths (320–1440), a 1920px desktop, 14px mobile
   text, 44px targets, heading structure, accessible image names, reflow proxy,
   readable motion and live preference changes, keyboard drawer focus/scroll lock,
-  résumé view/PDF download/contact journey, and native navigation without JavaScript.
-- Found and fixed a real Chrome console 404: standalone résumé HTML had no icon,
+  Resume view/PDF download/contact journey, and native navigation without JavaScript.
+- Found and fixed a real Chrome console 404: standalone Resume HTML had no icon,
   causing an automatic `/favicon.ico` request. It now uses the existing portfolio
-  inline icon. Regenerated résumé artifacts; the PDF remains two tagged pages.
+  inline icon. Regenerated Resume artifacts; the PDF remains two tagged pages.
   The compatibility test checks console warnings/errors throughout this journey.
 - Build, lint, typecheck, and 12 static tests passed. JS/CSS sizes are unchanged.
 - Full default Chrome regression suite passed: 49/49 in 56.2 seconds, including
@@ -78,9 +78,58 @@ default suite. No production animation, layout, or bundle changes were needed.
 
 The debugging skill led to reproducing the missing-resource error before fixing it.
 Review confirmed the changes are limited to test configuration, compatibility coverage,
-and the résumé icon; existing capture edits were not included in this checkpoint.
+and the Resume icon; existing capture edits were not included in this checkpoint.
 
 This is engine compatibility evidence, not Safari app/iPhone certification, full WCAG
 conformance, or a visual sign-off. Actual zoom and screen-reader sampling remain open.
 Initial-layout attribution and full-scroll/Lighthouse profiling are the next S5 slice;
 no performance improvement is claimed from this compatibility work.
+
+## Tinted-band layout fix
+
+The tinted sections (`#work`, `#certifications`, `#writing`) carried their
+background on the same element as `.wrap`, so the tint painted only the 1180px
+content column and text sat flush against the panel edge. The tint now runs
+edge to edge while its content keeps the page measure: `--gutter` (24px mobile,
+40px from 768px) drives both `.wrap` and the bands' `padding-inline: max(var(--gutter),
+calc((100% - var(--measure)) / 2))`. Measured at 1440px and 390px, band content
+starts at the same x as untinted sections (130px and 24px).
+
+Two related fixes: `.writing-row` hover used `var(--surface)` inside a
+`var(--surface)` band, so hover was invisible; it now uses `--surface-raised`.
+Projects and Writing were the only sections without scroll reveals; both now use
+the shared `reveal` tokens, per-project triggers, and the reduced-motion guard.
+
+## Hero topology: ambient branch loop
+
+Requested change: the hero diagram animated once per page load. It now keeps a
+slow ambient pass — trunk plus one branch draw with `stroke-dashoffset`, hold,
+fade — with a 2.6–4.4 s random gap between passes. The branch side is random,
+capped at two identical sides in a row so a run never reads as stuck. The
+right-hand branch (`image → kubernetes`) gained its own accent paths; before this
+only the left branch had them.
+
+This reverses the S1 deferral in `REBUILD_SPRINT_PLAN` §tradeoffs ("initial release
+uses one finite topology sequence, then rests") and takes up rebrand §11/§22's
+6–8 s pulse, at a shorter interval. It is also the stroke-drawing exception the
+art-direction gate calls out, so the constraints that keep it cheap are:
+reduced motion runs nothing, the loop idles while the figure is off-screen
+(IntersectionObserver) or the tab is hidden, and only two or three small paths
+animate per pass.
+
+State model: `data-motion-state` still reaches `complete` after the 1.08 s
+entrance — the figure element itself has no resting-style churn — and
+`data-ambient` carries `idle`/`running` for the loop. `motion-profile.spec`
+now asserts the accent group keeps changing while the figure rests, the inverse
+of its old anti-loop guard; `signature.spec` watches ~28 s and requires both
+branches to be drawn.
+
+Verified with system Chrome: passes alternated at 3.8 s, 10.7 s, 22.3 s and 35.0 s,
+and switching to `prefers-reduced-motion: reduce` returned `data-motion-state=static`,
+`data-ambient=idle`, and every accent path to opacity 0.
+
+Pre-existing, unrelated: the two GSAP tween-leak checks
+(`foundation.spec` and `projects.spec` Strict Mode remounts) fail on this machine
+with `foundationTweenCount()` returning 2 instead of 0. Confirmed by stashing all
+changes and re-running — they fail identically at the previous commit. The rest of
+the suite passes (49 tests).

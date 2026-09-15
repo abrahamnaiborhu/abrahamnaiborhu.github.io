@@ -43,7 +43,7 @@ Full-page captures retain the real page. Earlier sprint baselines are preserved.
 ## Remaining
 
 S4.3: About, education, languages, contact and footer.
-Current résumé, confirmed LinkedIn destination, and optional real credential verification
+Current Resume, confirmed LinkedIn destination, and optional real credential verification
 URLs remain release inputs. The obsolete CV is not reused. C4 is not complete.
 
 No push, deployment, domain change, or external account mutation.
@@ -80,7 +80,7 @@ Latest synthetic 4× CPU load trace: max layout 127.519ms, paint 8.184ms, functi
 27.133ms. The existing initial-layout investigation remains in S5; no field-CWV claim.
 Reload styling, existing motion cleanup, navigation, and static content checks remain green.
 
-S4.3 and C4 remain open. Current résumé and confirmed LinkedIn are still release inputs.
+S4.3 and C4 remain open. Current Resume and confirmed LinkedIn are still release inputs.
 No push or deployment.
 
 ## S4.3 — Page sections implemented; release inputs pending
@@ -96,9 +96,9 @@ The footer includes the full identity/location, compact copyright identity (2026
 current implementation year), public social links, and native back-to-top navigation.
 Review the copyright year during annual releases. No runtime clock is needed for hydration.
 
-The current résumé has not been supplied, and LinkedIn confirmation remains outstanding.
+The current Resume has not been supplied, and LinkedIn confirmation remains outstanding.
 Both were requested from the user. No obsolete CV or guessed replacement is shipped;
-résumé anchors still reach the explicit availability notice. Contact copy therefore
+Resume anchors still reach the explicit availability notice. Contact copy therefore
 mentions email only; LinkedIn is not presented as an available action yet.
 
 Verification: 9 static tests, lint, typecheck, and production build pass. The full browser
@@ -106,7 +106,7 @@ run passed 38/39 tests; the new contact test initially expected focus-visible af
 pointer navigation. Corrected the test to Tab onto the email link, without changing
 production focus styles. Both contact tests then passed (7.7s), so all 39 test cases have
 passing results across the full run and targeted rerun. Keyboard path covers Work →
-résumé notice → email → GitHub → back to top; no email is sent by the test.
+Resume notice → email → GitHub → back to top; no email is sent by the test.
 
 No-JavaScript captures cover 390/768/1440px. Inspected [desktop About](captures/sprint4-about-1440.png)
 and [mobile Contact](captures/sprint4-contact-390.png). All earlier reload, hydration,
@@ -116,7 +116,7 @@ Build: JS 241.00 kB (82.22 kB gzip), CSS 14.15 kB (3.60 kB gzip). No dependencie
 Latest synthetic 4× CPU load trace: max layout 131.627ms, paint 8.215ms, function call
 26.096ms. Initial-layout attribution remains S5 work, not field-performance certification.
 
-S4.3 and C4 are deliberately not marked complete: current résumé integration and a
+S4.3 and C4 are deliberately not marked complete: current Resume integration and a
 confirmed LinkedIn destination remain required by their acceptance criteria. Page
 structure is implemented and reviewable. No deployment, push, or domain changes.
 
@@ -126,9 +126,9 @@ The user confirmed `https://www.linkedin.com/in/abrahamnaiborhu`. Added it to th
 shared profile, Contact secondary action, and Footer. Contact copy now mentions both
 email and LinkedIn. Confirmation is user-supplied, not a claim that LinkedIn's automated
 access restriction was bypassed. Updated the keyboard-order regression for the new link.
-The résumé file is still missing; S4.3/C4 remain open only for that required integration.
+The Resume file is still missing; S4.3/C4 remain open only for that required integration.
 
-### CV Markdown located and résumé integrated
+### CV Markdown located and Resume integrated
 
 The user identified `rules/Abraham Naiborhu.md` as their current CV. It supplies the
 career/education content and five real Credly destinations; it was read in full.
@@ -136,10 +136,10 @@ All five supplied badge URLs returned HTTP 200 with matching credential titles.
 ACE redirects to another badge ID; retained the supplied working redirect URL.
 This checks destinations/titles, not independent identity or expiry certification.
 
-Résumé links now open `/resume.html`, a standalone, script-free reading view with a
+Resume links now open `/resume.html`, a standalone, script-free reading view with a
 download action for `/Abraham-Naiborhu-Resume.pdf`. Contact also offers direct download.
 Shared credential data powers the five public badge links. The source Markdown is
-unchanged and is not served from the rules directory. The typeset résumé condenses
+unchanged and is not served from the rules directory. The typeset Resume condenses
 career bullets and uses the previously audited project summaries: no new claim of
 deployed high availability or drift detection in the specific CI/CD workflow. Internal
 project names remain omitted. Full education details and languages are retained.
@@ -150,7 +150,7 @@ extractable text (2524 and 1558 characters); both pages were visually inspected.
 The output includes a structure tree, but this is not a PDF/UA compliance claim.
 A regression checks the generated Chromium PDF's page dictionaries and HTML alternative.
 
-The 46-test browser audit includes successful résumé view → PDF download → contact
+The 46-test browser audit includes successful Resume view → PDF download → contact
 navigation. After pagination correction, static/build checks and the focused contact
-suite are rerun. S4.3 implementation is complete; C4 is ready for user review. No résumé
+suite are rerun. S4.3 implementation is complete; C4 is ready for user review. No Resume
 or LinkedIn input is still missing. S5 cross-browser/performance review remains open.
