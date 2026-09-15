@@ -48,6 +48,25 @@ test('reduced motion cancels a running reveal and Strict Mode remounts leave no 
   await expect(sample).toHaveCSS('opacity', '1');
 });
 
+test('section ScrollTriggers clean up across preference changes and repeated remounts', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('http://127.0.0.1:5174/tests/motion-harness.html?sections');
+  await expect.poll(() => page.evaluate(() => window.foundationScrollTriggerCount())).toBeGreaterThan(0);
+
+  for (let i = 0; i < 3; i++) {
+    await page.getByRole('button', { name: 'Hide sample' }).click();
+    expect(await page.evaluate(() => window.foundationScrollTriggerCount())).toBe(0);
+    expect(await page.evaluate(() => window.foundationElementTweenCount())).toBe(0);
+    await page.getByRole('button', { name: 'Show sample' }).click();
+    await expect.poll(() => page.evaluate(() => window.foundationScrollTriggerCount())).toBeGreaterThan(0);
+  }
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(() => page.evaluate(() => window.foundationScrollTriggerCount())).toBe(0);
+  expect(await page.evaluate(() => window.foundationElementTweenCount())).toBe(0);
+  await expect(page.locator('.timeline-progress')).toHaveCSS('transform', 'none');
+});
+
 test('development hydration remains clean under slow JavaScript delivery', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));

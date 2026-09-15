@@ -83,7 +83,7 @@ p { color: var(--body); max-width: 680px; }
 .secondary { background: transparent; color: var(--text); }
 .career-track { position: relative; max-width: 880px; margin-top: 48px; }
 .career-timeline { list-style: none; margin: 0; padding: 0; }
-.timeline-progress { position: absolute; z-index: 1; left: 0; top: 0; bottom: 0; width: 1px; background: var(--accent); transform-origin: top; transform: scaleY(0); pointer-events: none; }
+.timeline-progress { position: absolute; z-index: 1; left: 0; top: 0; bottom: 0; width: 1px; background: var(--accent); transform-origin: top; pointer-events: none; }
 .career-timeline > li { position: relative; padding: 0 0 48px 24px; border-left: 1px solid var(--border); }
 .career-timeline > li:last-child { padding-bottom: 0; }
 .career-timeline > li::before { content: ''; position: absolute; left: -4px; top: 9px; width: 7px; height: 7px; background: var(--muted); border-radius: 50%; }
