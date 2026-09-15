@@ -2,10 +2,28 @@ import * as React from 'react';
 import { profile } from './profile';
 import { Signature } from './Signature';
 import { InfrastructureVisual } from './InfrastructureVisual';
+import { gsap, useGSAP } from './motion';
+import { useReducedMotion } from './useReducedMotion';
 
 export function Hero() {
+  const scope = React.useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const entered = React.useRef(false);
+
+  // Staggered entrance per rebrand §35. Content starts visible; this is enhancement.
+  useGSAP(() => {
+    const el = scope.current;
+    if (!el || reducedMotion || entered.current) return;
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out', clearProps: 'opacity,transform' }, onStart: () => { entered.current = true; } });
+    tl.from(el.querySelector('.eyebrow'), { opacity: 0.85, y: 14, duration: 0.45 })
+      .from(el.querySelector('h1'), { opacity: 0.85, y: 22, duration: 0.65 }, '-=0.25')
+      .from(el.querySelector('.introduction'), { opacity: 0.85, y: 18, duration: 0.55 }, '-=0.35')
+      .from(el.querySelector('.actions'), { opacity: 0.85, y: 14, duration: 0.45 }, '-=0.30')
+      .from(el.querySelector('.hero-meta'), { opacity: 0.85, duration: 0.35 }, '-=0.20');
+  }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
+
   return <React.Fragment>
-    <section id="home" className="hero wrap" aria-labelledby="hero-title">
+    <section ref={scope} id="home" className="hero wrap" aria-labelledby="hero-title">
       <div className="hero-copy">
         <p className="eyebrow">{profile.role} <span>· Cloud / Platform / DevOps</span></p>
         <h1 id="hero-title">{profile.headline}</h1>

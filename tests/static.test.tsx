@@ -90,6 +90,11 @@ test('confirmed LinkedIn appears in Contact and Footer', () => {
   assert.equal((html.match(/href="https:\/\/www.linkedin.com\/in\/abrahamnaiborhu"/g) ?? []).length, 2);
 });
 
+test('career progress decoration does not invalidate ordered-list children', () => {
+  const html = renderPage();
+  assert.ok(!/<ol class="career-timeline">\s*<div/.test(html));
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);

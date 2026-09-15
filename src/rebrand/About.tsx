@@ -1,8 +1,28 @@
 import * as React from 'react';
+import { gsap, useGSAP, reveal } from './motion';
+import { useReducedMotion } from './useReducedMotion';
 
 export function About() {
+  const scope = React.useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const entered = React.useRef(false);
+
+  useGSAP(() => {
+    const el = scope.current;
+    if (!el || reducedMotion || entered.current) return;
+    gsap.from(el.querySelector('.about-grid'), {
+      opacity: 0.85,
+      onStart: () => { entered.current = true; },
+      y: reveal.y,
+      duration: reveal.duration,
+      ease: reveal.ease,
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: el, start: 'top 84%', once: true },
+    });
+  }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
+
   return <React.Fragment>
-    <section id="about" tabIndex={-1} className="section wrap" aria-labelledby="about-title">
+    <section ref={scope} id="about" tabIndex={-1} className="section wrap" aria-labelledby="about-title">
       <p className="eyebrow">About</p>
       <h2 id="about-title">Software engineering foundations. Infrastructure focus.</h2>
       <div className="about-grid">

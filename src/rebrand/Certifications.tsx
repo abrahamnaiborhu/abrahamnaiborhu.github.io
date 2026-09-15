@@ -1,9 +1,30 @@
 import * as React from 'react';
 import { primaryCredentials, additionalCredential } from './credentials';
+import { gsap, useGSAP, reveal } from './motion';
+import { useReducedMotion } from './useReducedMotion';
 
 export function Certifications() {
+  const scope = React.useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const entered = React.useRef(false);
+
+  useGSAP(() => {
+    const el = scope.current;
+    if (!el || reducedMotion || entered.current) return;
+    gsap.from(el.querySelectorAll('.certification-grid > li'), {
+      opacity: 0.85,
+      onStart: () => { entered.current = true; },
+      y: reveal.y,
+      duration: reveal.duration,
+      ease: reveal.ease,
+      stagger: reveal.stagger,
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: el.querySelector('.certification-grid'), start: 'top 84%', once: true },
+    });
+  }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
+
   return <React.Fragment>
-    <section id="certifications" className="section wrap" aria-labelledby="certifications-title">
+    <section ref={scope} id="certifications" className="section wrap" aria-labelledby="certifications-title">
       <p className="eyebrow">Certifications</p>
       <h2 id="certifications-title">Validated across cloud, infrastructure, and Kubernetes.</h2>
       <ul className="certification-grid">

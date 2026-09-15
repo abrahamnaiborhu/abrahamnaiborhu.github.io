@@ -1,9 +1,30 @@
 import * as React from 'react';
 import { profile } from './profile';
+import { gsap, useGSAP, reveal } from './motion';
+import { useReducedMotion } from './useReducedMotion';
 
 export function Contact() {
+  const scope = React.useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const entered = React.useRef(false);
+
+  useGSAP(() => {
+    const el = scope.current;
+    if (!el || reducedMotion || entered.current) return;
+    gsap.from([el.querySelector('h2'), el.querySelector('.actions')], {
+      opacity: 0.85,
+      onStart: () => { entered.current = true; },
+      y: reveal.y,
+      duration: reveal.duration,
+      ease: reveal.ease,
+      stagger: 0.12,
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: el, start: 'top 84%', once: true },
+    });
+  }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
+
   return <React.Fragment>
-    <section id="contact" className="section wrap contact" aria-labelledby="contact-title">
+    <section ref={scope} id="contact" className="section wrap contact" aria-labelledby="contact-title">
       <p className="eyebrow">Contact</p>
       <h2 id="contact-title">Let&apos;s talk about cloud, platform engineering, or infrastructure.</h2>
       <p>For professional opportunities, technical collaboration, or engineering discussions, the best ways to reach me are email or LinkedIn.</p>
