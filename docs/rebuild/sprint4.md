@@ -127,3 +127,30 @@ shared profile, Contact secondary action, and Footer. Contact copy now mentions 
 email and LinkedIn. Confirmation is user-supplied, not a claim that LinkedIn's automated
 access restriction was bypassed. Updated the keyboard-order regression for the new link.
 The résumé file is still missing; S4.3/C4 remain open only for that required integration.
+
+### CV Markdown located and résumé integrated
+
+The user identified `rules/Abraham Naiborhu.md` as their current CV. It supplies the
+career/education content and five real Credly destinations; it was read in full.
+All five supplied badge URLs returned HTTP 200 with matching credential titles.
+ACE redirects to another badge ID; retained the supplied working redirect URL.
+This checks destinations/titles, not independent identity or expiry certification.
+
+Résumé links now open `/resume.html`, a standalone, script-free reading view with a
+download action for `/Abraham-Naiborhu-Resume.pdf`. Contact also offers direct download.
+Shared credential data powers the five public badge links. The source Markdown is
+unchanged and is not served from the rules directory. The typeset résumé condenses
+career bullets and uses the previously audited project summaries: no new claim of
+deployed high availability or drift detection in the specific CI/CD workflow. Internal
+project names remain omitted. Full education details and languages are retained.
+
+PDF visual review initially found a third page containing only Languages. Tightened
+print spacing without reducing the 10pt body text. PDFKit confirms two pages with
+extractable text (2524 and 1558 characters); both pages were visually inspected.
+The output includes a structure tree, but this is not a PDF/UA compliance claim.
+A regression checks the generated Chromium PDF's page dictionaries and HTML alternative.
+
+The 46-test browser audit includes successful résumé view → PDF download → contact
+navigation. After pagination correction, static/build checks and the focused contact
+suite are rerun. S4.3 implementation is complete; C4 is ready for user review. No résumé
+or LinkedIn input is still missing. S5 cross-browser/performance review remains open.

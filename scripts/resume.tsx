@@ -18,7 +18,7 @@ h3{font-size:16px;margin:16px 0 4px}p{margin:8px 0}a{color:#174d79;text-underlin
 ul{padding-left:20px;margin:8px 0}li+li{margin-top:5px}.meta{color:#455362;font-size:13px}
 .tools{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:24px}.tools a{padding:8px 0;min-height:44px}
 :focus-visible{outline:2px solid #174d79;outline-offset:3px}article{break-inside:avoid}h2,h3{break-after:avoid}
-@page{size:A4;margin:14mm 15mm}@media print{body{font-size:10pt;line-height:1.4}main{max-width:none;margin:0;padding:0}.tools{display:none}h1{font-size:24pt}h2{font-size:11pt;margin-top:18px}h3{font-size:11pt}.meta{font-size:9pt}a{color:inherit;text-decoration:none}}
+@page{size:A4;margin:14mm 15mm}@media print{body{font-size:10pt;line-height:1.35}main{max-width:none;margin:0;padding:0}.tools{display:none}h1{font-size:24pt}h2{font-size:11pt;margin-top:14px}h3{font-size:11pt;margin-top:12px}p,ul{margin-block:6px}li+li{margin-top:3px}.meta{font-size:9pt}a{color:inherit;text-decoration:none}}
 `;
 
 function Resume() {
