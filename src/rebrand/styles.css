@@ -150,6 +150,8 @@ p { color: var(--body); max-width: 680px; }
   .certification-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
 }
 .hero-signature { margin: var(--space-8) 0 0; letter-spacing: 0.06em; text-transform: uppercase; }
+/* Performance: skip rendering of off-screen sections until scrolled into view. */
+.section, .capabilities { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 .section { border-top: 1px solid var(--border); padding-block: var(--space-8); scroll-margin-top: 104px; }
 /* Section rhythm: subtle surface changes per rebrand §36 */
 .section-experience { background: var(--background); }

@@ -49,8 +49,8 @@ export function Hero() {
           </div>
           <div className="hero-meta">
             <p className="metadata">{profile.location}</p>
-            <a href={profile.github}>GitHub ↗</a>
-            <a href={profile.writing}>Dev.to ↗</a>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href={profile.writing} target="_blank" rel="noopener noreferrer">Dev.to ↗</a>
           </div>
         </div>
         <InfrastructureVisual />

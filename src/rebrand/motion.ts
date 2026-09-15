@@ -1,5 +1,8 @@
-import { gsap } from 'gsap';
+import gsapDefault from 'gsap';
 import { useGSAP } from '@gsap/react';
+
+// Normalize: Vite resolves the named export; Node/tsx sees the default.
+const gsap = ('gsap' in gsapDefault ? (gsapDefault as unknown as { gsap: typeof gsapDefault }).gsap : gsapDefault);
 
 // One registration boundary for the rebuilt application.
 // ScrollTrigger is registered separately in src/main.tsx (browser-only entry)

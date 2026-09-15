@@ -14,8 +14,8 @@ function ProjectCard({ project, children }: { project: Project; children: React.
       <ul className="project-highlights">{project.highlights.map(item => <li key={item}>{item}</li>)}</ul>
       <ul className="project-technologies" aria-label="Technologies">{project.technologies.map(item => <li key={item}>{item}</li>)}</ul>
       <div className="project-links">
-        {project.repository && <a className="text-link" href={project.repository}>View repository <span aria-hidden="true">↗</span></a>}
-        <a className="text-link" href={project.article}>Read case study <span aria-hidden="true">↗</span></a>
+        {project.repository && <a className="text-link" href={project.repository} target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>}
+        <a className="text-link" href={project.article} target="_blank" rel="noopener noreferrer">Read case study <span aria-hidden="true">↗</span></a>
       </div>
     </div>
     {children}

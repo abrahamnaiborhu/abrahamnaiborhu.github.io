@@ -48,16 +48,16 @@ export function Contact() {
           <a className="button primary" href={`mailto:${profile.email}`}>
             Email Abraham <span aria-hidden="true">↗</span>
           </a>
-          <a className="button secondary" href={profile.linkedin}>
+          <a className="button secondary" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
             LinkedIn <span aria-hidden="true">↗</span>
           </a>
         </div>
         <p className="contact-address">{profile.email}</p>
         <div className="contact-links">
-          <a className="text-link" href={profile.github}>
+          <a className="text-link" href={profile.github} target="_blank" rel="noopener noreferrer">
             GitHub <span aria-hidden="true">↗</span>
           </a>
-          <a className="text-link" href={profile.writing}>
+          <a className="text-link" href={profile.writing} target="_blank" rel="noopener noreferrer">
             Dev.to <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -81,9 +81,9 @@ export function Footer() {
         </p>
       </div>
       <nav aria-label="Footer">
-        <a href={profile.github}>GitHub</a>
-        <a href={profile.linkedin}>LinkedIn</a>
-        <a href={profile.writing}>Dev.to</a>
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href={profile.writing} target="_blank" rel="noopener noreferrer">Dev.to</a>
         <a href="#home">Back to top ↑</a>
       </nav>
     </footer>

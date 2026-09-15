@@ -15,5 +15,16 @@ export default defineConfig({
   base: "/",
   // New shell uses tokenized CSS; leave the legacy Tailwind config untouched.
   css: { postcss: { plugins: [] } },
-  build: { target: ['chrome107', 'edge107', 'firefox104', 'safari16'] },
+  build: {
+    target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
+    modulePreload: { polyfill: false },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-core': ['react', 'react-dom'],
+          'animation': ['gsap', '@gsap/react', 'gsap/ScrollTrigger'],
+        },
+      },
+    },
+  },
 });
