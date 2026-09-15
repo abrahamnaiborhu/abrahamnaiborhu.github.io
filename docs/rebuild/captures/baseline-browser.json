@@ -1,0 +1,276 @@
+[
+  {
+    "name": "desktop",
+    "facts": {
+      "title": "Abraham P. N.",
+      "h1": [
+        "HI! I AM BRAM",
+        "WEB DEV LOVER"
+      ],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "fonts": "Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      "links": [
+        {
+          "text": "HOME",
+          "href": "#hero"
+        },
+        {
+          "text": "HOME",
+          "href": "#hero"
+        },
+        {
+          "text": "SKILLS",
+          "href": "#skills"
+        },
+        {
+          "text": "SKILLS",
+          "href": "#skills"
+        },
+        {
+          "text": "EXPERIENCE",
+          "href": "#workExperience"
+        },
+        {
+          "text": "EXPERIENCE",
+          "href": "#workExperience"
+        },
+        {
+          "text": "PROJECT",
+          "href": "#project"
+        },
+        {
+          "text": "PROJECT",
+          "href": "#project"
+        },
+        {
+          "text": "CONTACT",
+          "href": "#contact"
+        },
+        {
+          "text": "CONTACT",
+          "href": "#contact"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/abraham_pn"
+        },
+        {
+          "text": "",
+          "href": "https://github.com/abrahamparn/"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/in/abrahamnaiborhu"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+6281388302150"
+        },
+        {
+          "text": "CONTACT ME",
+          "href": "#contact"
+        },
+        {
+          "text": "CONTACT ME",
+          "href": "#contact"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/conceptTwo"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/awards"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/monpizza"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://duta8mengemudi.com/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://mkstorejastip.com/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/sitonggi_elektrik_jaya/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://wmdeveloper.com/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://kedailantaikayu.com/"
+        },
+        {
+          "text": "wmdeveloper",
+          "href": "https://wmdeveloper.com"
+        },
+        {
+          "text": "abrahamnaiborhu@gmail.com",
+          "href": "mailto:abrahamnaiborhu@gmail.com"
+        },
+        {
+          "text": "+62 813 8830 2150",
+          "href": "https://wa.me/+6281388302150"
+        },
+        {
+          "text": "INSTAGRAM",
+          "href": "https://www.instagram.com/abraham_pn"
+        },
+        {
+          "text": "LINKEDIN",
+          "href": "https://linkedin.com/in/abrahamnaiborhu/"
+        },
+        {
+          "text": "GITHUB",
+          "href": "https://github.com/abrahamparn/"
+        }
+      ]
+    },
+    "messages": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  {
+    "name": "mobile",
+    "facts": {
+      "title": "Abraham P. N.",
+      "h1": [
+        "HI! I AM BRAM",
+        "WEB DEV LOVER"
+      ],
+      "width": 390,
+      "scrollWidth": 390,
+      "fonts": "Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+      "links": [
+        {
+          "text": "HOME",
+          "href": "#hero"
+        },
+        {
+          "text": "HOME",
+          "href": "#hero"
+        },
+        {
+          "text": "SKILLS",
+          "href": "#skills"
+        },
+        {
+          "text": "SKILLS",
+          "href": "#skills"
+        },
+        {
+          "text": "EXPERIENCE",
+          "href": "#workExperience"
+        },
+        {
+          "text": "EXPERIENCE",
+          "href": "#workExperience"
+        },
+        {
+          "text": "PROJECT",
+          "href": "#project"
+        },
+        {
+          "text": "PROJECT",
+          "href": "#project"
+        },
+        {
+          "text": "CONTACT",
+          "href": "#contact"
+        },
+        {
+          "text": "CONTACT",
+          "href": "#contact"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/abraham_pn"
+        },
+        {
+          "text": "",
+          "href": "https://github.com/abrahamparn/"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/in/abrahamnaiborhu"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+6281388302150"
+        },
+        {
+          "text": "CONTACT ME",
+          "href": "#contact"
+        },
+        {
+          "text": "CONTACT ME",
+          "href": "#contact"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/conceptTwo"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/awards"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/monpizza"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://duta8mengemudi.com/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://mkstorejastip.com/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://abrahamnaiborhu.me/sitonggi_elektrik_jaya/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://wmdeveloper.com/"
+        },
+        {
+          "text": "CHECK ME",
+          "href": "https://kedailantaikayu.com/"
+        },
+        {
+          "text": "wmdeveloper",
+          "href": "https://wmdeveloper.com"
+        },
+        {
+          "text": "abrahamnaiborhu@gmail.com",
+          "href": "mailto:abrahamnaiborhu@gmail.com"
+        },
+        {
+          "text": "+62 813 8830 2150",
+          "href": "https://wa.me/+6281388302150"
+        },
+        {
+          "text": "INSTAGRAM",
+          "href": "https://www.instagram.com/abraham_pn"
+        },
+        {
+          "text": "LINKEDIN",
+          "href": "https://linkedin.com/in/abrahamnaiborhu/"
+        },
+        {
+          "text": "GITHUB",
+          "href": "https://github.com/abrahamparn/"
+        }
+      ]
+    },
+    "messages": []
+  }
+]

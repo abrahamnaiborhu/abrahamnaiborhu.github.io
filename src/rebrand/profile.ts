@@ -11,4 +11,6 @@ export const profile = {
   github: 'https://github.com/abrahamnaiborhu',
   writing: 'https://dev.to/abrahamnaiborhu',
   linkedin: 'https://www.linkedin.com/in/abrahamnaiborhu',
+  resume: '/resume.html',
+  resumePdf: '/Abraham-Naiborhu-Resume.pdf',
 } as const;

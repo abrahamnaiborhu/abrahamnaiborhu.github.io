@@ -70,17 +70,17 @@ export function Navigation() {
     <div className="site-header wrap">
       <a className="identity" href="#home">{profile.shortName}<span aria-hidden="true">.</span></a>
       <nav className="desktop-navigation" aria-label="Main navigation">{links()}</nav>
-      <a className="header-resume" href="#resume-note">Résumé <span aria-hidden="true">↗</span></a>
+      <a className="header-resume" href={profile.resume}>Résumé <span aria-hidden="true">↗</span></a>
       <details className="mobile-navigation" ref={details}>
         <summary ref={trigger} onClick={openMenu} aria-haspopup={enhanced ? 'dialog' : undefined}
           aria-expanded={enhanced ? open : undefined} aria-controls={enhanced ? 'navigation-drawer' : undefined}>Menu</summary>
-        <nav aria-label="Mobile navigation">{links()}<a href="#resume-note">Résumé</a></nav>
+        <nav aria-label="Mobile navigation">{links()}<a href={profile.resume}>Résumé</a></nav>
       </details>
     </div>
     <dialog id="navigation-drawer" ref={dialog} className="navigation-drawer" aria-label="Navigation" onClose={onClose} onKeyDown={wrapFocus}>
       <div className="drawer-heading"><span>{profile.shortName}</span><button type="button" onClick={() => dialog.current?.close()}>Close menu</button></div>
       <p className="eyebrow">Explore</p>
-      <nav aria-label="Drawer navigation">{links(true)}<a href="#resume-note" onClick={event => navigate(event, 'resume-note')}>Résumé</a></nav>
+      <nav aria-label="Drawer navigation">{links(true)}<a href={profile.resume}>Résumé</a></nav>
       <p className="drawer-note">Cloud &amp; Platform Engineering<br />{profile.location}</p>
     </dialog>
   </header>;

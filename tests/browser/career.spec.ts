@@ -10,7 +10,7 @@ test('career and credentials remain complete and readable without motion or Java
     await expect(page.locator('.career-timeline time').last()).toHaveAttribute('datetime', '2023-11');
     const certifications = page.locator('#certifications');
     await expect(certifications.getByRole('heading', { level: 3 })).toHaveCount(4);
-    await expect(certifications.getByRole('link')).toHaveCount(0);
+    await expect(certifications.getByRole('link')).toHaveCount(5);
     await expect(certifications.getByText('AWS Academy Cloud Foundations', { exact: false })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     for (const id of ['experience', 'certifications']) {

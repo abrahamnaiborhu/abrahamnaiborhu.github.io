@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { primaryCredentials } from './credentials';
+import { primaryCredentials, additionalCredential } from './credentials';
 
 export function Certifications() {
   return <React.Fragment>
@@ -10,9 +10,10 @@ export function Certifications() {
         {primaryCredentials.map(credential => <li key={credential.title}>
           <p className="eyebrow">{credential.issuer}</p>
           <h3>{credential.title}</h3>
+          <a className="text-link metadata" href={credential.url} aria-label={`View ${credential.title} credential`}>View credential <span aria-hidden="true">↗</span></a>
         </li>)}
       </ul>
-      <p className="secondary-credential"><span>Additional training</span> AWS Academy Cloud Foundations</p>
+      <p className="secondary-credential"><span>Additional training</span><a className="text-link" href={additionalCredential.url}>{additionalCredential.title} ↗</a></p>
     </section>
   </React.Fragment>;
 }

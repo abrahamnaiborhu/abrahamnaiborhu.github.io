@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-direction="a">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Abraham Naiborhu — Sprint 0 design study</title>
+  <link rel="stylesheet" href="preview.css">
+  <script>document.documentElement.dataset.direction = new URLSearchParams(location.search).get('direction') === 'b' ? 'b' : 'a';</script>
+</head>
+<body>
+  <aside class="review-bar" aria-label="Design review controls">
+    <span>SPRINT 0 / DESIGN STUDY · <span class="a-only">A — QUIET CONFIDENCE</span><span class="b-only">B — SYSTEMS IN VIEW</span></span>
+    <div><a href="?direction=a">Direction A</a><a href="?direction=b">Direction B</a></div>
+  </aside>
+  <header class="nav wrap">
+    <a class="identity" href="#home">Abraham Naiborhu<span class="identity-dot">.</span></a>
+    <nav aria-label="Preview navigation"><a href="#work">Work</a><a href="#experience">Experience</a><a href="#writing">Writing</a><a href="#about">About</a></nav>
+    <a class="resume-link" href="#resume-note">Résumé <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="home">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">APPLICATION ENGINEER <span>· CLOUD / PLATFORM / DEVOPS</span></p>
+        <h1 id="hero-title">I build reliable cloud infrastructure and delivery systems<span class="accent">.</span></h1>
+        <p class="intro">Google Cloud Professional Cloud Architect, Certified Kubernetes Administrator, and Terraform Associate with a software-engineering foundation across cloud infrastructure, Kubernetes, CI/CD, and backend systems.</p>
+        <div class="actions"><a class="primary" href="#work">View Engineering Work <span aria-hidden="true">↘</span></a><a class="secondary" href="#resume-note">View Résumé <span aria-hidden="true">↗</span></a></div>
+        <div class="meta"><span>Jakarta, Indonesia</span><span class="social">GitHub · LinkedIn · Dev.to</span></div>
+      </div>
+      <figure class="topology">
+        <figcaption><span>01 / DELIVERY SYSTEM</span><span>CONCEPTUAL</span></figcaption>
+        <div class="diagram" role="img" aria-label="Conceptual delivery system: GitHub feeds CI/CD, branching through Terraform to Google Cloud and through a container image to Kubernetes. This is not a deployed system claim.">
+          <svg viewBox="0 0 420 400" aria-hidden="true"><path class="wire" d="M210 70V123 M210 174V205H106V249 M210 205H314V249 M106 297V336 M314 297V336"/><path class="signal" d="M210 70V123 M210 174V205H106V249"/><circle cx="210" cy="205" r="4"/></svg>
+          <div class="node root"><span class="node-mark">⌘</span>github</div>
+          <div class="node ci"><span class="node-mark">↳</span>ci/cd</div>
+          <div class="node terraform"><span class="node-mark">◇</span>terraform</div>
+          <div class="node image"><span class="node-mark">□</span>image</div>
+          <div class="node gcp"><i></i>gcp</div><div class="node k8s"><i></i>kubernetes</div>
+        </div>
+        <p class="diagram-note">From source to infrastructure.<br>Repeatable by design.</p>
+      </figure>
+      <div class="hero-foot"><span>ABRAHAM PARDOMUAN NAIBORHU</span><span>SELECTED WORK BELOW ↓</span></div>
+    </section>
+    <section class="credentials wrap" aria-label="Primary certifications">
+      <div><span>GOOGLE CLOUD</span><p>Professional<br>Cloud Architect</p></div>
+      <div><span>LINUX FOUNDATION / CNCF</span><p>Certified Kubernetes<br>Administrator</p></div>
+      <div><span>HASHICORP</span><p>Terraform<br>Associate (004)</p></div>
+      <div><span>GOOGLE CLOUD</span><p>Associate<br>Cloud Engineer</p></div>
+    </section>
+    <section class="capabilities wrap">
+      <p class="eyebrow">CAPABILITIES</p>
+      <h2>Engineering across infrastructure,<br>delivery, and applications.</h2>
+      <div class="capability-list"><span>01 &nbsp; Cloud Infrastructure</span><span>02 &nbsp; Platform &amp; DevOps</span><span>03 &nbsp; Kubernetes &amp; Linux</span><span>04 &nbsp; Software Engineering</span></div>
+    </section>
+    <section class="work-section" id="work">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">SELECTED ENGINEERING WORK</p><span class="section-number">01 — 03</span></div>
+        <h2>Infrastructure built to be<br>repeatable, secure, and operable.</h2>
+        <p class="section-intro">Selected architecture and engineering work across Google Cloud, Terraform, CI/CD, and platform reliability.</p>
+        <article class="project">
+          <div class="project-copy"><p class="eyebrow">01 / INFRASTRUCTURE AS CODE</p><h3>GCP Terraform<br>Foundation</h3><p>A reusable Google Cloud infrastructure foundation designed around modular networking, controlled firewall provisioning, and resilient remote Terraform state.</p><ul><li>Reusable VPC modules</li><li>Automated firewall provisioning</li><li>Remote GCS state with object versioning</li></ul><p class="tags">TERRAFORM &nbsp; GOOGLE CLOUD &nbsp; VPC &nbsp; GCS</p><p class="pending-link">Evidence links pending verification <span aria-hidden="true">↗</span></p></div>
+          <figure class="project-visual"><figcaption>FOUNDATION / CONCEPTUAL ARCHITECTURE</figcaption><div class="foundation-source">◇ &nbsp; terraform</div><div class="foundation-branches" aria-hidden="true"></div><div class="foundation-targets"><span>vpc</span><span>subnet</span><span>firewall</span><span>gcs state</span></div><p>Defined once.<br><strong>Reproduced consistently.</strong></p></figure>
+        </article>
+        <div class="next-project"><span>02</span><h3>Keyless CI/CD on Google Cloud</h3><span>GITHUB ACTIONS / WIF</span></div>
+        <div class="next-project"><span>03</span><h3>Production-Lite GCP Web Platform</h3><span>MIG / CLOUD NAT / LOAD BALANCING</span></div>
+      </div>
+    </section>
+    <section class="review-notes wrap">
+      <p class="eyebrow">PREVIEW BOUNDARY</p><h2>A direction to review.</h2>
+      <p>This is the Sprint 0 hero and Work study. The remaining sections are planned for later sprints.</p>
+      <p id="experience"><strong>Experience:</strong> Application Engineer, PointStar PTE LTD · September 2025–Present. Four-role timeline planned.</p>
+      <p id="writing"><strong>Writing:</strong> Four curated Dev.to article URLs verified in the content ledger; full section planned for a later sprint.</p>
+      <p id="about"><strong>About:</strong> Software engineering foundations. Infrastructure focus.</p>
+      <p id="resume-note"><strong>Résumé:</strong> The bundled PDF is outdated. A current document is required before release.</p>
+      <p>Profile names above are visual labels in this study; live destinations will be enabled after verification.</p>
+    </section>
+  </main>
+  <footer class="wrap">Abraham Pardomuan Naiborhu <span>SPRINT 0 · SEPTEMBER 2026</span></footer>
+</body>
+</html>

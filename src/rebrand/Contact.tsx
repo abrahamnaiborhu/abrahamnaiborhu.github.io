@@ -10,7 +10,7 @@ export function Contact() {
       <div className="actions"><a className="button primary" href={`mailto:${profile.email}`}>Email Abraham <span aria-hidden="true">↗</span></a><a className="button secondary" href={profile.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a></div>
       <p className="contact-address">{profile.email}</p>
       <div className="contact-links"><a className="text-link" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a><a className="text-link" href={profile.writing}>Dev.to <span aria-hidden="true">↗</span></a></div>
-      <p id="resume-note" tabIndex={-1} className="metadata">A current résumé will be added when available. You can contact me by email in the meantime.</p>
+      <p id="resume-note" className="metadata"><a className="text-link" href={profile.resumePdf} download>Download résumé (PDF) <span aria-hidden="true">↓</span></a></p>
     </section>
   </React.Fragment>;
 }

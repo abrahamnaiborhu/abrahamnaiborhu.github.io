@@ -1,14 +1,20 @@
 import { expect, test } from '@playwright/test';
 
-test('visitor can navigate from Work to résumé fallback, email, and back to top', async ({ page }) => {
+test('visitor can navigate from Work to current résumé, email, and back to top', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await page.getByRole('link', { name: 'View Engineering Work' }).click();
   await expect(page).toHaveURL(/#work$/);
   await page.locator('.header-resume').click();
-  await expect(page).toHaveURL(/#resume-note$/);
-  await expect(page.locator('#resume-note')).toBeInViewport();
+  await expect(page).toHaveURL(/\/resume.html$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Abraham Pardomuan Naiborhu');
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('link', { name: 'Download résumé (PDF)' }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe('Abraham-Naiborhu-Resume.pdf');
+  expect(await download.failure()).toBeNull();
+  await page.getByRole('link', { name: 'Contact Abraham' }).click();
   const email = page.getByRole('link', { name: 'Email Abraham' });
   await email.focus();
   await page.keyboard.press('Tab');

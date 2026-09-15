@@ -12,7 +12,7 @@ export function Hero() {
         <p className="introduction">{profile.introduction}</p>
         <div className="actions">
           <a className="button primary" href="#work">View Engineering Work <span aria-hidden="true">↘</span></a>
-          <a className="button secondary" href="#resume-note">View Résumé <span aria-hidden="true">↗</span></a>
+          <a className="button secondary" href={profile.resume}>View Résumé <span aria-hidden="true">↗</span></a>
         </div>
         <div className="hero-meta"><p className="metadata">{profile.location}</p>
           <a href={profile.github}>GitHub ↗</a><a href={profile.writing}>Dev.to ↗</a>

@@ -60,7 +60,7 @@ test('career and certifications include approved history without invented verifi
   assert.match(html, /datetime="2022-11"/i);
   const certifications = html.slice(html.indexOf('id="certifications"'), html.indexOf('id="writing"'));
   assert.equal((certifications.match(/<h3\b/g) ?? []).length, 4);
-  assert.ok(!certifications.includes('<a '));
+  assert.equal((certifications.match(/href="https:\/\/www.credly.com\//g) ?? []).length, 5);
 });
 
 test('writing exposes four curated articles and the author archive without JavaScript', () => {
@@ -80,7 +80,9 @@ test('about and contact show supplied education, languages, identity, and safe c
   }
   assert.ok(!html.includes('href="tel:'));
   assert.ok(!html.includes('CV.pdf'));
-  assert.ok(html.includes('id="resume-note"'));
+  assert.ok(html.includes('href="/resume.html"'));
+  assert.ok(html.includes('href="/Abraham-Naiborhu-Resume.pdf"'));
+  assert.ok(!html.includes('A current résumé will be added'));
 });
 
 test('confirmed LinkedIn appears in Contact and Footer', () => {
