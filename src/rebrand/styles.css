@@ -146,6 +146,21 @@ p { color: var(--body); max-width: 680px; }
 .foundation-flow .diagram-step { color: var(--accent); margin-bottom: 8px; font-family: ui-monospace, monospace; }
 .foundation-branches { display: grid; gap: 20px; margin-top: 24px; }
 .foundation-branches li { padding-left: 16px; border-left: 1px solid var(--border); }
+.delivery-lanes { display: grid; gap: 24px; }
+.project-diagram .diagram-step { color: var(--accent); font: 14px/1.6 ui-monospace, monospace; }
+.delivery-flow { list-style: none; padding: 0; margin: 0; counter-reset: delivery; }
+.delivery-flow li { position: relative; padding: 12px 0 12px 32px; border-left: 1px solid var(--border); font-size: 14px; color: var(--body); }
+.delivery-flow li::before { counter-increment: delivery; content: counter(delivery); position: absolute; left: 12px; color: var(--muted); font: 14px/1.6 ui-monospace, monospace; }
+.platform-flow { list-style: none; margin: 0; padding: 0; }
+.platform-flow > li { padding-block: 20px; }
+.platform-flow strong, .platform-flow span { display: block; }
+.platform-flow strong { font-size: 16px; font-weight: 500; }
+.platform-flow span { color: var(--muted); font-size: 14px; }
+.platform-flow .platform-boundary { border: 1px solid var(--border); border-left-color: var(--accent); padding: 24px; }
+.platform-probes { font-size: 14px; color: var(--muted); border-top: 1px dashed var(--border); padding-top: 16px; margin-bottom: 0; }
+@media (min-width: 600px) {
+  .delivery-lanes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (min-width: 1024px) {
   .project { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 80px; padding-top: 56px; }
 }

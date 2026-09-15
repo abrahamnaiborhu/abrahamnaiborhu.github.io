@@ -37,7 +37,7 @@ test('record a CPU-throttled signature trace and its resting state', async ({ pa
     const durations = events.filter(event => event.name === name && event.dur !== undefined).map(event => event.dur! / 1000);
     return { name, count: durations.length, maxDurationMs: Math.max(0, ...durations), totalDurationMs: durations.reduce((sum, value) => sum + value, 0) };
   });
-  await writeFile('docs/rebuild/captures/sprint2-motion-profile.json', JSON.stringify({
+  await writeFile('docs/rebuild/captures/sprint3-motion-profile.json', JSON.stringify({
     browser: browser.version(), cpuThrottle: 4, network: 'local, unthrottled',
     configuredTimelineSeconds: 1.08, restingStateRecheckedAfterMs: 6500, categories,
     scope: 'Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification.',

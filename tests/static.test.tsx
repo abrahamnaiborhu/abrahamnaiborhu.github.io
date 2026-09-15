@@ -29,6 +29,17 @@ test('foundation case study exposes evidence and a text-equivalent architecture 
   assert.ok(html.includes('aria-labelledby="foundation-title"'));
 });
 
+test('three evidence-led projects include distinct delivery and traffic explanations', () => {
+  const html = renderPage();
+  assert.equal((html.match(/<article\b/g) ?? []).length, 3);
+  assert.ok(html.includes('Keyless CI/CD on Google Cloud'));
+  assert.ok(html.includes('Production-Lite GCP Web Platform'));
+  assert.ok(html.includes('PR plan is for review'));
+  assert.ok(html.includes('Outbound only'));
+  assert.ok(!html.includes('highly available'));
+  assert.ok(!html.includes('On-Prem Kubernetes'));
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);
