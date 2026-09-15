@@ -3,6 +3,28 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), {
+    name: 'readable-development-shell',
+    apply: 'serve',
+    async transformIndexHtml(html, context) {
+      if (!html.includes('<!--app-html-->')) return html;
+      const { injectPage } = await context.server.ssrLoadModule('/scripts/render.tsx');
+      return injectPage(html);
+    },
+  }],
   base: "/",
+  // New shell uses tokenized CSS; leave the legacy Tailwind config untouched.
+  css: { postcss: { plugins: [] } },
+  build: {
+    target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
+    modulePreload: { polyfill: false },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-core': ['react', 'react-dom'],
+          'animation': ['gsap', '@gsap/react', 'gsap/ScrollTrigger'],
+        },
+      },
+    },
+  },
 });

@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Logos() {
   const logoRef = useRef(null);
   const textRef = useRef(null);
-  let text = "Abraham Pardomuan Naiborhu";
+  let text = "Abraham Naiborhu";
   useGSAP(() => {
     let tl = gsap
       .timeline({
@@ -31,7 +31,7 @@ export default function Logos() {
           duration: 0.2,
           stagger: 0.2,
           repeat: -1,
-        }
+        },
       );
   }, []);
   return (

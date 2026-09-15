@@ -3,16 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B0F14" />
+
+    <!-- SEO -->
+    <title>Abraham Naiborhu | Cloud &amp; Platform Engineering</title>
+    <meta name="description" content="Application Engineer focused on Cloud and Platform Engineering with hands-on experience in Google Cloud, Kubernetes, Terraform, CI/CD, and backend systems." />
+    <meta name="author" content="Abraham Naiborhu" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="cloud engineer, platform engineer, Google Cloud, Kubernetes, Terraform, CI/CD, DevOps, infrastructure, Abraham Naiborhu" />
+    <link rel="canonical" href="https://abrahamnaiborhu.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Abraham Naiborhu | Cloud & Platform Engineering" />
+    <meta property="og:description" content="Application Engineer focused on Cloud and Platform Engineering with hands-on experience in Google Cloud, Kubernetes, Terraform, CI/CD, and backend systems." />
+    <meta property="og:url" content="https://abrahamnaiborhu.com/" />
+    <meta property="og:site_name" content="Abraham Naiborhu" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Abraham Naiborhu | Cloud & Platform Engineering" />
+    <meta name="twitter:description" content="Application Engineer focused on Cloud and Platform Engineering with hands-on experience in Google Cloud, Kubernetes, Terraform, CI/CD, and backend systems." />
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%230B0F14'/%3E%3Ctext x='12' y='35' font-family='sans-serif' font-size='32' fill='%23F8FAFC'%3EA%3C/text%3E%3C/svg%3E" />
+
+    <!-- Font: preconnect + preload for zero FOIT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <title>Abraham P. N.</title>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" /></noscript>
+
+    <!-- DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="https://github.com" />
+    <link rel="dns-prefetch" href="https://dev.to" />
+    <link rel="dns-prefetch" href="https://www.credly.com" />
+    <link rel="dns-prefetch" href="https://www.linkedin.com" />
+
+    <!-- Application styles -->
+    <link rel="stylesheet" href="/src/rebrand/styles.css" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Abraham Naiborhu",
+        "jobTitle": "Application Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "PointStar PTE LTD"
+        },
+        "url": "https://abrahamnaiborhu.com/",
+        "email": "abrahamnaiborhu@gmail.com",
+        "sameAs": [
+          "https://github.com/abrahamnaiborhu",
+          "https://dev.to/abrahamnaiborhu",
+          "https://www.linkedin.com/in/abrahamnaiborhu"
+        ],
+        "knowsAbout": ["Google Cloud", "Kubernetes", "Terraform", "CI/CD", "DevOps"]
+      }
+    }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

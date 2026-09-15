@@ -1,0 +1,28 @@
+{
+  "browser": "152.0.7977.83",
+  "cpuThrottle": 4,
+  "network": "local, unthrottled",
+  "configuredTimelineSeconds": 1.08,
+  "restingStateRecheckedAfterMs": 6500,
+  "categories": [
+    {
+      "name": "Layout",
+      "count": 7,
+      "maxDurationMs": 133.764,
+      "totalDurationMs": 142.05300000000003
+    },
+    {
+      "name": "Paint",
+      "count": 33,
+      "maxDurationMs": 9.136,
+      "totalDurationMs": 28.619000000000003
+    },
+    {
+      "name": "FunctionCall",
+      "count": 159,
+      "maxDurationMs": 25.54,
+      "totalDurationMs": 76.80000000000005
+    }
+  ],
+  "scope": "Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification."
+}

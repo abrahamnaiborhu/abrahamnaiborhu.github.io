@@ -1,0 +1,23 @@
+[
+  {
+    "width": 390,
+    "capabilityHeight": 810.34375,
+    "heroToFirstProject": 2920.40625,
+    "heroEndToFirstProject": 1467.640625,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "capabilityHeight": 523.953125,
+    "heroToFirstProject": 2287.578125,
+    "heroEndToFirstProject": 1106.078125,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "capabilityHeight": 474.46875,
+    "heroToFirstProject": 1802.484375,
+    "heroEndToFirstProject": 1011.828125,
+    "overflow": false
+  }
+]
