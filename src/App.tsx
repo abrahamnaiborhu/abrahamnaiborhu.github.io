@@ -6,6 +6,7 @@ import { Projects } from './rebrand/Projects';
 import { CapabilityGrid } from './rebrand/CapabilityGrid';
 import { Experience } from './rebrand/Experience.tsx';
 import { Certifications } from './rebrand/Certifications';
+import { Writing } from './rebrand/Writing';
 
 export default function App() {
   return (
@@ -19,11 +20,7 @@ export default function App() {
         <Projects />
         <Experience />
         <Certifications />
-        <section id="writing" tabIndex={-1} className="section wrap" aria-labelledby="writing-title">
-          <p className="eyebrow">Writing</p>
-          <h2 id="writing-title">Documenting the engineering decisions behind the implementation.</h2>
-          <a className="text-link" href={profile.writing}>Read the engineering notes on Dev.to <span aria-hidden="true">↗</span></a>
-        </section>
+        <Writing />
         <section id="about" tabIndex={-1} className="section wrap" aria-labelledby="about-title">
           <p className="eyebrow">About</p>
           <h2 id="about-title">Software engineering foundations. Infrastructure focus.</h2>

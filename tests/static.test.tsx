@@ -63,6 +63,16 @@ test('career and certifications include approved history without invented verifi
   assert.ok(!certifications.includes('<a '));
 });
 
+test('writing exposes four curated articles and the author archive without JavaScript', () => {
+  const html = renderPage();
+  const section = html.slice(html.indexOf('id="writing"'), html.indexOf('id="about"'));
+  assert.equal((section.match(/<h3\b/g) ?? []).length, 4);
+  assert.equal((section.match(/href="https:\/\/dev.to\/abrahamnaiborhu\//g) ?? []).length, 4);
+  assert.ok(section.includes('Terraform Drift Detection and Recovery on Google Cloud: Plan, Import, State, and GitHub Actions'));
+  assert.ok(section.includes('Read all articles on Dev.to'));
+  assert.ok(!section.includes('<img'));
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);

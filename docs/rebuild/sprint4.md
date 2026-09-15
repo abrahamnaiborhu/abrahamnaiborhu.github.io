@@ -42,8 +42,43 @@ Full-page captures retain the real page. Earlier sprint baselines are preserved.
 
 ## Remaining
 
-S4.2: four curated writing rows. S4.3: About, education, languages, contact and footer.
+S4.3: About, education, languages, contact and footer.
 Current résumé, confirmed LinkedIn destination, and optional real credential verification
 URLs remain release inputs. The obsolete CV is not reused. C4 is not complete.
 
 No push, deployment, domain change, or external account mutation.
+
+## S4.2 — Curated writing complete
+
+Replaced the writing placeholder with four numbered editorial rows, using the exact
+titles and order from spec §17. The frontend skill informed text-first rows, fine rules,
+topic metadata, and subtle hover feedback in the existing Direction A palette. Each
+row is a single link with its title as the accessible name. Focus gets the same color
+feedback as hover plus the existing outline. Arrow translation is 3px over 180ms only
+when reduced motion is not requested. No thumbnails, timers, or runtime API calls.
+
+Verification on 15 September 2026: the public Dev.to author listing returned HTTP 200;
+each article's individual API endpoint also returned 200 and an exact title match:
+
+- [Drift detection and recovery](https://dev.to/abrahamnaiborhu/terraform-drift-detection-and-recovery-on-google-cloud-plan-import-state-and-github-actions-3a83)
+- [Plan on PR, apply with approval](https://dev.to/abrahamnaiborhu/terraform-cicd-with-google-cloud-plan-on-pull-request-and-apply-with-approval-3h3m)
+- [Production-Lite platform](https://dev.to/abrahamnaiborhu/terraforming-a-production-lite-gcp-web-platform-mig-cloud-nat-load-balancer-and-private-backends-1bfg)
+- [Terraform foundation](https://dev.to/abrahamnaiborhu/building-a-gcp-terraform-foundation-vpc-iam-and-remote-state-54jp)
+
+The optional fifth article is omitted to keep the selection focused. The archive CTA
+links to the verified author profile. Articles open in the same tab; ordinary browser
+modifier keys remain available to open another tab.
+
+8 static tests, lint, typecheck, build, and all 37 browser tests passed (47.1s).
+New browser coverage checks all five writing links in keyboard order, exact destinations,
+visible focus, reduced-motion arrow behavior, and long-title wrapping at 390/768/1440px
+without JavaScript. Inspected [mobile](captures/sprint4-writing-390.png) and
+[desktop](captures/sprint4-writing-1440.png); [tablet](captures/sprint4-writing-768.png) captured.
+
+Build: JS 238.74 kB (81.66 kB gzip), CSS 13.24 kB (3.39 kB gzip). No dependencies added.
+Latest synthetic 4× CPU load trace: max layout 127.519ms, paint 8.184ms, function call
+27.133ms. The existing initial-layout investigation remains in S5; no field-CWV claim.
+Reload styling, existing motion cleanup, navigation, and static content checks remain green.
+
+S4.3 and C4 remain open. Current résumé and confirmed LinkedIn are still release inputs.
+No push or deployment.

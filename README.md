@@ -3,8 +3,8 @@
 Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprints 1–3
 deliver the static-readable React/TypeScript foundation, responsive navigation, finite hero
 animation, credentials, capability inventory, and three evidence-led engineering case studies.
-Sprint 4 adds the career timeline and full credentials. Writing and contact completion
-are next; this is not a production release.
+Sprint 4 adds the career timeline, full credentials, and curated writing. About and
+contact completion are next; this is not a production release.
 
 ## Development
 

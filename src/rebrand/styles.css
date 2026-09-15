@@ -97,6 +97,22 @@ p { color: var(--body); max-width: 680px; }
 .certification-grid h3 { margin: 0; font-size: 24px; }
 .secondary-credential { font-size: 14px; color: var(--body); border-top: 1px solid var(--border); padding-top: 24px; }
 .secondary-credential span { display: block; color: var(--muted); margin-bottom: 8px; }
+.writing-list { list-style: none; padding: 0; margin: 40px 0 24px; border-bottom: 1px solid var(--border); }
+.writing-row { display: grid; grid-template-columns: 24px minmax(0, 1fr) 20px; gap: 16px; padding-block: 24px; border-top: 1px solid var(--border); text-decoration: none; }
+.writing-row h3 { margin: 0; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.35; text-wrap: pretty; }
+.writing-row p { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+.writing-number { color: var(--muted); font: 14px/1.9 ui-monospace, monospace; }
+.writing-arrow { color: var(--muted); font-size: 20px; }
+.writing-row:hover, .writing-row:focus-visible { background: var(--surface); }
+.writing-row:hover h3, .writing-row:focus-visible h3 { color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .writing-row { transition: background-color 180ms var(--ease-out); }
+  .writing-arrow { transition: transform 180ms var(--ease-out); }
+  .writing-row:hover .writing-arrow, .writing-row:focus-visible .writing-arrow { transform: translateX(3px); }
+}
+@media (min-width: 768px) {
+  .writing-row { grid-template-columns: 48px minmax(0, 1fr) 24px; gap: 24px; padding-block: 32px; }
+}
 @media (min-width: 768px) {
   .career-timeline > li { padding-left: 40px; }
   .certification-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }

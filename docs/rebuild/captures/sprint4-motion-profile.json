@@ -8,20 +8,20 @@
     {
       "name": "Layout",
       "count": 7,
-      "maxDurationMs": 139.606,
-      "totalDurationMs": 149.493
+      "maxDurationMs": 127.519,
+      "totalDurationMs": 136.26200000000003
     },
     {
       "name": "Paint",
       "count": 33,
-      "maxDurationMs": 15.22,
-      "totalDurationMs": 38.906
+      "maxDurationMs": 8.184,
+      "totalDurationMs": 28.141000000000002
     },
     {
       "name": "FunctionCall",
       "count": 159,
-      "maxDurationMs": 29.807,
-      "totalDurationMs": 92.97800000000012
+      "maxDurationMs": 27.133,
+      "totalDurationMs": 76.82300000000009
     }
   ],
   "scope": "Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification."
