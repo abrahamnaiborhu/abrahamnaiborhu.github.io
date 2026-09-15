@@ -4,7 +4,7 @@ Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprint
 deliver the static-readable React/TypeScript foundation, responsive navigation, finite hero
 animation, credentials, capability inventory, and three evidence-led engineering case studies.
 Sprint 4 adds career, credentials, writing, About, and email-first contact. A current
-résumé and confirmed LinkedIn destination are still needed; this is not a production release.
+résumé is still needed; LinkedIn is user-confirmed. This is not a production release.
 
 ## Development
 

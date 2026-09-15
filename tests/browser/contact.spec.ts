@@ -17,6 +17,9 @@ test('visitor can navigate from Work to résumé fallback, email, and back to to
   await expect(email).toHaveCSS('outline-style', 'solid');
   await expect(email).toHaveAttribute('href', 'mailto:abrahamnaiborhu@gmail.com');
   await page.keyboard.press('Tab');
+  await expect(page.locator('#contact').getByRole('link', { name: 'LinkedIn' })).toBeFocused();
+  await expect(page.locator('#contact').getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('href', 'https://www.linkedin.com/in/abrahamnaiborhu');
+  await page.keyboard.press('Tab');
   await expect(page.locator('#contact').getByRole('link', { name: 'GitHub' })).toBeFocused();
   await page.getByRole('contentinfo').getByRole('link', { name: 'Back to top' }).click();
   await expect(page).toHaveURL(/#home$/);

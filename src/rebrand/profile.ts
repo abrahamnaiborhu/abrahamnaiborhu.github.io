@@ -10,4 +10,5 @@ export const profile = {
   email: 'abrahamnaiborhu@gmail.com',
   github: 'https://github.com/abrahamnaiborhu',
   writing: 'https://dev.to/abrahamnaiborhu',
+  linkedin: 'https://www.linkedin.com/in/abrahamnaiborhu',
 } as const;

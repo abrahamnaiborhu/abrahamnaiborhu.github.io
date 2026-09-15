@@ -83,6 +83,11 @@ test('about and contact show supplied education, languages, identity, and safe c
   assert.ok(html.includes('id="resume-note"'));
 });
 
+test('confirmed LinkedIn appears in Contact and Footer', () => {
+  const html = renderPage();
+  assert.equal((html.match(/href="https:\/\/www.linkedin.com\/in\/abrahamnaiborhu"/g) ?? []).length, 2);
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);

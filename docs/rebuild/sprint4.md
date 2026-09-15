@@ -119,3 +119,11 @@ Latest synthetic 4× CPU load trace: max layout 131.627ms, paint 8.215ms, functi
 S4.3 and C4 are deliberately not marked complete: current résumé integration and a
 confirmed LinkedIn destination remain required by their acceptance criteria. Page
 structure is implemented and reviewable. No deployment, push, or domain changes.
+
+### LinkedIn confirmation
+
+The user confirmed `https://www.linkedin.com/in/abrahamnaiborhu`. Added it to the
+shared profile, Contact secondary action, and Footer. Contact copy now mentions both
+email and LinkedIn. Confirmation is user-supplied, not a claim that LinkedIn's automated
+access restriction was bypassed. Updated the keyboard-order regression for the new link.
+The résumé file is still missing; S4.3/C4 remain open only for that required integration.
