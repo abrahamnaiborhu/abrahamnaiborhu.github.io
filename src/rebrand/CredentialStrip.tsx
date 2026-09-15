@@ -8,10 +8,5 @@ export function CredentialStrip() {
         <span>{credential.issuer}</span><p>{credential.title}</p>
       </li>)}
     </ul>
-    <section className="capabilities wrap" aria-labelledby="capabilities-title">
-      <p className="eyebrow">Capabilities</p>
-      <h2 id="capabilities-title">Engineering across infrastructure, delivery, and applications.</h2>
-      <ul><li>Cloud Infrastructure</li><li>Platform &amp; DevOps</li><li>Kubernetes &amp; Linux</li><li>Software Engineering</li></ul>
-    </section>
   </React.Fragment>;
 }

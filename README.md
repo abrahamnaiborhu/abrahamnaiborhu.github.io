@@ -1,8 +1,9 @@
 # Abraham Naiborhu — portfolio rebrand
 
-Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprint 2 adds the
-responsive navigation, finite hero animation and credential strip to the static-readable
-React/TypeScript foundation. Full project/content sprints are not complete.
+Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprints 1–3
+deliver the static-readable React/TypeScript foundation, responsive navigation, finite hero
+animation, credentials, capability inventory, and three evidence-led engineering case studies.
+Career, writing, and contact completion are next; this is not a production release.
 
 ## Development
 

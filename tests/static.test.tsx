@@ -40,6 +40,18 @@ test('three evidence-led projects include distinct delivery and traffic explanat
   assert.ok(!html.includes('On-Prem Kubernetes'));
 });
 
+test('capabilities include four named groups and approved technologies before Work', () => {
+  const html = renderPage();
+  const start = html.indexOf('id="capabilities"');
+  const end = html.indexOf('id="work"');
+  assert.ok(start > 0 && end > start);
+  const section = html.slice(start, end);
+  assert.equal((section.match(/<h3\b/g) ?? []).length, 4);
+  for (const name of ['Cloud Infrastructure', 'Platform &amp; DevOps', 'Kubernetes &amp; Linux', 'Software Engineering', 'Cloud Run', 'GitLab CI/CD', 'Kustomize', 'Prisma']) {
+    assert.ok(section.includes(name), name);
+  }
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);

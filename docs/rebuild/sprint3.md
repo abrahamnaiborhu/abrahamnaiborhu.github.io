@@ -38,7 +38,7 @@ Screenshots: [mobile](captures/sprint3-foundation-390.png),
 The sticky header is hidden only during clipped project screenshots so it cannot cover content;
 full-page captures retain the real navigation.
 
-## Remaining
+## Status after S3.1
 
 - S3.3: Four concise capability groups with technology lists and scroll-distance review.
 - C3 remains open until all three projects and capabilities are complete.
@@ -94,3 +94,51 @@ Screenshots: [delivery desktop](captures/sprint3-delivery-1440.png),
 [platform mobile](captures/sprint3-platform-390.png).
 
 S3.3 and the final C3 checkpoint remain open. No deployment or push.
+
+## S3.3 complete / C3 ready for review · 15 September 2026
+
+Separated capabilities from the credential strip into a focused component and a public,
+typed inventory. All technology names from spec §13 are included, grouped into four
+headings. A single introductory paragraph replaces repetitive per-group descriptions.
+The frontend skill informed the use of plain text, existing typography/color tokens,
+and fine rules instead of logo cards or proficiency scores. The incremental skill kept
+this change separate from the upcoming career/content sprint.
+
+Two columns on mobile/tablet, four on desktop. No interactive-card styling, hover lift,
+entrance animation, or individual chip animation: the section is a compact inventory,
+and the Work diagrams remain the motion focus. This is a deliberate Direction A
+interpretation of the spec's proposed card treatment, not a claim of completed future
+Kubernetes work. Technology coverage is supplied by the user, not independently certified.
+
+Measured at a 1000px viewport height with JavaScript disabled:
+
+| Width | Capabilities height | Hero end → first project |
+| --- | ---: | ---: |
+| 390px | 810px | 1468px |
+| 768px | 524px | 1106px |
+| 1440px | 474px | 1012px |
+
+The second distance includes the credential strip and Work introduction. The complete
+inventory adds visible reading length, particularly on mobile; the existing hero Work
+CTA bypasses it directly and is browser-tested. No hidden disclosure is needed to read
+any technology. Keep mobile density on the S5 visual-review checklist rather than
+shrinking labels below 14px. [Raw geometry](captures/sprint3-section-flow.json).
+
+Screenshots inspected: [mobile](captures/sprint3-capabilities-390.png),
+[tablet](captures/sprint3-capabilities-768.png), [desktop](captures/sprint3-capabilities-1440.png).
+No horizontal overflow across the broader 320–1440px regression suite.
+
+Final checks: 6 static tests, lint, typecheck, build, and all 35 Chrome browser tests pass
+(46.6 seconds). Existing reload CSS, no-JavaScript navigation, keyboard, hydration,
+reduced motion, and unmount cleanup checks remain green. Build: JS 233.82 kB
+(80.28 kB gzip), CSS 10.86 kB (2.96 kB gzip). No dependencies added.
+
+Latest synthetic 4× CPU initial-load trace: max layout 133.764ms, paint 9.136ms,
+function call 25.54ms. Initial-layout attribution remains a S5 performance task;
+these single-run numbers are not a statistically established regression or field CWV.
+
+All three S3 implementation checkpoints are complete. C3 is ready for user review:
+three source-backed projects, meaningful text-equivalent diagrams, public evidence links,
+and four capability groups. No fabricated live-health, availability, future-project,
+or employment claims. Next is S4.1 (career timeline and full credentials).
+No push, deployment, domain change, or résumé replacement.

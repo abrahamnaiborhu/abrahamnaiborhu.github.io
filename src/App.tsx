@@ -3,6 +3,7 @@ import { Hero } from './rebrand/Hero';
 import { CredentialStrip } from './rebrand/CredentialStrip';
 import { Navigation } from './rebrand/Navigation';
 import { Projects } from './rebrand/Projects';
+import { CapabilityGrid } from './rebrand/CapabilityGrid';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <main id="main" tabIndex={-1}>
         <Hero />
         <CredentialStrip />
+        <CapabilityGrid />
         <Projects />
         <section id="experience" tabIndex={-1} className="section wrap" aria-labelledby="experience-title">
           <p className="eyebrow">Experience</p>
