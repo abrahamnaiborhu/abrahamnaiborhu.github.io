@@ -97,6 +97,28 @@ p { color: var(--body); max-width: 680px; }
 .certification-grid h3 { margin: 0; font-size: 24px; }
 .secondary-credential { font-size: 14px; color: var(--body); border-top: 1px solid var(--border); padding-top: 24px; }
 .secondary-credential span { display: block; color: var(--muted); margin-bottom: 8px; }
+.about-grid { display: grid; gap: 40px; margin-top: 32px; }
+.about-copy p:first-child { margin-top: 0; }
+.about-copy p + p { margin-top: 24px; }
+.education { border-left: 1px solid var(--border); padding-left: 24px; }
+.education h3 { margin: 32px 0 12px; font-size: 20px; }
+.education h3:first-child { margin-top: 0; }
+.education p, .education ul, .languages { font-size: 14px; color: var(--body); }
+.education ul { padding-left: 20px; }
+.languages { margin-bottom: 0; }
+.languages > div + div { margin-top: 12px; }
+.languages dt { color: var(--text); }
+.languages dd { margin: 0; color: var(--muted); }
+.contact .actions { margin-top: 32px; }
+.contact-address { font-size: 14px; overflow-wrap: anywhere; }
+.contact-links { display: flex; gap: 24px; font-size: 14px; }
+.contact #resume-note { margin-top: 32px; }
+.site-footer > div p { margin: 0; }
+.site-footer .metadata { margin-top: 8px; }
+.site-footer nav { align-self: start; }
+@media (min-width: 1024px) {
+  .about-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 80px; margin-top: 40px; }
+}
 .writing-list { list-style: none; padding: 0; margin: 40px 0 24px; border-bottom: 1px solid var(--border); }
 .writing-row { display: grid; grid-template-columns: 24px minmax(0, 1fr) 20px; gap: 16px; padding-block: 24px; border-top: 1px solid var(--border); text-decoration: none; }
 .writing-row h3 { margin: 0; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.35; text-wrap: pretty; }

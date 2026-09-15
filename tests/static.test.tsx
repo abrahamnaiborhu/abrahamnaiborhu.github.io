@@ -73,6 +73,16 @@ test('writing exposes four curated articles and the author archive without JavaS
   assert.ok(!section.includes('<img'));
 });
 
+test('about and contact show supplied education, languages, identity, and safe contact fallback', () => {
+  const html = renderPage();
+  for (const text of ['President University', 'GPA 3.95', 'Bangkit Academy', 'Top 15 / 433', 'Professional Working Proficiency', 'Email Abraham', profile.name]) {
+    assert.ok(html.includes(text), text);
+  }
+  assert.ok(!html.includes('href="tel:'));
+  assert.ok(!html.includes('CV.pdf'));
+  assert.ok(html.includes('id="resume-note"'));
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);
