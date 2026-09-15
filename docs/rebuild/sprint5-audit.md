@@ -45,10 +45,42 @@ unused in production; retained it rather than deleting the user's new abstractio
 
 ## Still open before C5
 
-- Firefox and Safari verification, actual browser zoom, screen-reader/contrast review.
+- Shipping Safari/device verification, actual browser zoom, screen-reader/contrast review.
 - Dedicated unmount/remount checks for the new ScrollTrigger section effects and rail.
 - Profile full-page scrolling and attribute the initial-layout cost; no Lighthouse or
   field-CWV certification is implied by the passing functional tests.
 - Visual review of the new surface rhythm and overall mobile reading density.
 
 S5 is in progress, not complete. No deployment, push, or unrelated source deletion.
+
+## Cross-browser checkpoint — 2026-09-15
+
+Added an opt-in `CROSS_BROWSER=1` Playwright matrix using the existing accessibility
+suite and three focused compatibility tests. Chrome-only CDP tests stay in the
+default suite. No production animation, layout, or bundle changes were needed.
+
+- **30/30 matrix checks passed** in 32.2 seconds on macOS 26.6.2 arm64:
+  installed Chrome, Playwright Firefox 155.0, and Playwright WebKit 26.6.
+- Coverage: eight responsive widths (320–1440), a 1920px desktop, 14px mobile
+  text, 44px targets, heading structure, accessible image names, reflow proxy,
+  readable motion and live preference changes, keyboard drawer focus/scroll lock,
+  résumé view/PDF download/contact journey, and native navigation without JavaScript.
+- Found and fixed a real Chrome console 404: standalone résumé HTML had no icon,
+  causing an automatic `/favicon.ico` request. It now uses the existing portfolio
+  inline icon. Regenerated résumé artifacts; the PDF remains two tagged pages.
+  The compatibility test checks console warnings/errors throughout this journey.
+- Build, lint, typecheck, and 12 static tests passed. JS/CSS sizes are unchanged.
+- Full default Chrome regression suite passed: 49/49 in 56.2 seconds, including
+  reload CSS delivery, slow hydration, diagram cleanup, and the existing load trace.
+- Test browsers were installed in `/private/tmp/portfolio-playwright-browsers`;
+  use `PLAYWRIGHT_BROWSERS_PATH` with this path to reuse that local installation.
+  README documents a standard-cache installation for other machines.
+
+The debugging skill led to reproducing the missing-resource error before fixing it.
+Review confirmed the changes are limited to test configuration, compatibility coverage,
+and the résumé icon; existing capture edits were not included in this checkpoint.
+
+This is engine compatibility evidence, not Safari app/iPhone certification, full WCAG
+conformance, or a visual sign-off. Actual zoom and screen-reader sampling remain open.
+Initial-layout attribution and full-scroll/Lighthouse profiling are the next S5 slice;
+no performance improvement is claimed from this compatibility work.

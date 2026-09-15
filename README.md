@@ -28,6 +28,18 @@ npm run dev
 Browser tests use installed Google Chrome; alternatively install its Playwright channel with
 `npx playwright install chrome`. They start and stop their own local test servers.
 
+For the focused Chrome/Firefox/WebKit compatibility matrix (build first):
+
+```sh
+npx playwright install firefox webkit
+CROSS_BROWSER=1 npm run test:browser
+```
+
+Use the same `PLAYWRIGHT_BROWSERS_PATH` for installation and execution if using a
+custom browser cache. This matrix covers accessibility checks and core navigation;
+the default Chrome suite retains the broader coverage and Chrome-only tracing.
+WebKit automation does not replace testing the shipping Safari app or an iPhone.
+
 ## Architecture and review
 
 `src/App.tsx` and `src/rebrand/` are the active application. `scripts/render.tsx` uses the same
