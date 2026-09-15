@@ -133,3 +133,48 @@ Pre-existing, unrelated: the two GSAP tween-leak checks
 with `foundationTweenCount()` returning 2 instead of 0. Confirmed by stashing all
 changes and re-running — they fail identically at the previous commit. The rest of
 the suite passes (49 tests).
+
+## Motion pass: page-wide text interaction
+
+The rebuild had entrance reveals but nothing that answered the visitor. The old
+site's character entrances, slide-in blocks and looping arrows (see `baseline.md`)
+were the reference for energy, not for technique. What exists now:
+
+| Where | Motion |
+| --- | --- |
+| Hero eyebrow | The discipline word flips between Cloud, Platform, DevOps and Kubernetes on two stacked layers. The job title never rotates. |
+| Every `h1`/`h2` | Words arrive from 18px left, staggered 35 ms, opacity 0.86 to 1 — never hidden. |
+| Section eyebrows | Characters type in from 0.35 opacity on scroll-in. |
+| Links, buttons, nav | Characters jump 5px on hover and on keyboard focus. |
+| `h3` in writing, capabilities, certifications, projects, career | Characters flip 360° on hover, 22 ms apart. |
+| Writing rows | An accent rule wipes left to right under the row. |
+| Capability cards | The card shifts 3px and its rule turns accent. |
+| About | Copy slides in from the left, the education column staggers, and its rail draws itself. |
+| Top of viewport | A two-pixel scroll indicator, scrubbed by document scroll. |
+| Hero topology | The ambient branch redraw described above. |
+
+Splitting happens at runtime in `textMotion.ts` and only when JavaScript is
+present and reduced motion is off: the served HTML, the accessible names, and
+the no-JavaScript reading experience are unchanged, and every splitter returns a
+restore function that puts the original markup back. Verified: with
+`prefers-reduced-motion: reduce` the page has 0 split elements, 0 character
+spans, no rotator animation, and no scroll indicator.
+
+Three defects this pass exposed and fixed, all pre-existing:
+
+- `.secondary-credential span`, `.eyebrow span`, `.credential-strip span` and
+  `.identity span` were descendant selectors written for one child span each.
+  They also matched the split spans and, being more specific than `.char`,
+  blockified them — the AWS credential link collapsed to 13px wide and 841px
+  tall, breaking the 44px touch-target check. All are now scoped to the direct
+  child they were written for.
+- Split characters inside a flex control (`.text-link`, `nav a`) made the
+  container size itself from its items' min-content. Those two controls are now
+  `inline-block`, which keeps the 44px target and lets characters lay out as
+  text; elements still using flex (`.button`) move as a whole instead of per
+  character.
+- `.writing-row:hover` used `var(--surface)` inside the `var(--surface)` band.
+
+Accessible names survive the split because `splitChars` sets the element's
+original text as `aria-label` while it is split (inline-block characters would
+otherwise be announced letter by letter) and removes it on restore.

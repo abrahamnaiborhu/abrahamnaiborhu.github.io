@@ -8,21 +8,21 @@
   "categories": [
     {
       "name": "Layout",
-      "count": 79,
-      "maxDurationMs": 127.521,
-      "totalDurationMs": 153.227
+      "count": 425,
+      "maxDurationMs": 132.646,
+      "totalDurationMs": 287.44399999999996
     },
     {
       "name": "Paint",
-      "count": 190,
-      "maxDurationMs": 8.418,
-      "totalDurationMs": 59.87199999999996
+      "count": 408,
+      "maxDurationMs": 11.793,
+      "totalDurationMs": 172.63599999999988
     },
     {
       "name": "FunctionCall",
-      "count": 1134,
-      "maxDurationMs": 64.736,
-      "totalDurationMs": 161.5409999999986
+      "count": 1080,
+      "maxDurationMs": 245.847,
+      "totalDurationMs": 383.3179999999977
     }
   ],
   "scope": "Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification."

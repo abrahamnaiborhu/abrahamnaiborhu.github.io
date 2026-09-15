@@ -10,15 +10,22 @@ export function About() {
   useGSAP(() => {
     const el = scope.current;
     if (!el || reducedMotion || entered.current) return;
-    gsap.from(el.querySelector('.about-grid'), {
-      opacity: 0.85,
+    const timeline = gsap.timeline({
+      defaults: { ease: reveal.ease, clearProps: 'opacity,transform' },
       onStart: () => { entered.current = true; },
-      y: reveal.y,
-      duration: reveal.duration,
-      ease: reveal.ease,
-      clearProps: 'opacity,transform',
       scrollTrigger: { trigger: el, start: 'top 84%', once: true },
     });
+    timeline
+      .from(el.querySelectorAll('.about-copy p'), {
+        opacity: 0.85, x: -20, duration: reveal.duration, stagger: 0.12,
+      })
+      .from(el.querySelectorAll('.education h3, .education p, .education ul, .languages'), {
+        opacity: 0.85, y: reveal.y, duration: 0.5, stagger: reveal.stagger,
+      }, '-=0.45')
+      // The rail draws itself once the column beside it has arrived.
+      .from(el.querySelector('.education'), {
+        '--education-rail': 0, duration: 0.6, ease: 'power2.out', clearProps: 'all',
+      }, '-=0.6');
   }, { scope, dependencies: [reducedMotion], revertOnUpdate: true });
 
   return <React.Fragment>
