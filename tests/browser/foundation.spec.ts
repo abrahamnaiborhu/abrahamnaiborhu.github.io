@@ -75,7 +75,7 @@ test('save desktop and mobile signature evidence', async ({ page }) => {
     await page.setViewportSize({ width, height });
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await page.screenshot({ path: `docs/rebuild/captures/sprint2-${label}-hero.png` });
-    await page.screenshot({ path: `docs/rebuild/captures/sprint2-${label}-full.png`, fullPage: true });
+    await page.screenshot({ path: `docs/rebuild/captures/sprint3-${label}-hero.png` });
+    await page.screenshot({ path: `docs/rebuild/captures/sprint3-${label}-full.png`, fullPage: true });
   }
 });

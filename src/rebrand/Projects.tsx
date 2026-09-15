@@ -1,0 +1,42 @@
+import * as React from 'react';
+import { foundation, type Project } from './projectData';
+
+function ProjectCard({ project, children }: { project: Project; children: React.ReactNode }) {
+  return <article className="project" aria-labelledby={`${project.id}-title`}>
+    <div className="project-copy">
+      <p className="eyebrow">01 / Infrastructure foundation</p>
+      <h3 id={`${project.id}-title`}>{project.title}</h3>
+      <p>{project.summary}</p>
+      <ul className="project-highlights">{project.highlights.map(item => <li key={item}>{item}</li>)}</ul>
+      <ul className="project-technologies" aria-label="Technologies">{project.technologies.map(item => <li key={item}>{item}</li>)}</ul>
+      <div className="project-links">
+        {project.repository && <a className="text-link" href={project.repository}>View repository <span aria-hidden="true">↗</span></a>}
+        <a className="text-link" href={project.article}>Read case study <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    {children}
+  </article>;
+}
+
+export function Projects() {
+  return <section id="work" tabIndex={-1} className="section wrap" aria-labelledby="work-title">
+    <p className="eyebrow">Selected engineering work</p>
+    <h2 id="work-title">Infrastructure built to be repeatable, secure, and operable.</h2>
+    <p>Selected architecture and engineering work across Google Cloud, Terraform, CI/CD, and platform reliability.</p>
+    <ProjectCard project={foundation}>
+      <figure className="project-diagram" aria-labelledby="foundation-diagram-title">
+        <figcaption id="foundation-diagram-title">Architecture / two-stage foundation</figcaption>
+        <ol className="foundation-flow">
+          <li><span className="diagram-step">01 / Bootstrap</span><strong>GCS state bucket</strong><span>Object versioning · remote state</span></li>
+          <li><span className="diagram-step">02 / Foundation</span><strong>Terraform root module</strong><span>Uses the bootstrapped GCS backend</span>
+            <ul className="foundation-branches">
+              <li><strong>Network module</strong><span>VPC · Subnets · Firewall</span></li>
+              <li><strong>IAM module</strong><span>Service accounts · Role bindings</span></li>
+            </ul>
+          </li>
+        </ol>
+        <p className="diagram-note">A reusable learning foundation, not a full landing zone. Subnet names describe intended roles, not native public/private subnet types.</p>
+      </figure>
+    </ProjectCard>
+  </section>;
+}

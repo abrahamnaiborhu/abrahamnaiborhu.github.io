@@ -2,6 +2,7 @@ import { profile } from './rebrand/profile';
 import { Hero } from './rebrand/Hero';
 import { CredentialStrip } from './rebrand/CredentialStrip';
 import { Navigation } from './rebrand/Navigation';
+import { Projects } from './rebrand/Projects';
 
 export default function App() {
   return (
@@ -11,12 +12,7 @@ export default function App() {
       <main id="main" tabIndex={-1}>
         <Hero />
         <CredentialStrip />
-        <section id="work" tabIndex={-1} className="section wrap" aria-labelledby="work-title">
-          <p className="eyebrow">Selected engineering work</p>
-          <h2 id="work-title">Infrastructure built to be repeatable, secure, and operable.</h2>
-          <p>Engineering work across Google Cloud, Terraform, CI/CD, and platform reliability.</p>
-          <a className="text-link" href={profile.github}>Explore GitHub <span aria-hidden="true">↗</span></a>
-        </section>
+        <Projects />
         <section id="experience" tabIndex={-1} className="section wrap" aria-labelledby="experience-title">
           <p className="eyebrow">Experience</p>
           <h2 id="experience-title">From software engineering to cloud and platform ownership.</h2>

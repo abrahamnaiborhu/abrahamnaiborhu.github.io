@@ -36,6 +36,7 @@ as reference, not imported into the rebuilt shell. No files from `rules/` are pu
 - [Sprint 0 design packet](docs/rebuild/README.md)
 - [Sprint 1 checkpoint](docs/rebuild/sprint1.md)
 - [Sprint 2 signature review](docs/rebuild/sprint2.md)
+- [Sprint 3 engineering evidence — first case study](docs/rebuild/sprint3.md)
 
 Do not run the legacy deploy command as a release step yet: its domain remains `.me`, while
 the proposed `.com` cutover still requires verification. No deployment has been performed.

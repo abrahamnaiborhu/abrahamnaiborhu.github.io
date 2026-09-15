@@ -20,6 +20,15 @@ test('every internal navigation destination exists exactly once', () => {
   }
 });
 
+test('foundation case study exposes evidence and a text-equivalent architecture without JavaScript', () => {
+  const html = renderPage();
+  assert.ok(html.includes('GCP Terraform Foundation'));
+  assert.ok(html.includes('https://github.com/abrahamnaiborhu/GCP-Terraform-Foundation-Lite'));
+  assert.ok(html.includes('Object versioning'));
+  assert.ok(html.includes('not a full landing zone'));
+  assert.ok(html.includes('aria-labelledby="foundation-title"'));
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);
