@@ -3,7 +3,8 @@
 Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprints 1–3
 deliver the static-readable React/TypeScript foundation, responsive navigation, finite hero
 animation, credentials, capability inventory, and three evidence-led engineering case studies.
-Career, writing, and contact completion are next; this is not a production release.
+Sprint 4 adds the career timeline and full credentials. Writing and contact completion
+are next; this is not a production release.
 
 ## Development
 
@@ -38,6 +39,7 @@ as reference, not imported into the rebuilt shell. No files from `rules/` are pu
 - [Sprint 1 checkpoint](docs/rebuild/sprint1.md)
 - [Sprint 2 signature review](docs/rebuild/sprint2.md)
 - [Sprint 3 engineering evidence — three case studies](docs/rebuild/sprint3.md)
+- [Sprint 4 career and content review](docs/rebuild/sprint4.md)
 
 Do not run the legacy deploy command as a release step yet: its domain remains `.me`, while
 the proposed `.com` cutover still requires verification. No deployment has been performed.

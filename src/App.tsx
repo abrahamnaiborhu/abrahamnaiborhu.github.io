@@ -4,6 +4,8 @@ import { CredentialStrip } from './rebrand/CredentialStrip';
 import { Navigation } from './rebrand/Navigation';
 import { Projects } from './rebrand/Projects';
 import { CapabilityGrid } from './rebrand/CapabilityGrid';
+import { Experience } from './rebrand/Experience.tsx';
+import { Certifications } from './rebrand/Certifications';
 
 export default function App() {
   return (
@@ -15,12 +17,8 @@ export default function App() {
         <CredentialStrip />
         <CapabilityGrid />
         <Projects />
-        <section id="experience" tabIndex={-1} className="section wrap" aria-labelledby="experience-title">
-          <p className="eyebrow">Experience</p>
-          <h2 id="experience-title">From software engineering to cloud and platform ownership.</h2>
-          <h3>{profile.role}</h3>
-          <p>{profile.company} · September 2025–Present · Jakarta</p>
-        </section>
+        <Experience />
+        <Certifications />
         <section id="writing" tabIndex={-1} className="section wrap" aria-labelledby="writing-title">
           <p className="eyebrow">Writing</p>
           <h2 id="writing-title">Documenting the engineering decisions behind the implementation.</h2>

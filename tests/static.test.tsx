@@ -52,6 +52,17 @@ test('capabilities include four named groups and approved technologies before Wo
   }
 });
 
+test('career and certifications include approved history without invented verification links', () => {
+  const html = renderPage();
+  for (const text of ['Oracle NetSuite Technical Consultant', 'Hand Global Solutions', 'VB.NET Developer', 'Indomaret Group', 'Software Engineer Intern', 'PT Mattel Indonesia', '11 internal applications', 'AWS Academy Cloud Foundations']) {
+    assert.ok(html.includes(text), text);
+  }
+  assert.match(html, /datetime="2022-11"/i);
+  const certifications = html.slice(html.indexOf('id="certifications"'), html.indexOf('id="writing"'));
+  assert.equal((certifications.match(/<h3\b/g) ?? []).length, 4);
+  assert.ok(!certifications.includes('<a '));
+});
+
 test('HTML injection fails loudly when its single template marker is missing or duplicated', () => {
   assert.throws(() => injectPage('<div></div>'), /marker/i);
   assert.throws(() => injectPage('<!--app-html--><!--app-html-->'), /marker/i);

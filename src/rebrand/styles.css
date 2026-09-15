@@ -81,6 +81,26 @@ p { color: var(--body); max-width: 680px; }
 .button { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: 48px; padding: 12px 20px; border: 1px solid var(--border); border-radius: var(--radius-small); font-size: 14px; font-weight: 600; text-decoration: none; }
 .primary { background: var(--accent); border-color: var(--accent); color: var(--background); }
 .secondary { background: transparent; color: var(--text); }
+.career-timeline { list-style: none; margin: 48px 0 0; padding: 0; max-width: 880px; }
+.career-timeline > li { position: relative; padding: 0 0 48px 24px; border-left: 1px solid var(--border); }
+.career-timeline > li:last-child { padding-bottom: 0; }
+.career-timeline > li::before { content: ''; position: absolute; left: -4px; top: 9px; width: 7px; height: 7px; background: var(--muted); border-radius: 50%; }
+.career-timeline > .current-role::before { background: var(--accent); }
+.career-date { color: var(--muted); font: 14px/1.6 ui-monospace, monospace; margin: 0 0 16px; }
+.career-timeline h3 { margin: 0; font-size: clamp(24px, 2.5vw, 32px); letter-spacing: -0.025em; }
+.career-company { margin: 12px 0 24px; color: var(--text); }
+.career-highlights { margin: 0; padding-left: 20px; color: var(--body); }
+.career-highlights li + li { margin-top: 12px; }
+.certification-grid { list-style: none; padding: 0; margin: 40px 0 32px; display: grid; gap: 24px; }
+.certification-grid > li { border-top: 1px solid var(--border); padding-top: 24px; }
+.certification-grid .eyebrow { margin-bottom: 16px; }
+.certification-grid h3 { margin: 0; font-size: 24px; }
+.secondary-credential { font-size: 14px; color: var(--body); border-top: 1px solid var(--border); padding-top: 24px; }
+.secondary-credential span { display: block; color: var(--muted); margin-bottom: 8px; }
+@media (min-width: 768px) {
+  .career-timeline > li { padding-left: 40px; }
+  .certification-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
+}
 .hero-signature { margin: var(--space-8) 0 0; letter-spacing: 0.06em; text-transform: uppercase; }
 .section { border-top: 1px solid var(--border); padding-block: var(--space-8); scroll-margin-top: 104px; }
 .text-link { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-height: 44px; max-width: 100%; overflow-wrap: anywhere; }
