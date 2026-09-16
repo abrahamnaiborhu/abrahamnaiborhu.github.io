@@ -1,7 +1,6 @@
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { mkdir, writeFile } from "node:fs/promises";
-import { chromium } from "@playwright/test";
+import { copyFile, mkdir, writeFile } from "node:fs/promises";
 import { profile } from "../src/rebrand/profile";
 import { experience } from "../src/rebrand/experienceData";
 import { capabilities } from "../src/rebrand/capabilities";
@@ -159,18 +158,8 @@ function Resume() {
 const html = "<!doctype html>" + renderToStaticMarkup(React.createElement(Resume));
 await mkdir(new URL("../public/", import.meta.url), { recursive: true });
 await writeFile(new URL("../public/resume.html", import.meta.url), html);
-const browser = await chromium.launch({ channel: "chrome" });
-try {
-  const page = await browser.newPage();
-  await page.setContent(html);
-  await page.pdf({
-    path: new URL("../public/Abraham-Naiborhu-Resume.pdf", import.meta.url).pathname,
-    format: "A4",
-    printBackground: true,
-    preferCSSPageSize: true,
-    tagged: true,
-  });
-} finally {
-  await browser.close();
-}
-console.log("Generated public Resume HTML and PDF. Review both before committing.");
+await copyFile(
+  new URL("../docs/Abraham Naiborhu.pdf", import.meta.url),
+  new URL("../public/Abraham-Naiborhu-Resume.pdf", import.meta.url),
+);
+console.log("Generated public Resume HTML and copied the approved PDF.");

@@ -58,10 +58,10 @@ as reference, not imported into the rebuilt shell. No files from `rules/` are pu
 - [SEO audit](docs/rebuild/seo-audit.md)
 - [GEO / chatbot-engine optimization analysis](GEO-ANALYSIS.md)
 
-The Resume source is typeset by `npm run resume:generate` using installed Chrome.
-Review and commit both `public/resume.html` and `public/Abraham-Naiborhu-Resume.pdf`
-after updating `scripts/resume.tsx` or the shared content it imports. Normal builds
-copy these reviewed artifacts and do not require Chrome.
+`npm run resume:generate` renders the accessible HTML résumé and copies the approved
+`docs/Abraham Naiborhu.pdf` design to the stable public download filename
+`public/Abraham-Naiborhu-Resume.pdf`. Review and commit both public artifacts after
+updating résumé content. Normal builds copy these reviewed artifacts.
 
 Local checks do not deploy the site. GitHub Pages publication remains a separate,
 authorized push/release action; no deployment was performed during this closeout.
