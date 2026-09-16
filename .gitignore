@@ -15,6 +15,7 @@ playwright-report
 *.local
 
 /rules/*
+.seo-cache/
 
 # Editor directories and files
 .vscode/*

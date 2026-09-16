@@ -31,10 +31,10 @@ export function Certifications() {
         {primaryCredentials.map(credential => <li key={credential.title}>
           <p className="eyebrow">{credential.issuer}</p>
           <h3>{credential.title}</h3>
-          <a className="text-link metadata" href={credential.url} target="_blank" rel="noopener noreferrer" aria-label={`View ${credential.title} credential`}>View credential <span aria-hidden="true">↗</span></a>
+          <a className="text-link metadata" href={credential.url} target="_blank" rel="noopener noreferrer" aria-label={`View credential: ${credential.title}`}>View credential <span aria-hidden="true">↗</span></a>
         </li>)}
       </ul>
-      <p className="secondary-credential"><span>Additional training</span><a className="text-link" href={additionalCredential.url} target="_blank" rel="noopener noreferrer">{additionalCredential.title} ↗</a></p>
+      <p className="secondary-credential"><span>Additional training</span><a className="text-link" href={additionalCredential.url} target="_blank" rel="noopener noreferrer">{additionalCredential.title} <span aria-hidden="true">↗</span></a></p>
     </section>
   </React.Fragment>;
 }

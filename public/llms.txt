@@ -1,0 +1,22 @@
+# Abraham Naiborhu
+> Portfolio of Abraham Naiborhu, an Application Engineer in Jakarta focused on cloud infrastructure, platform engineering, Kubernetes, Terraform, CI/CD, and backend systems.
+
+## Primary pages
+- [Portfolio](https://abrahamnaiborhu.com/): Engineering experience, capabilities, credentials, selected work, technical writing, and contact details.
+- [Resume](https://abrahamnaiborhu.com/resume.html): Accessible HTML resume with a downloadable PDF alternative.
+
+## Selected engineering work
+- [GCP Terraform Foundation](https://dev.to/abrahamnaiborhu/building-a-gcp-terraform-foundation-vpc-iam-and-remote-state-54jp): Modular networking, IAM, and versioned remote Terraform state on Google Cloud.
+- [Keyless CI/CD on Google Cloud](https://dev.to/abrahamnaiborhu/terraform-cicd-with-google-cloud-plan-on-pull-request-and-apply-with-approval-3h3m): GitHub Actions delivery using Workload Identity Federation and approval-gated apply.
+- [Production-Lite GCP Web Platform](https://dev.to/abrahamnaiborhu/terraforming-a-production-lite-gcp-web-platform-mig-cloud-nat-load-balancer-and-private-backends-1bfg): Private compute, managed instance groups, Cloud NAT, health checks, and external HTTP load balancing.
+
+## Professional profiles
+- [GitHub](https://github.com/abrahamnaiborhu): Public source repositories.
+- [Technical writing](https://dev.to/abrahamnaiborhu): Articles about Terraform, Google Cloud, DevOps, and SRE practices.
+- [LinkedIn](https://www.linkedin.com/in/abrahamnaiborhu): Professional profile.
+
+## Key facts
+- Current role: Application Engineer at PointStar PTE LTD.
+- Location: Jakarta, Indonesia.
+- Credentials include Google Cloud Professional Cloud Architect, Certified Kubernetes Administrator, HashiCorp Terraform Associate, and Google Cloud Associate Cloud Engineer.
+- Contact: abrahamnaiborhu@gmail.com.

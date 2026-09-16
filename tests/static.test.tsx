@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { renderPage, injectPage } from "../scripts/render.tsx";
 import { profile } from "../src/rebrand/profile.ts";
@@ -137,4 +138,26 @@ test("HTML injection fails loudly when its single template marker is missing or 
   const html = injectPage("<main><!--app-html--></main>");
   assert.ok(html.includes(profile.headline));
   assert.ok(!html.includes("<!--app-html-->"));
+});
+
+test("SEO and AI discovery files describe the canonical portfolio", () => {
+  const template = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const robots = readFileSync(new URL("../public/robots.txt", import.meta.url), "utf8");
+  const sitemap = readFileSync(new URL("../public/sitemap.xml", import.meta.url), "utf8");
+  const llms = readFileSync(new URL("../public/llms.txt", import.meta.url), "utf8");
+
+  assert.ok(template.includes('<link rel="canonical" href="https://abrahamnaiborhu.com/"'));
+  assert.ok(template.includes('type="application/ld+json"'));
+  assert.ok(template.includes('"@type": "Person"'));
+  const structuredData = template.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
+  assert.ok(structuredData);
+  const profilePage = JSON.parse(structuredData) as { mainEntity?: { jobTitle?: string; alternateName?: string } };
+  assert.equal(profilePage.mainEntity?.jobTitle, "Application Engineer");
+  assert.equal(profilePage.mainEntity?.alternateName, "Abraham Pardomuan Naiborhu");
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.ok(robots.includes("Sitemap: https://abrahamnaiborhu.com/sitemap.xml"));
+  assert.ok(sitemap.includes("<loc>https://abrahamnaiborhu.com/</loc>"));
+  assert.match(llms, /^# Abraham Naiborhu$/m);
+  assert.ok(llms.includes("https://abrahamnaiborhu.com/"));
+  assert.ok(llms.includes("https://dev.to/abrahamnaiborhu"));
 });

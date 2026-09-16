@@ -62,7 +62,7 @@ test("signature slice has a conceptual diagram, four credentials, and active anc
   );
   await expect(page.getByRole("img", { name: /Conceptual delivery system/ })).toHaveCount(1);
   await expect(page.locator(".credential-strip li")).toHaveCount(4);
-  await expect(page.locator(".topology")).toContainText("Conceptual");
+  await expect(page.locator(".topology")).toContainText("Delivery system");
   await expect(page.locator(".topology")).toHaveCSS("opacity", "1");
   await expect(page.locator("#hero-title")).toHaveText(
     "I build reliable cloud infrastructure and delivery systems.",

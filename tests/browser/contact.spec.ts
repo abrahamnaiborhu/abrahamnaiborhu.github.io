@@ -10,7 +10,7 @@ test("visitor can navigate from Work to current Resume, email, and back to top",
   await expect(page).toHaveURL(/#work$/);
   await page.locator(".header-resume").click();
   await expect(page).toHaveURL(/\/resume.html$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Abraham Pardomuan Naiborhu");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Abraham Naiborhu");
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("link", { name: "Download Resume (PDF)" }).click();
   const download = await downloadPromise;

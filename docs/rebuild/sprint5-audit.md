@@ -128,11 +128,10 @@ Verified with system Chrome: passes alternated at 3.8 s, 10.7 s, 22.3 s and 35.0
 and switching to `prefers-reduced-motion: reduce` returned `data-motion-state=static`,
 `data-ambient=idle`, and every accent path to opacity 0.
 
-Pre-existing, unrelated: the two GSAP tween-leak checks
-(`foundation.spec` and `projects.spec` Strict Mode remounts) fail on this machine
-with `foundationTweenCount()` returning 2 instead of 0. Confirmed by stashing all
-changes and re-running — they fail identically at the previous commit. The rest of
-the suite passes (49 tests).
+The two previously recorded GSAP tween-leak failures were harness false positives:
+the global-timeline count included GSAP startup and ScrollTrigger refresh callbacks
+whose targets are functions, not detached page elements. The lifecycle assertions now
+use the existing element-targeted diagnostic; explicit component cleanup was retained.
 
 ## Motion pass: page-wide text interaction
 
@@ -178,3 +177,29 @@ Three defects this pass exposed and fixed, all pre-existing:
 Accessible names survive the split because `splitChars` sets the element's
 original text as `aria-label` while it is split (inline-block characters would
 otherwise be announced letter by letter) and removes it on restore.
+
+## Sprint 5 closeout — 2026-09-16
+
+Sprint 5 is locally complete. The final audit added technical SEO and AI-search
+discovery coverage, corrected fragmented native link underlines, restored complete
+accessible names on credential/writing links, and fixed WebKit's cross-document
+résumé-to-contact fragment alignment after font layout settles.
+
+- Build, lint, typecheck, and 13/13 static/render tests passed.
+- The full Chrome regression suite passed 52/52.
+- 33/33 focused checks passed across Chrome, Firefox, and WebKit.
+- Lighthouse: Performance 94, Accessibility 100, Best Practices 100, SEO 100,
+  Agentic Browsing 100; CLS 0.025.
+- Added canonical résumé metadata, updated sitemap dates, richer Person/ProfilePage
+  JSON-LD, a crawler-readable `llms.txt`, and durable SEO/GEO reports.
+- Project text actions are no longer split into character boxes. Their 1px underlines
+  render as continuous rules, and arrow glyphs stay outside the decoration.
+
+See [QA](qa.md), [SEO audit](seo-audit.md), and
+[GEO analysis](../../GEO-ANALYSIS.md). Shipping Safari/iPhone, physical Android,
+screen-reader sampling, field Core Web Vitals, index coverage, and live AI citations
+remain external release evidence—not hidden requirements for this local checkpoint.
+
+The bounded ambient topology redraw remains a recorded exception to S5.1's original
+no-loop wording. It pauses offscreen and on hidden tabs, and reduced motion disables it.
+No deployment or Sprint 6 work was performed.

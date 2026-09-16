@@ -52,11 +52,11 @@ test('Strict Mode project remounts remove every animation on unmount', async ({ 
   for (let i = 0; i < 3; i++) {
     await expect(page.locator('.project-diagram')).toHaveAttribute('data-motion-state', 'running');
     await page.getByRole('button', { name: 'Hide sample' }).click();
-    expect(await page.evaluate(() => window.foundationTweenCount())).toBe(0);
+    expect(await page.evaluate(() => window.foundationElementTweenCount())).toBe(0);
     await page.getByRole('button', { name: 'Show sample' }).click();
   }
   await page.getByRole('button', { name: 'Hide sample' }).click();
-  expect(await page.evaluate(() => window.foundationTweenCount())).toBe(0);
+  expect(await page.evaluate(() => window.foundationElementTweenCount())).toBe(0);
 });
 
 test('new case studies preserve semantic diagrams and evidence at mobile and desktop sizes', async ({ page }) => {

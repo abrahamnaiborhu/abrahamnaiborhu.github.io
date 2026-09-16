@@ -1,7 +1,6 @@
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { mkdir, writeFile } from "node:fs/promises";
-import { chromium } from "@playwright/test";
+import { copyFile, mkdir, writeFile } from "node:fs/promises";
 import { profile } from "../src/rebrand/profile";
 import { experience } from "../src/rebrand/experienceData";
 import { capabilities } from "../src/rebrand/capabilities";
@@ -28,6 +27,13 @@ function Resume() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Abraham Naiborhu — Resume</title>
+        <meta
+          name="description"
+          content="Resume of Abraham Naiborhu, an Application Engineer focused on cloud infrastructure, platform engineering, Kubernetes, Terraform, and CI/CD."
+        />
+        <meta name="author" content="Abraham Naiborhu" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://abrahamnaiborhu.com/resume.html" />
         <link
           rel="icon"
           href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%230B0F14'/%3E%3Ctext x='12' y='35' font-family='sans-serif' font-size='32' fill='%23F8FAFC'%3EA%3C/text%3E%3C/svg%3E"
@@ -152,18 +158,8 @@ function Resume() {
 const html = "<!doctype html>" + renderToStaticMarkup(React.createElement(Resume));
 await mkdir(new URL("../public/", import.meta.url), { recursive: true });
 await writeFile(new URL("../public/resume.html", import.meta.url), html);
-const browser = await chromium.launch({ channel: "chrome" });
-try {
-  const page = await browser.newPage();
-  await page.setContent(html);
-  await page.pdf({
-    path: new URL("../public/Abraham-Naiborhu-Resume.pdf", import.meta.url).pathname,
-    format: "A4",
-    printBackground: true,
-    preferCSSPageSize: true,
-    tagged: true,
-  });
-} finally {
-  await browser.close();
-}
-console.log("Generated public Resume HTML and PDF. Review both before committing.");
+await copyFile(
+  new URL("../docs/Abraham Naiborhu.pdf", import.meta.url),
+  new URL("../public/Abraham-Naiborhu-Resume.pdf", import.meta.url),
+);
+console.log("Generated public Resume HTML and copied the approved PDF.");

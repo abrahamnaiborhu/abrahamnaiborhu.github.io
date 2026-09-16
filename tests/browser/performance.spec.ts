@@ -49,7 +49,7 @@ test('profile full-page motion and drawer interaction under 4x CPU throttle', as
 
   const scroll = await page.evaluate(() => new Promise<{ distancePx: number; elapsedMs: number; intervals: number[] }>(resolve => {
     const startY = scrollY;
-    const targetY = document.documentElement.scrollHeight - innerHeight;
+    const initialTargetY = document.documentElement.scrollHeight - innerHeight;
     const duration = 5000;
     const timestamps: number[] = [];
     let startedAt = 0;
@@ -57,10 +57,11 @@ test('profile full-page motion and drawer interaction under 4x CPU throttle', as
       if (!startedAt) startedAt = timestamp;
       timestamps.push(timestamp);
       const progress = Math.min(1, (timestamp - startedAt) / duration);
+      const targetY = document.documentElement.scrollHeight - innerHeight;
       scrollTo(0, startY + (targetY - startY) * progress);
       if (progress < 1) requestAnimationFrame(step);
       else resolve({
-        distancePx: targetY - startY,
+        distancePx: Math.max(initialTargetY, targetY) - startY,
         elapsedMs: timestamp - startedAt,
         intervals: timestamps.slice(1).map((value, index) => value - timestamps[index]),
       });

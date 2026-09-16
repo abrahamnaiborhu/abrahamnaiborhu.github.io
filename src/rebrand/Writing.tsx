@@ -31,7 +31,7 @@ export function Writing() {
       <p>Architecture notes, infrastructure experiments, and implementation breakdowns covering Google Cloud, Terraform, CI/CD, DevOps, and SRE practices.</p>
       <ol className="writing-list">
         {articles.map((article, index) => <li key={article.url}>
-          <a className="writing-row" href={article.url} target="_blank" rel="noopener noreferrer" aria-labelledby={`article-title-${index}`}>
+          <a className="writing-row" href={article.url} target="_blank" rel="noopener noreferrer">
             <span className="writing-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <div><h3 id={`article-title-${index}`}>{article.title}</h3><p>{article.topics}</p></div>
             <span className="writing-arrow" aria-hidden="true">↗</span>

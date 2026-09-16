@@ -30,20 +30,20 @@ test('reduced motion cancels a running reveal and Strict Mode remounts leave no 
   await page.goto('http://127.0.0.1:5174/tests/motion-harness.html');
   const sample = page.getByTestId('motion-sample');
   await expect(sample).toBeVisible();
-  await expect.poll(() => page.evaluate(() => window.foundationTweenCount())).toBe(1);
+  await expect.poll(() => page.evaluate(() => window.foundationElementTweenCount())).toBe(1);
   for (let i = 0; i < 3; i++) {
     await page.getByRole('button', { name: 'Hide sample' }).click();
     await expect(sample).toHaveCount(0);
-    expect(await page.evaluate(() => window.foundationTweenCount())).toBe(0);
+    expect(await page.evaluate(() => window.foundationElementTweenCount())).toBe(0);
     await page.getByRole('button', { name: 'Show sample' }).click();
-    await expect.poll(() => page.evaluate(() => window.foundationTweenCount())).toBe(1);
+    await expect.poll(() => page.evaluate(() => window.foundationElementTweenCount())).toBe(1);
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(sample).toHaveCSS('transform', 'none');
   await expect(sample).toHaveCSS('opacity', '1');
-  expect(await page.evaluate(() => window.foundationTweenCount())).toBe(0);
+  expect(await page.evaluate(() => window.foundationElementTweenCount())).toBe(0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect.poll(() => page.evaluate(() => window.foundationTweenCount())).toBe(1);
+  await expect.poll(() => page.evaluate(() => window.foundationElementTweenCount())).toBe(1);
   await expect(sample).toHaveCSS('transform', 'none');
   await expect(sample).toHaveCSS('opacity', '1');
 });
