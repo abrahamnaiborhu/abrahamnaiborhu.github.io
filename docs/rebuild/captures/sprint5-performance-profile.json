@@ -4,7 +4,7 @@
   "network": "local, unthrottled",
   "viewport": "1440x900 scroll; 390x844 drawer",
   "scroll": {
-    "distancePx": 8072,
+    "distancePx": 8161,
     "elapsedMs": 5016,
     "sampledFrames": 301,
     "intervalMedianMs": 16.7,
@@ -13,40 +13,40 @@
     "framesWithin20msPercent": 100
   },
   "observed": {
-    "cls": 0,
-    "lcpMs": 252,
-    "longTaskCount": 2,
-    "maxLongTaskMs": 247,
-    "maxInteractionMs": 96
+    "cls": 0.00001963252314814815,
+    "lcpMs": 268,
+    "longTaskCount": 4,
+    "maxLongTaskMs": 148,
+    "maxInteractionMs": 72
   },
   "categories": [
     {
       "name": "Layout",
-      "count": 1223,
+      "count": 1247,
       "over50ms": 1,
-      "maxDurationMs": 132.075,
-      "totalDurationMs": 636.6710000000006
+      "maxDurationMs": 100.306,
+      "totalDurationMs": 537.5839999999996
     },
     {
       "name": "Paint",
-      "count": 1221,
+      "count": 1268,
       "over50ms": 0,
-      "maxDurationMs": 11.537,
-      "totalDurationMs": 740.6049999999988
+      "maxDurationMs": 6.486,
+      "totalDurationMs": 375.70699999999863
     },
     {
       "name": "FunctionCall",
-      "count": 2141,
-      "over50ms": 1,
-      "maxDurationMs": 247.21,
-      "totalDurationMs": 1234.7849999999992
+      "count": 2139,
+      "over50ms": 2,
+      "maxDurationMs": 148.112,
+      "totalDurationMs": 1158.696999999998
     },
     {
       "name": "RunTask",
-      "count": 18368,
+      "count": 17902,
       "over50ms": 4,
-      "maxDurationMs": 247.336,
-      "totalDurationMs": 4915.16500000023
+      "maxDurationMs": 148.299,
+      "totalDurationMs": 4031.757000000067
     }
   ],
   "scope": "Synthetic local Chrome stress recording. Frame intervals cover scripted full-page scroll; not field CWV or physical-device certification."

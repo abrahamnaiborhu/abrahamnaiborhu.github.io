@@ -11,12 +11,27 @@ import { Contact, Footer } from './rebrand/Contact';
 import { ScrollProgress } from './rebrand/ScrollProgress';
 import { TextInteractions } from './rebrand/TextInteractions';
 
+function DeferredTextInteractions() {
+  const [ready, setReady] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window.requestIdleCallback === 'function') {
+      const idle = window.requestIdleCallback(() => setReady(true), { timeout: 2000 });
+      return () => window.cancelIdleCallback(idle);
+    }
+    const timer = window.setTimeout(() => setReady(true), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  return ready ? <TextInteractions /> : null;
+}
+
 export default function App() {
   return (
     <React.Fragment>
       <a className="skip-link" href="#main">Skip to content</a>
       <ScrollProgress />
-      <TextInteractions />
+      <DeferredTextInteractions />
       <Navigation />
       <main id="main" tabIndex={-1}>
         <Hero />

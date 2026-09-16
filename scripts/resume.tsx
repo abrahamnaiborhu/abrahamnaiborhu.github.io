@@ -28,6 +28,13 @@ function Resume() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Abraham Naiborhu — Resume</title>
+        <meta
+          name="description"
+          content="Resume of Abraham Naiborhu, an Application Engineer focused on cloud infrastructure, platform engineering, Kubernetes, Terraform, and CI/CD."
+        />
+        <meta name="author" content="Abraham Naiborhu" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://abrahamnaiborhu.com/resume.html" />
         <link
           rel="icon"
           href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%230B0F14'/%3E%3Ctext x='12' y='35' font-family='sans-serif' font-size='32' fill='%23F8FAFC'%3EA%3C/text%3E%3C/svg%3E"

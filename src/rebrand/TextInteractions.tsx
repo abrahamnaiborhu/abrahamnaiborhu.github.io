@@ -59,20 +59,25 @@ export function TextInteractions() {
       }
 
       // Hover and focus effects. Characters are split once; each pass animates
-      // them and clears itself, so the resting DOM keeps no inline styles.
+      // them and clears itself, so the resting DOM keeps no inline styles. Delay
+      // splitting until the first interaction instead of expanding every link
+      // and heading during hydration.
       const bind = (element: HTMLElement, play: (chars: HTMLElement[]) => void) => {
         // Flex containers size themselves from their items, so split characters
         // there collapse to one per line. Those elements move as a whole instead.
         const flex = getComputedStyle(element).display.includes("flex");
-        if (!flex) restores.push(splitChars(element));
-        const chars = flex ? [element] : charsOf(element);
-        if (!chars.length) return;
-        const run = contextSafe!(() => play(chars));
+        let restoreMarkup: (() => void) | undefined;
+        const run = contextSafe!(() => {
+          if (!flex && !restoreMarkup) restoreMarkup = splitChars(element);
+          const chars = flex ? [element] : charsOf(element);
+          if (chars.length) play(chars);
+        });
         element.addEventListener("pointerenter", run);
         element.addEventListener("focus", run);
         restores.push(() => {
           element.removeEventListener("pointerenter", run);
           element.removeEventListener("focus", run);
+          restoreMarkup?.();
         });
       };
 

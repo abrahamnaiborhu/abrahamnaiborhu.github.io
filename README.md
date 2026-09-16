@@ -4,7 +4,8 @@ Direction A: a calm, typography-led cloud/platform engineering portfolio. Sprint
 deliver the static-readable React/TypeScript foundation, responsive navigation, finite hero
 animation, credentials, capability inventory, and three evidence-led engineering case studies.
 Sprint 4 adds career, credentials, writing, About, contact, and the current Resume.
-Sprint 5 motion and accessibility auditing is in progress. This is not a production release.
+Sprint 5 is locally complete with motion, accessibility, performance, SEO, and
+AI-search-readiness evidence. This is not a production release.
 
 ## Development
 
@@ -53,11 +54,14 @@ as reference, not imported into the rebuilt shell. No files from `rules/` are pu
 - [Sprint 3 engineering evidence — three case studies](docs/rebuild/sprint3.md)
 - [Sprint 4 career and content review](docs/rebuild/sprint4.md)
 - [Sprint 5 motion/accessibility audit](docs/rebuild/sprint5-audit.md)
+- [Sprint 5 QA and performance report](docs/rebuild/qa.md)
+- [SEO audit](docs/rebuild/seo-audit.md)
+- [GEO / chatbot-engine optimization analysis](GEO-ANALYSIS.md)
 
 The Resume source is typeset by `npm run resume:generate` using installed Chrome.
 Review and commit both `public/resume.html` and `public/Abraham-Naiborhu-Resume.pdf`
 after updating `scripts/resume.tsx` or the shared content it imports. Normal builds
 copy these reviewed artifacts and do not require Chrome.
 
-Do not run the legacy deploy command as a release step yet: its domain remains `.me`, while
-the proposed `.com` cutover still requires verification. No deployment has been performed.
+Local checks do not deploy the site. GitHub Pages publication remains a separate,
+authorized push/release action; no deployment was performed during this closeout.

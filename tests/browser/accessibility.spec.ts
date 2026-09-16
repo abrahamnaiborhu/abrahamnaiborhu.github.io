@@ -132,3 +132,19 @@ test('720px reflow proxy does not cause overflow', async ({ page }) => {
   await expect(page.locator('#work')).toBeVisible();
   await expect(page.locator('#contact')).toBeVisible();
 });
+
+test('visible link labels remain in accessible names and underlines stay continuous', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: /^View credential:/ })).toHaveCount(4);
+  await expect(page.locator('.writing-row').first()).toHaveAccessibleName(/Terraform Drift Detection.*Terraform.*Google Cloud/);
+
+  const link = page.getByRole('link', { name: 'View repository' }).first();
+  await link.scrollIntoViewIfNeeded();
+  await expect(link).not.toHaveAttribute('data-split', 'chars');
+  await expect(link.locator('.char')).toHaveCount(0);
+  await expect(link).toHaveCSS('text-decoration-skip-ink', 'none');
+  await expect(link).toHaveCSS('text-decoration-thickness', '1px');
+  await link.hover();
+  await expect(link).toHaveCSS('text-decoration-thickness', '1px');
+});

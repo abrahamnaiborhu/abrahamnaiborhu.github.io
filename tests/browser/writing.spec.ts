@@ -8,9 +8,9 @@ test('writing titles wrap and every curated destination is keyboard accessible',
     await page.goto('http://127.0.0.1:4174/#writing');
     const section = page.locator('#writing');
     await expect(section.getByRole('link')).toHaveCount(5);
-    await section.getByRole('link', { name: articles[0].title, exact: true }).focus();
+    await section.locator(`a[href="${articles[0].url}"]`).focus();
     for (const article of articles) {
-      const link = section.getByRole('link', { name: article.title, exact: true });
+      const link = section.locator(`a[href="${article.url}"]`);
       await expect(link).toBeFocused();
       await expect(link).toHaveAttribute('href', article.url);
       await expect(link).toHaveCSS('outline-style', 'solid');
