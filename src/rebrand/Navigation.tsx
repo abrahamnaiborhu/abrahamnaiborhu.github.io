@@ -2,7 +2,7 @@ import * as React from "react";
 import { profile } from "./profile";
 import { navigationItems, useSectionNavigation } from "./useSectionNavigation";
 
-export function Navigation() {
+export function Navigation({ brand }: { brand?: React.ReactNode }) {
   const dialog = React.useRef<HTMLDialogElement>(null);
   const trigger = React.useRef<HTMLElement>(null);
   const details = React.useRef<HTMLDetailsElement>(null);
@@ -95,8 +95,7 @@ export function Navigation() {
     <header className="navigation-shell" data-scrolled={scrolled}>
       <div className="site-header wrap">
         <a className="identity" href="#home">
-          {profile.shortName}
-          <span aria-hidden="true">.</span>
+          {brand || <>{profile.shortName}<span aria-hidden="true">.</span></>}
         </a>
         <nav className="desktop-navigation" aria-label="Main navigation">
           {links()}

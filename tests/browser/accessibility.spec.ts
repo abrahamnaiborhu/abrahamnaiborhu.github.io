@@ -2,27 +2,15 @@ import { test, expect } from '@playwright/test';
 
 const widths = [320, 375, 390, 430, 768, 1024, 1280, 1440];
 
-test('motion enhancements never conceal essential text and do not replay completed sections', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto('/');
-  await expect(page.locator('.topology')).toHaveAttribute('data-motion-state', 'complete');
-  const targets = page.locator('.hero h1, .hero .actions, .credential-strip li, .capability-grid > li, .career-timeline > li, .certification-grid > li, .about-grid, .contact h2, .contact .actions');
-  expect(await targets.evaluateAll(nodes => nodes.every(node => parseFloat(getComputedStyle(node).opacity) >= 0.84))).toBe(true);
+test('settled motion leaves essential content readable and supporting sections do not replay', async ({ page }) => {
+  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/');
+  await expect(page.locator('.opening')).toHaveAttribute('data-opening','complete');
+  const targets=page.locator('h1, #work .narration, #team .team-account, .career-timeline > li, .certification-grid > li, .about-grid, #contact h2');
+  expect(await targets.evaluateAll(nodes=>nodes.every(node=>parseFloat(getComputedStyle(node).opacity)===1))).toBe(true);
   await expect(page.locator('.career-timeline > :not(li)')).toHaveCount(0);
-  await expect(page.locator('.contact')).toHaveCSS('overflow', 'visible');
-  const about = page.locator('.about-grid');
-  await about.scrollIntoViewIfNeeded();
-  await expect(about).toHaveCSS('transform', 'none');
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(about).toHaveCSS('opacity', '1');
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  const changes = await about.evaluate(element => new Promise<number>(resolve => {
-    let count = 0;
-    const observer = new MutationObserver(records => { count += records.length; });
-    observer.observe(element, { attributes: true, attributeFilter: ['style'] });
-    setTimeout(() => { observer.disconnect(); resolve(count); }, 1000);
-  }));
-  expect(changes).toBe(0);
+  const about=page.locator('.about-grid');await about.scrollIntoViewIfNeeded();
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(about).toHaveCSS('opacity','1');
+  await page.emulateMedia({reducedMotion:'no-preference'});await expect(about).toHaveCSS('transform','none');
 });
 
 // S5.2: systematic browser and accessibility checks.

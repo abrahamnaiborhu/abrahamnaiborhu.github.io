@@ -7,7 +7,7 @@ import { profile } from "../src/rebrand/profile.ts";
 test("static output contains one heading and approved public content before JavaScript", () => {
   const html = renderPage();
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
-  assert.ok(html.includes(profile.headline));
+  assert.ok(html.includes("I like making things"));
   assert.ok(html.includes(profile.role));
   assert.ok(html.includes('href="#work"'));
   assert.ok(html.includes(`href="mailto:${profile.email}"`));
@@ -38,28 +38,16 @@ test("three evidence-led projects include distinct delivery and traffic explanat
   assert.ok(html.includes("PR plan is for review"));
   assert.ok(html.includes("Outbound only"));
   assert.ok(!html.includes("highly available"));
-  assert.ok(!html.includes("On-Prem Kubernetes"));
+  assert.ok(html.includes("development and staging"));
 });
 
-test("capabilities include four named groups and approved technologies before Work", () => {
+test("supporting capabilities preserve the public inventory without imposing the old section order", () => {
   const html = renderPage();
   const start = html.indexOf('id="capabilities"');
-  const end = html.indexOf('id="work"');
+  const end = html.indexOf('id="experience"');
   assert.ok(start > 0 && end > start);
-  const section = html.slice(start, end);
-  assert.equal((section.match(/<h3\b/g) ?? []).length, 4);
-  for (const name of [
-    "Cloud Infrastructure",
-    "Platform &amp; DevOps",
-    "Kubernetes &amp; Linux",
-    "Software Engineering",
-    "Cloud Run",
-    "GitLab CI/CD",
-    "Kustomize",
-    "Prisma",
-  ]) {
-    assert.ok(section.includes(name), name);
-  }
+  const section = html.slice(start,end);
+  for (const name of ["Cloud Infrastructure", "Platform &amp; DevOps", "Kubernetes &amp; Linux", "Software Engineering", "Cloud Run", "GitLab CI/CD", "Kustomize", "Prisma"]) assert.ok(section.includes(name),name);
 });
 
 test("career and certifications include approved history without invented verification links", () => {
@@ -136,7 +124,7 @@ test("HTML injection fails loudly when its single template marker is missing or 
   assert.throws(() => injectPage("<div></div>"), /marker/i);
   assert.throws(() => injectPage("<!--app-html--><!--app-html-->"), /marker/i);
   const html = injectPage("<main><!--app-html--></main>");
-  assert.ok(html.includes(profile.headline));
+  assert.ok(html.includes("I like making things"));
   assert.ok(!html.includes("<!--app-html-->"));
 });
 

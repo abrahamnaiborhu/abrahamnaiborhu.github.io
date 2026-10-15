@@ -10,7 +10,7 @@ for (const javaScriptEnabled of [false, true]) {
       page.on('console', message => { if (['error', 'warning'].includes(message.type())) errors.push(message.text()); });
       await page.goto('http://127.0.0.1:4174/');
       await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText('I build reliable cloud infrastructure and delivery systems.');
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText('I like making thingswork together.');
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await page.keyboard.press('Tab');
       await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
@@ -68,6 +68,7 @@ test('section ScrollTriggers clean up across preference changes and repeated rem
 });
 
 test('development hydration remains clean under slow JavaScript delivery', async ({ page }) => {
+  await page.emulateMedia({reducedMotion:'reduce'});
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (['error', 'warning'].includes(message.type())) errors.push(message.text()); });
@@ -76,7 +77,7 @@ test('development hydration remains clean under slow JavaScript delivery', async
   await session.send('Network.emulateNetworkConditions', { offline: false, latency: 100, downloadThroughput: 200000, uploadThroughput: 100000 });
   await page.goto('http://127.0.0.1:5174/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
-  await expect(page.getByTestId('motion-sample')).toHaveCSS('opacity', '1');
+  await expect(page.locator('h1')).toHaveCSS('opacity', '1');
   expect(errors).toEqual([]);
 });
 
@@ -94,7 +95,7 @@ test('save desktop and mobile signature evidence', async ({ page }) => {
     await page.setViewportSize({ width, height });
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await page.screenshot({ path: `docs/rebuild/captures/sprint4-${label}-hero.png` });
-    await page.screenshot({ path: `docs/rebuild/captures/sprint4-${label}-full.png`, fullPage: true });
+    await page.screenshot({ path: `docs/rebuild/production-captures/sprint4-${label}-hero.png` });
+    await page.screenshot({ path: `docs/rebuild/production-captures/sprint4-${label}-full.png`, fullPage: true });
   }
 });

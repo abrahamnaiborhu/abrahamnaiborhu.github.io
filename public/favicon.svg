@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 160" role="img" aria-labelledby="title description"><style>:root{color:#151515}@media(prefers-color-scheme:dark){:root{color:#eee9df}}</style>
+  <title id="title">APN — Abraham Naiborhu</title>
+  <desc id="description">The APN Gesture mark for Abraham Naiborhu.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path id="a-stem" pathLength="1" stroke-width="5.5" d="M18 126C32 109 40 65 57 32C60 26 64 28 65 40C68 66 77 104 88 124"/>
+    <path id="a-crossbar" pathLength="1" stroke-width="4.5" d="M28 94C46 85 67 81 87 86"/>
+    <path id="p-stem" pathLength="1" stroke-width="5.5" d="M91 126C96 101 103 62 112 34"/>
+    <path id="p-bowl" pathLength="1" stroke-width="5" d="M109 42C132 23 162 29 160 51C158 73 129 86 103 86"/>
+    <path id="n" pathLength="1" stroke-width="5.5" d="M148 125C152 101 157 69 166 39C173 64 183 99 196 123C202 99 212 59 224 33"/>
+  </g>
+</svg>

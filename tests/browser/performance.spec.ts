@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
 
 type TraceEvent = { name: string; dur?: number };
@@ -45,7 +45,7 @@ test('profile full-page motion and drawer interaction under 4x CPU throttle', as
     transferMode: 'ReturnAsStream',
   });
   await page.goto('/');
-  await expect(page.locator('.topology')).toHaveAttribute('data-motion-state', 'complete');
+  await expect(page.locator('.opening')).toHaveAttribute('data-opening','complete');
 
   const scroll = await page.evaluate(() => new Promise<{ distancePx: number; elapsedMs: number; intervals: number[] }>(resolve => {
     const startY = scrollY;
@@ -130,7 +130,8 @@ test('profile full-page motion and drawer interaction under 4x CPU throttle', as
     categories,
     scope: 'Synthetic local Chrome stress recording. Frame intervals cover scripted full-page scroll; not field CWV or physical-device certification.',
   };
-  await writeFile('docs/rebuild/captures/sprint5-performance-profile.json', JSON.stringify(report, null, 2));
+  await mkdir('docs/rebuild/production-captures',{recursive:true});
+  await writeFile('docs/rebuild/production-captures/sprint5-performance-profile.json', JSON.stringify(report, null, 2));
 
   expect(errors).toEqual([]);
   expect(observed.cls).toBeLessThan(0.1);

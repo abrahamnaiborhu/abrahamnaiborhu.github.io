@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
 
 test('record a CPU-throttled signature trace and its resting state', async ({ page, browser }, testInfo) => {
@@ -7,20 +7,10 @@ test('record a CPU-throttled signature trace and its resting state', async ({ pa
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await session.send('Tracing.start', { categories: 'devtools.timeline,blink.user_timing', transferMode: 'ReturnAsStream' });
   await page.goto('/');
-  await expect(page.locator('.topology')).toHaveAttribute('data-motion-state', 'complete');
-  const resting = await page.locator('.topology').getAttribute('style');
-  // The entrance figure itself still rests; only the branch paths keep working (rebrand §11 pulse).
-  const observeStyleChanges = (selector: string, windowMs: number) => page.locator(selector)
-    .evaluate((element, ms) => new Promise<number>(resolve => {
-      let changes = 0;
-      const observer = new MutationObserver(records => { changes += records.length; });
-      observer.observe(element, { attributes: true, subtree: true, attributeFilter: ['style'] });
-      setTimeout(() => { observer.disconnect(); resolve(changes); }, ms);
-    }), windowMs);
-  expect(await observeStyleChanges('.diagram-accent', 6500)).toBeGreaterThan(0);
-  expect(await page.locator('.topology').getAttribute('style')).toBe(resting);
-  await expect(page.locator('.topology')).toHaveAttribute('data-motion-state', 'complete');
-  await expect(page.locator('.topology')).toHaveAttribute('data-ambient', 'running');
+  await expect(page.locator('.opening')).toHaveAttribute('data-opening','complete');
+  const portrait=page.locator('.opening-portrait');
+  await expect(portrait).toHaveCSS('transform','none');
+  expect(await portrait.evaluate(el=>el.getAnimations({subtree:true}).length)).toBe(0);
   const completed = new Promise<{ stream?: string }>(resolve => session.once('Tracing.tracingComplete', resolve));
   await session.send('Tracing.end');
   const { stream } = await completed;
@@ -39,10 +29,11 @@ test('record a CPU-throttled signature trace and its resting state', async ({ pa
     const durations = events.filter(event => event.name === name && event.dur !== undefined).map(event => event.dur! / 1000);
     return { name, count: durations.length, maxDurationMs: Math.max(0, ...durations), totalDurationMs: durations.reduce((sum, value) => sum + value, 0) };
   });
-  await writeFile('docs/rebuild/captures/sprint4-motion-profile.json', JSON.stringify({
+  await mkdir('docs/rebuild/production-captures',{recursive:true});
+  await writeFile('docs/rebuild/production-captures/sprint4-motion-profile.json', JSON.stringify({
     browser: browser.version(), cpuThrottle: 4, network: 'local, unthrottled',
-    configuredTimelineSeconds: 1.08, ambientLoop: 'random branch redraw, 2.6-4.4s gap, paused off-screen and on hidden tabs',
-    ambientObservedForMs: 6500, categories,
+    configuredTimelineSeconds: 2.92, ambientLoop: 'Finite APN entrance; project loops pause off screen',
+    ambientObservedForMs: 0, categories,
     scope: 'Synthetic initial-load trace; not field Core Web Vitals or real-device frame-rate certification.',
   }, null, 2));
 });
