@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const navigationItems = [
-  ['work', 'Work'], ['experience', 'Experience'], ['writing', 'Writing'], ['about', 'About'],
+  ['work', 'Work'], ['team', 'Platform'], ['experience', 'Experience'], ['writing', 'Writing'], ['about', 'About'], ['contact', 'Contact'],
 ] as const;
 
 export function useSectionNavigation() {

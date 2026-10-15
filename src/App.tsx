@@ -1,51 +1,23 @@
-import { Hero } from './rebrand/Hero';
-import { CredentialStrip } from './rebrand/CredentialStrip';
 import { Navigation } from './rebrand/Navigation';
-import { Projects } from './rebrand/Projects';
-import { CapabilityGrid } from './rebrand/CapabilityGrid';
-import { Experience } from './rebrand/Experience.tsx';
-import { Certifications } from './rebrand/Certifications';
-import { Writing } from './rebrand/Writing';
-import { About } from './rebrand/About';
-import { Contact, Footer } from './rebrand/Contact';
-import { ScrollProgress } from './rebrand/ScrollProgress';
-import { TextInteractions } from './rebrand/TextInteractions';
-
-function DeferredTextInteractions() {
-  const [ready, setReady] = React.useState(false);
-
-  React.useEffect(() => {
-    if (typeof window.requestIdleCallback === 'function') {
-      const idle = window.requestIdleCallback(() => setReady(true), { timeout: 2000 });
-      return () => window.cancelIdleCallback(idle);
-    }
-    const timer = window.setTimeout(() => setReady(true), 0);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  return ready ? <TextInteractions /> : null;
-}
+import { APNMark, Opening } from './documentary/Opening';
+import { Applications, Perspective, Judgment, Contact } from './documentary/Story';
+import { Platform } from './documentary/Platform';
+import { Evidence } from './documentary/Evidence';
+import { profile } from './rebrand/profile';
 
 export default function App() {
-  return (
-    <React.Fragment>
-      <a className="skip-link" href="#main">Skip to content</a>
-      <ScrollProgress />
-      <DeferredTextInteractions />
-      <Navigation />
-      <main id="main" tabIndex={-1}>
-        <Hero />
-        <CredentialStrip />
-        <CapabilityGrid />
-        <Projects />
-        <Experience />
-        <Certifications />
-        <Writing />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
-    </React.Fragment>
-  );
+  return <>
+    <a className="skip-link" href="#main">Skip to content</a>
+    <Navigation brand={<><APNMark /><span className="sr-only">Abraham Naiborhu · Back to top</span></>} />
+    <main id="main" tabIndex={-1}>
+      <Opening />
+      <Applications />
+      <Perspective />
+      <Platform />
+      <Judgment />
+      <Evidence />
+      <Contact />
+    </main>
+    <footer className="site-footer"><p>© 2026 {profile.name} · Jakarta</p><nav aria-label="Footer"><a href={profile.github}>GitHub</a><a href={profile.linkedin}>LinkedIn</a><a href={profile.writing}>Dev.to</a><a href="#home">Back to top ↑</a></nav></footer>
+  </>;
 }
-import * as React from 'react';

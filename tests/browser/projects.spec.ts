@@ -7,43 +7,24 @@ for (const width of [390, 768, 1440]) {
     await page.goto('http://127.0.0.1:4174/#work');
     const project = page.getByRole('article', { name: 'GCP Terraform Foundation' });
     await expect(project).toBeVisible();
-    await expect(project.getByText('Object versioning · remote state')).toBeVisible();
+    await expect(project.getByText(/Object versioning.*remote state/)).toBeVisible();
     const repository = project.getByRole('link', { name: 'View repository' });
     await expect(repository).toHaveAttribute('href', 'https://github.com/abrahamnaiborhu/GCP-Terraform-Foundation-Lite');
     await repository.focus();
     await page.keyboard.press('Tab');
     await expect(project.getByRole('link', { name: 'Read case study' })).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await project.screenshot({ path: `docs/rebuild/captures/sprint3-foundation-${width}.png`, style: '.navigation-shell { visibility: hidden; }' });
+    await project.screenshot({ path: `docs/rebuild/production-captures/sprint3-foundation-${width}.png`, style: '.navigation-shell { visibility: hidden; }' });
     await context.close();
   });
 }
 
-test('project diagrams enter once and cancel cleanly for reduced motion', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto('/');
-  const diagram = page.locator('[aria-labelledby="delivery-diagram-title"]');
-  await expect(diagram).toHaveAttribute('data-motion-state', 'static');
-  await diagram.scrollIntoViewIfNeeded();
-  await expect(diagram).toHaveAttribute('data-motion-state', 'complete');
-  const changes = await diagram.evaluate(element => new Promise<number>(resolve => {
-    let count = 0;
-    const observer = new MutationObserver(records => { count += records.length; });
-    observer.observe(element, { attributes: true, subtree: true, attributeFilter: ['style'] });
-    setTimeout(() => { observer.disconnect(); resolve(count); }, 1200);
-  }));
-  expect(changes).toBe(0);
-  await page.getByRole('heading', { level: 1 }).scrollIntoViewIfNeeded();
-  await diagram.scrollIntoViewIfNeeded();
-  await expect(diagram).toHaveAttribute('data-motion-state', 'complete');
-  const platform = page.locator('[aria-labelledby="platform-diagram-title"]');
-  await platform.scrollIntoViewIfNeeded();
-  await expect(platform).toHaveAttribute('data-motion-state', 'running');
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(platform).toHaveAttribute('data-motion-state', 'static');
-  expect(await platform.locator('li').evaluateAll(nodes => nodes.every(node => !node.getAttribute('style')))).toBe(true);
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(platform).toHaveAttribute('data-motion-state', 'static');
+test('employer products have contribution credits, real destinations and original illustrations', async ({ page }) => {
+  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/#work');
+  for(const [name,url] of [['Sattabi','https://sattabi.com/'],['AVAD','https://avad-online.com/'],['Glinsta','https://glinsta.com/']]) await expect(page.locator('#work').getByRole('link',{name:new RegExp(name)})).toHaveAttribute('href',url);
+  await expect(page.locator('#work .product-art')).toHaveCount(3);
+  await expect(page.locator('#work')).toContainText('Employer-owned products');
+  await expect(page.locator('#work')).toContainText('deployment and monitoring');
 });
 
 test('Strict Mode project remounts remove every animation on unmount', async ({ page }) => {
@@ -67,8 +48,9 @@ test('new case studies preserve semantic diagrams and evidence at mobile and des
     for (const [id, title] of [['delivery', 'Keyless CI/CD on Google Cloud'], ['platform', 'Production-Lite GCP Web Platform']]) {
       const project = page.getByRole('article', { name: title });
       await expect(project.getByRole('link', { name: 'View repository' })).toHaveAttribute('href', 'https://github.com/abrahamnaiborhu/terraform-gcp-production-lite-web-platform');
-      await expect(project.getByRole('figure')).toBeVisible();
-      await project.screenshot({ path: `docs/rebuild/captures/sprint3-${id}-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
+      await expect(project.getByRole('heading',{level:3})).toBeVisible();
+      await expect(project.locator('ul li')).toHaveCount(3);
+      await project.screenshot({ path: `docs/rebuild/production-captures/sprint3-${id}-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }

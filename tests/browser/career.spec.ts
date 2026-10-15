@@ -14,7 +14,7 @@ test('career and credentials remain complete and readable without motion or Java
     await expect(certifications.getByText('AWS Academy Cloud Foundations', { exact: false })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     for (const id of ['experience', 'certifications']) {
-      await page.locator(`#${id}`).screenshot({ path: `docs/rebuild/captures/sprint4-${id}-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
+      await page.locator(`#${id}`).screenshot({ path: `docs/rebuild/production-captures/sprint4-${id}-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
     }
     await context.close();
   }

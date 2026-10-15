@@ -25,7 +25,7 @@ test("mobile drawer manages focus, Escape, scroll lock, navigation and resize", 
   await expect(page.locator("#work")).toBeFocused();
   const scrollBefore = await page.evaluate(() => scrollY);
   await menu.click();
-  await page.screenshot({ path: "docs/rebuild/captures/sprint2-mobile-drawer.png" });
+  await page.screenshot({ path: "docs/rebuild/production-captures/sprint2-mobile-drawer.png" });
   await page.keyboard.press("Escape");
   expect(await page.evaluate(() => scrollY)).toBe(scrollBefore);
   await menu.click();
@@ -51,81 +51,28 @@ test("mobile navigation works without JavaScript", async ({ browser }) => {
   await context.close();
 });
 
-test("signature slice has a conceptual diagram, four credentials, and active anchors", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/#writing");
-  await expect(page.locator('.desktop-navigation a[href="#writing"]')).toHaveAttribute(
-    "aria-current",
-    "location",
-  );
-  await expect(page.getByRole("img", { name: /Conceptual delivery system/ })).toHaveCount(1);
-  await expect(page.locator(".credential-strip li")).toHaveCount(4);
-  await expect(page.locator(".topology")).toContainText("Delivery system");
-  await expect(page.locator(".topology")).toHaveCSS("opacity", "1");
-  await expect(page.locator("#hero-title")).toHaveText(
-    "I build reliable cloud infrastructure and delivery systems.",
-  );
+test('accepted portrait, product interaction and chapter links replace the old topology hero', async ({ page }) => {
+  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/#writing');
+  await expect(page.locator('.desktop-navigation a[href="#writing"]')).toHaveAttribute('aria-current','location');
+  await expect(page.locator('.opening-portrait img')).toHaveAttribute('alt','Portrait of Abraham Naiborhu');
+  await expect(page.locator('#work .sattabi-art')).toHaveAccessibleName(/card.*reader.*controller.*door/i);
+  await expect(page.locator('.certification-grid li')).toHaveCount(4);
+  await expect(page.locator('h1')).toHaveText('I like making thingswork together.');
 });
 
-test("topology settles, then draws a random branch on a loop, and resets when reduced motion changes", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/");
-  const topology = page.locator(".topology");
-  await expect(topology).toHaveAttribute("data-motion-state", "running");
-  await expect(topology).toHaveAttribute("data-motion-state", "complete", { timeout: 2000 });
-  await expect(topology).toHaveCSS("transform", "none");
-  await expect(topology).toHaveAttribute("data-ambient", "running");
-
-  // Over several passes the loop must draw both branches, not repeat one side.
-  const drawnBranches = await topology.evaluate(
-    (element) =>
-      new Promise<string[]>((resolve) => {
-        const seen = new Set<string>();
-        const observer = new MutationObserver((records) => {
-          for (const record of records) {
-            const path = record.target as SVGPathElement;
-            if (path.style.strokeDasharray && parseFloat(path.style.opacity || "0") > 0)
-              seen.add(path.dataset.flow!);
-          }
-        });
-        observer.observe(element, { subtree: true, attributes: true, attributeFilter: ["style"] });
-        setTimeout(() => {
-          observer.disconnect();
-          resolve([...seen]);
-        }, 28000);
-      }),
-  );
-  expect(drawnBranches).toContain("trunk");
-  expect(drawnBranches).toContain("left");
-  expect(drawnBranches).toContain("right");
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(topology).toHaveAttribute("data-motion-state", "static");
-  await expect(topology).toHaveAttribute("data-ambient", "idle");
-  for (const path of await page.locator(".flow-emphasis").all())
-    await expect(path).toHaveCSS("opacity", "0");
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(topology).toHaveAttribute("data-motion-state", "running");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(topology).toHaveAttribute("data-motion-state", "static");
-  await expect(topology).toHaveCSS("opacity", "1");
+test('project loops stop off screen and resume only when the visitor returns', async ({ page }) => {
+  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/#work');
+  await expect(page.locator('#work')).toHaveAttribute('data-visible','true');
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  await expect(page.locator('#work')).toHaveAttribute('data-visible','false');
+  expect(await page.locator('#work').evaluate(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='paused'))).toBe(true);
+  await page.locator('#work').scrollIntoViewIfNeeded();
+  await expect(page.locator('#work')).toHaveAttribute('data-visible','true');
+  await expect.poll(()=>page.locator('#work').evaluate(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='running'))).toBe(true);
 });
 
-test("mobile metadata and scaled SVG labels respect the 14px minimum", async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 844 });
-  await page.goto("/");
-  for (const label of await page
-    .locator(".topology figcaption, .credential-strip span, .hero-foot a")
-    .all()) {
-    await expect(label).toHaveCSS("font-size", "14px");
-  }
-  const svgFontSize = await page.locator(".topology svg").evaluate((svg) => {
-    const text = svg.querySelector("text")!;
-    return (parseFloat(getComputedStyle(text).fontSize) * svg.getBoundingClientRect().width) / 360;
-  });
-  expect(svgFontSize).toBeGreaterThanOrEqual(14);
+test('mobile metadata and project captions remain readable', async ({ page }) => {
+  await page.setViewportSize({width:320,height:844});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');
+  for(const label of await page.locator('.opening-context span,.product-plate figcaption a,.product-plate figcaption span').all()) expect(parseFloat(await label.evaluate(el=>getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
+  await expect(page.locator('#team .platform-mobile-flow')).toBeVisible();
 });

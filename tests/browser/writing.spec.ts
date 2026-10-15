@@ -19,7 +19,7 @@ test('writing titles wrap and every curated destination is keyboard accessible',
     }
     await expect(section.getByRole('link', { name: 'Read all articles on Dev.to' })).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await section.screenshot({ path: `docs/rebuild/captures/sprint4-writing-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
+    await section.screenshot({ path: `docs/rebuild/production-captures/sprint4-writing-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
     await context.close();
   }
 });

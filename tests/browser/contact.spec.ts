@@ -56,7 +56,7 @@ test("about, contact, and footer remain readable without JavaScript", async ({ b
       await page
         .locator(`#${id}`)
         .screenshot({
-          path: `docs/rebuild/captures/sprint4-${id}-${width}.png`,
+          path: `docs/rebuild/production-captures/sprint4-${id}-${width}.png`,
           style: ".navigation-shell, .skip-link { visibility: hidden; }",
         });
     }
