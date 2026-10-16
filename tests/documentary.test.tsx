@@ -34,3 +34,27 @@ test('documentary product illustrations explain actions with accessible unique n
     for (const id of names.split(' ')) assert.ok(ids.includes(id), `Missing accessible label ${id}`);
   }
 });
+
+test('failure and recovery scenes ship complete still frames, captions and accounts before JavaScript', () => {
+  const html = renderPage();
+  const text = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+  for (const text_ of [
+    'I build applications that keep working when part of them',
+    'Each door keeps its own copy of who may enter',
+    'Over WebSocket, every screen follows the moment it changes',
+    'One payment, exactly one account',
+    'When something broke, it simply broke',
+    'One problem is still open',
+    'key override',
+    'Each shared screen is pinged on its own',
+    'without creating a duplicate account',
+    'On the platform, that question is still open',
+  ]) assert.ok(text.includes(text_), text_);
+  for (const id of ['sattabi', 'avad', 'glinsta']) {
+    const scene = html.slice(html.indexOf(`id="${id}"`), html.indexOf(`id="${id}-account"`));
+    assert.equal((scene.match(/class="scene-svg"/g) ?? []).length, 4, `${id}: live drawing plus three still frames`);
+    assert.ok(scene.includes('class="scene-still"'), `${id}: still frames are server-rendered`);
+  }
+  assert.ok(!html.includes('project-motion'), 'Looping illustrations and their pause control are retired');
+  assert.ok(html.indexOf('id="contact"') < html.indexOf('id="cloud-work"'), 'Contact follows the story before the evidence collection');
+});

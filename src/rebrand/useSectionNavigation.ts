@@ -12,9 +12,12 @@ export function useSectionNavigation() {
     let cancelled = false;
     const update = () => {
       frame = 0;
+      // The passed section nearest the reading line wins, whatever the menu order.
       let active = '';
+      let nearest = -Infinity;
       for (const [id] of navigationItems) {
-        if ((document.getElementById(id)?.getBoundingClientRect().top ?? Infinity) <= innerHeight * 0.35) active = id;
+        const top = document.getElementById(id)?.getBoundingClientRect().top ?? Infinity;
+        if (top <= innerHeight * 0.35 && top > nearest) { active = id; nearest = top; }
       }
       const scrolled = scrollY > 40;
       setState(previous => previous.active === active && previous.scrolled === scrolled ? previous : { active, scrolled });

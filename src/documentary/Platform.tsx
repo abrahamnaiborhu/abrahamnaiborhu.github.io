@@ -22,6 +22,5 @@ export function Platform() {
           <div><dt>Operational visibility</dt><dd>Prometheus and Grafana provide metrics and dashboards. Alloy and Loki collect logs; Alertmanager routes operational notifications.</dd></div>
         </dl></details><p className="platform-status">Current non-production design · Backup and restore validation is ongoing; a separate backup destination is planned.</p>
         <div className="team-scope"><p>Current scope<br /><span>Applications and developers in the current development and staging environment.</span></p><div><strong>10</strong><span>applications</span></div><div><strong>~11</strong><span>developers</span></div></div>
-        <div className="workflow"><p><span>The starting point</span>SSH into a VM <ArrowIcon direction="right" /> git pull <ArrowIcon direction="right" /> PM2 restart</p><p><span>What I built around it</span>A shared platform, GitOps delivery and application onboarding.</p></div>
       </section>);
 }

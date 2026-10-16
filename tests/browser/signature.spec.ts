@@ -55,24 +55,24 @@ test('accepted portrait, product interaction and chapter links replace the old t
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/#writing');
   await expect(page.locator('.desktop-navigation a[href="#writing"]')).toHaveAttribute('aria-current','location');
   await expect(page.locator('.opening-portrait img')).toHaveAttribute('alt','Portrait of Abraham Naiborhu');
-  await expect(page.locator('#work .sattabi-art')).toHaveAccessibleName(/card.*reader.*controller.*door/i);
+  await expect(page.locator('#sattabi .scene-frames svg').first()).toHaveAccessibleName(/card.*reader.*door/i);
   await expect(page.locator('.certification-grid li')).toHaveCount(4);
   await expect(page.locator('h1')).toHaveText('I like making thingswork together.');
 });
 
-test('project loops stop off screen and resume only when the visitor returns', async ({ page }) => {
+test('product scenes never play on their own: no running animations in the Work chapter', async ({ page }) => {
   await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/#work');
-  await expect(page.locator('#work')).toHaveAttribute('data-visible','true');
-  await page.locator('#contact').scrollIntoViewIfNeeded();
-  await expect(page.locator('#work')).toHaveAttribute('data-visible','false');
-  expect(await page.locator('#work').evaluate(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='paused'))).toBe(true);
-  await page.locator('#work').scrollIntoViewIfNeeded();
-  await expect(page.locator('#work')).toHaveAttribute('data-visible','true');
-  await expect.poll(()=>page.locator('#work').evaluate(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='running'))).toBe(true);
+  await expect(page.locator('#sattabi .scene-track')).toHaveAttribute('data-mode',/pin|flow/);
+  await page.waitForTimeout(400);
+  expect(await page.locator('#work').evaluate(el=>el.getAnimations({subtree:true}).length)).toBe(0);
+  const before=await page.locator('#sattabi [data-scrub-art]').innerHTML();await page.waitForTimeout(500);
+  expect(await page.locator('#sattabi [data-scrub-art]').innerHTML()).toBe(before);
 });
 
 test('mobile metadata and project captions remain readable', async ({ page }) => {
   await page.setViewportSize({width:320,height:844});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');
-  for(const label of await page.locator('.opening-context span,.product-plate figcaption a,.product-plate figcaption span').all()) expect(parseFloat(await label.evaluate(el=>getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
+  const labels=await page.locator('.opening-context span,.scene-product,.scene-role,.scene-public a,.scene-public span,.scene-frame-caption').all();
+  expect(labels.length).toBeGreaterThan(20);
+  for(const label of labels) expect(parseFloat(await label.evaluate(el=>getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
   await expect(page.locator('#team .platform-mobile-flow')).toBeVisible();
 });

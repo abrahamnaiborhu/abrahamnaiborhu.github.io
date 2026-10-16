@@ -7,7 +7,14 @@ import { capabilities } from '../rebrand/capabilities';
 import { profile } from '../rebrand/profile';
 
 export function Evidence() {
-  return <div className="evidence">
+  return <div className="evidence" aria-labelledby="evidence-title">
+    <div className="evidence-index">
+      <p className="eyebrow">Evidence</p>
+      <h2 id="evidence-title">More of the work, if you want depth.</h2>
+      <nav aria-label="Evidence">
+        <a href="#cloud-work">Public cloud work</a><a href="#capabilities">Capabilities</a><a href="#experience">Career</a><a href="#certifications">Certifications</a><a href="#writing">Writing</a><a href="#about">About</a>
+      </nav>
+    </div>
     <section id="cloud-work" className="evidence-section" aria-labelledby="cloud-title">
       <p className="eyebrow">Public engineering work</p>
       <h2 id="cloud-title">The decisions behind the implementation.</h2>
@@ -26,6 +33,7 @@ export function Evidence() {
     </section>
     <section id="capabilities" className="evidence-section" aria-labelledby="capabilities-title">
       <p className="eyebrow">Tools across the work</p><h2 id="capabilities-title">An application foundation. An infrastructure focus.</h2>
+      <p className="evidence-range">Mobile · Web · Desktop · ERP · IoT · Machine learning</p>
       <dl className="capability-list">{capabilities.map(group => <div key={group.title}><dt>{group.title}</dt><dd>{group.technologies.join(' · ')}</dd></div>)}</dl>
     </section>
     <section id="experience" tabIndex={-1} className="evidence-section" aria-labelledby="experience-title">

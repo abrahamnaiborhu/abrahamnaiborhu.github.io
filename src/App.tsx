@@ -16,8 +16,8 @@ export default function App() {
       <Perspective />
       <Platform />
       <Judgment />
-      <Evidence />
       <Contact />
+      <Evidence />
     </main>
     <footer className="site-footer"><p>© 2026 {profile.name} · Jakarta</p><nav aria-label="Footer"><a href={profile.github}>GitHub</a><a href={profile.linkedin}>LinkedIn</a><a href={profile.writing}>Dev.to</a><a href="#home">Back to top <ArrowIcon direction="up" /></a></nav></footer>
   </>;

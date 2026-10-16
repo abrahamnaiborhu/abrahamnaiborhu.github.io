@@ -48,6 +48,24 @@ test('no text below 14px on mobile viewports', async ({ page }) => {
   }
 });
 
+test('visible SVG labels stay readable at their rendered scale', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const [width, height] of [[320, 720], [360, 640], [390, 844], [768, 1024], [1000, 800], [1024, 600], [1280, 720], [1440, 900]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto('/');
+    await page.waitForSelector('h1');
+    const minimum = width <= 640 ? 14 : 12;
+    const tooSmall = await page.evaluate((minimum) => [...document.querySelectorAll('main svg text')].flatMap(text => {
+      const svgText = text as SVGTextElement;
+      const matrix = svgText.getScreenCTM();
+      if (!matrix || !svgText.checkVisibility() || svgText.closest('[aria-hidden="true"]')) return [];
+      const rendered = parseFloat(getComputedStyle(svgText).fontSize) * Math.hypot(matrix.a, matrix.b);
+      return rendered < minimum ? [`${rendered.toFixed(1)}px "${svgText.textContent?.trim()}"`] : [];
+    }), minimum);
+    expect(tooSmall, `SVG text below ${minimum}px at ${width}x${height}`).toEqual([]);
+  }
+});
+
 test('interactive elements meet 44px minimum touch target', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');

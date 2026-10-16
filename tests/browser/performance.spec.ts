@@ -68,7 +68,7 @@ test('profile full-page motion and drawer interaction under 4x CPU throttle', as
     };
     requestAnimationFrame(step);
   }));
-  await expect(page.locator('#contact')).toBeInViewport();
+  await expect(page.locator('.site-footer')).toBeInViewport();
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator('#home').scrollIntoViewIfNeeded();

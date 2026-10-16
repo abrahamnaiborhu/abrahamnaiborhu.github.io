@@ -22,7 +22,9 @@ for (const width of [390, 768, 1440]) {
 test('employer products have contribution credits, real destinations and original illustrations', async ({ page }) => {
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/#work');
   for(const [name,url] of [['Sattabi','https://sattabi.com/'],['AVAD','https://avad-online.com/'],['Glinsta','https://glinsta.com/']]) await expect(page.locator('#work').getByRole('link',{name:new RegExp(name)})).toHaveAttribute('href',url);
-  await expect(page.locator('#work .product-art')).toHaveCount(3);
+  await expect(page.locator('#work .scene-still svg[role="img"]')).toHaveCount(9);
+  await expect(page.locator('#work .scene-track')).toHaveCount(3);
+  for (const track of await page.locator('#work .scene-track').all()) await expect(track).toBeHidden();
   await expect(page.locator('#work')).toContainText('Employer-owned products');
   await expect(page.locator('#work')).toContainText('deployment and monitoring');
 });

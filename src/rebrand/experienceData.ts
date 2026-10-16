@@ -4,6 +4,7 @@ export const experience = [
     company: 'PointStar PTE LTD', role: 'Application Engineer', location: 'Jakarta',
     start: '2025-09', startLabel: 'Sep 2025', end: null, endLabel: 'Present',
     highlights: [
+      "Independently designed and built the team's on-premises Kubernetes platform for development and staging, covering hardware, networking, GitOps delivery and observability, and onboarded 10 applications for about 11 developers.",
       'Designed and deployed Google Cloud infrastructure using VPCs, Managed Instance Groups, Cloud NAT, HTTP Load Balancing, Cloud Run, and Docker.',
       'Built keyless CI/CD pipelines with GitHub Actions and Workload Identity Federation, and managed Terraform using modular configurations, remote GCS state, and drift detection.',
       'Supported production workloads through monitoring, logging, troubleshooting, performance analysis, and deployment operations.',

@@ -10,14 +10,17 @@ export function usePlatformScroll() {
     const film = ref.current;
     const stage = film?.querySelector<HTMLElement>('.platform-stage');
     if (!film || !stage) return;
-    const roomy = matchMedia('(min-width: 1000px) and (min-height: 800px)');
+    const roomy = matchMedia('(min-width: 1000px) and (min-height: 600px)');
     let frame: number | null = null;
     let enabled = false;
     let start = 0;
     let range = 1;
+    const listSteps = [...film.querySelectorAll<HTMLElement>('.platform-mobile-flow li')];
+    // Unpinned: each step of the vertical list lights up once it passes 60% of the viewport.
+    const markList = () => listSteps.forEach(step => step.toggleAttribute('data-on', step.getBoundingClientRect().top < innerHeight * 0.6));
     const draw = () => {
       frame = null;
-      if (!enabled) return;
+      if (!enabled) { if (!reduced) markList(); return; }
       const progress = Math.max(0,Math.min(1,(scrollY - start) / range));
       const index = Math.min(4,Math.floor(progress * 5));
       film.dataset.step = steps[index];
@@ -29,12 +32,12 @@ export function usePlatformScroll() {
       document.documentElement.style.setProperty('--nav-height',`${height}px`);
       enabled = roomy.matches && !reduced && CSS.supports('position','sticky');
       film.dataset.scroll = String(enabled);
-      if (!enabled) { film.dataset.step = 'complete'; film.style.removeProperty('--workflow-progress'); return; }
+      if (!enabled) { film.dataset.step = 'complete'; film.style.removeProperty('--workflow-progress'); if (!reduced) markList(); return; }
       start = film.getBoundingClientRect().top + scrollY - height;
       range = Math.max(1,film.offsetHeight - stage.offsetHeight);
       draw();
     };
-    const queue = () => { if (enabled && frame === null) frame = requestAnimationFrame(draw); };
+    const queue = () => { if ((enabled || !reduced) && frame === null) frame = requestAnimationFrame(draw); };
     const observer = new ResizeObserver(measure);
     observer.observe(film);
     measure();
@@ -48,6 +51,7 @@ export function usePlatformScroll() {
       window.removeEventListener('scroll',queue);window.removeEventListener('resize',measure);window.removeEventListener('pageshow',measure);
       roomy.removeEventListener('change',measure);
       film.dataset.scroll = 'false';film.dataset.step = 'complete';film.style.removeProperty('--workflow-progress');
+      listSteps.forEach(step => step.removeAttribute('data-on'));
     };
   },[reduced]);
   return ref;
