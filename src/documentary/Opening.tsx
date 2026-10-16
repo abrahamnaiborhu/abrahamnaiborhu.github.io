@@ -1,3 +1,4 @@
+import { ArrowIcon } from '../components/ArrowIcon';
 import { useEffect, useRef, useState } from 'react';
 import { profile } from '../rebrand/profile';
 import { useReducedMotion } from '../rebrand/useReducedMotion';
@@ -91,7 +92,7 @@ export function Opening() {
     <div className="opening-context"><p className="eyebrow">01 / A starting point</p><p>{profile.name}</p><span>{profile.role} · Jakarta</span><span>Cloud · Platform · DevOps</span></div>
     <div className="opening-name" aria-hidden="true">ABRAHAM</div>
     <figure className="opening-portrait"><img src="/assets/abraham.png" width="408" height="612" alt="Portrait of Abraham Naiborhu" loading="eager" /></figure>
-    <div className="opening-narration"><h1 id="hero-title">I like making things<br /><em>work together.</em></h1><div className="opening-actions"><a href="#work">View Engineering Work ↘</a><a href={profile.resume}>View Resume ↗</a><a href="#contact">Contact me ↗</a></div></div>
-    <button type="button" className="skip-opening" hidden={!playing} onClick={() => finishRef.current()}>Skip opening ↗</button>
+    <div className="opening-narration"><h1 id="hero-title">I like making things<br /><em>work together.</em></h1><div className="opening-actions"><a href="#work">View Engineering Work <ArrowIcon direction="down-right" /></a><a href={profile.resume}>View Resume <ArrowIcon /></a><a href="#contact">Contact me <ArrowIcon /></a></div></div>
+    <button type="button" className="skip-opening" hidden={!playing} onClick={() => finishRef.current()}>Skip opening <ArrowIcon /></button>
   </section>;
 }

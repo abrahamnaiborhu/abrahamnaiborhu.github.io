@@ -249,6 +249,7 @@ main:focus { outline:none; }
 html { scroll-padding-top:var(--nav-height); }
 section,[id] { scroll-margin-top:calc(var(--nav-height) + 16px); }
 a { text-decoration-thickness:1px; text-decoration-skip-ink:none; }
+.ui-arrow { display:inline-block; width:1em; height:1em; flex-shrink:0; vertical-align:-.15em; margin-inline:.3em 0; }
 button,input,summary { font:inherit; }
 button,summary,a { -webkit-tap-highlight-color:transparent; }
 button { cursor:pointer; }

@@ -1,3 +1,4 @@
+import { ArrowIcon } from '../components/ArrowIcon';
 import { experience } from '../rebrand/experienceData';
 import { primaryCredentials, additionalCredential } from '../rebrand/credentials';
 import { articles } from '../rebrand/articles';
@@ -19,7 +20,7 @@ export function Evidence() {
           {project.id === 'foundation' && <p className="evidence-note">Object versioning · remote state. A reusable learning foundation, not a full landing zone.</p>}
           {project.id === 'delivery' && <p className="evidence-note">PR plan is for review; apply uses a fresh plan and an approval gate.</p>}
           {project.id === 'platform' && <p className="evidence-note">Outbound only through Cloud NAT; public entry is handled by the load balancer.</p>}
-          <div className="evidence-links"><a href={project.repository}>View repository ↗</a><a href={project.article}>Read case study ↗</a></div>
+          <div className="evidence-links"><a href={project.repository}>View repository <ArrowIcon /></a><a href={project.article}>Read case study <ArrowIcon /></a></div>
         </article>)}
       </div>
     </section>
@@ -37,13 +38,13 @@ export function Evidence() {
     </section>
     <section id="certifications" className="evidence-section" aria-labelledby="certifications-title">
       <p className="eyebrow">Certifications</p><h2 id="certifications-title">Learning, with something to show for it.</h2>
-      <ul className="certification-grid">{primaryCredentials.map(credential => <li key={credential.title}><p className="eyebrow">{credential.issuer}</p><h3>{credential.title}</h3><a href={credential.url} aria-label={`View credential: ${credential.title}`}>View credential ↗</a></li>)}</ul>
-      <p className="secondary-credential">Additional training <a href={additionalCredential.url}>{additionalCredential.title} ↗</a></p>
+      <ul className="certification-grid">{primaryCredentials.map(credential => <li key={credential.title}><p className="eyebrow">{credential.issuer}</p><h3>{credential.title}</h3><a href={credential.url} aria-label={`View credential: ${credential.title}`}>View credential <ArrowIcon /></a></li>)}</ul>
+      <p className="secondary-credential">Additional training <a href={additionalCredential.url}>{additionalCredential.title} <ArrowIcon /></a></p>
     </section>
     <section id="writing" tabIndex={-1} className="evidence-section" aria-labelledby="writing-title">
       <p className="eyebrow">Engineering notes</p><h2 id="writing-title">I write down the decisions.</h2>
-      <ol className="writing-list">{articles.map((article, index) => <li key={article.url}><a className="writing-row" href={article.url}><span className="writing-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><div><h3>{article.title}</h3><p>{article.topics}</p></div><span className="writing-arrow" aria-hidden="true">↗</span></a></li>)}</ol>
-      <a href={profile.writing}>Read all articles on Dev.to ↗</a>
+      <ol className="writing-list">{articles.map((article, index) => <li key={article.url}><a className="writing-row" href={article.url}><span className="writing-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><div><h3>{article.title}</h3><p>{article.topics}</p></div><span className="writing-arrow" aria-hidden="true"><ArrowIcon /></span></a></li>)}</ol>
+      <a href={profile.writing}>Read all articles on Dev.to <ArrowIcon /></a>
     </section>
     <section id="about" tabIndex={-1} className="evidence-section" aria-labelledby="about-title">
       <p className="eyebrow">Beyond the work</p><h2 id="about-title">A little more about me.</h2>

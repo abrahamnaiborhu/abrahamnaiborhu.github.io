@@ -2,6 +2,18 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { renderPage } from '../scripts/render.tsx';
 
+test('interface arrows use decorative vectors rather than emoji-capable text', () => {
+  const html = renderPage();
+  assert.doesNotMatch(html, /[↗↘↓↑→]/u, 'Arrow glyphs must not depend on platform text/emoji presentation');
+  const arrows = [...html.matchAll(/<svg\b[^>]*class="ui-arrow"[^>]*>/g)];
+  assert.ok(arrows.length >= 30, 'Navigation, projects, evidence and contact must use the shared arrows');
+  for (const [arrow] of arrows) {
+    assert.match(arrow, /aria-hidden="true"/);
+    assert.match(arrow, /focusable="false"/);
+    assert.match(arrow, /stroke="currentColor"/);
+  }
+});
+
 test('documentary story exposes contribution, platform scope and limits before JavaScript', () => {
   const html = renderPage();
   const textContent = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
