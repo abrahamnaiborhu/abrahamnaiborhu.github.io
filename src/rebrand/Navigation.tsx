@@ -1,3 +1,4 @@
+import { ArrowIcon } from '../components/ArrowIcon';
 import * as React from "react";
 import { profile } from "./profile";
 import { navigationItems, useSectionNavigation } from "./useSectionNavigation";
@@ -101,7 +102,7 @@ export function Navigation({ brand }: { brand?: React.ReactNode }) {
           {links()}
         </nav>
         <a className="header-resume" href={profile.resume}>
-          Resume <span aria-hidden="true">↗</span>
+          Resume <span aria-hidden="true"><ArrowIcon /></span>
         </a>
         <details className="mobile-navigation" ref={details}>
           <summary
