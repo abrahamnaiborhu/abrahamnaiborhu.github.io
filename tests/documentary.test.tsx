@@ -2,6 +2,15 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { renderPage } from '../scripts/render.tsx';
 
+test('APN keeps its five strokes without normalized dash lengths that hide the P in WebKit', () => {
+  const html = renderPage();
+  const mark = html.match(/<svg class="apn-mark"[\s\S]*?<\/svg>/)?.[0];
+  assert.ok(mark);
+  assert.equal((mark.match(/data-stroke=/g) ?? []).length, 5);
+  assert.ok(mark.includes('data-stroke="p-bowl"'));
+  assert.ok(!/pathLength="1"/.test(mark), 'APN must use measured SVG lengths for its drawing animation');
+});
+
 test('interface arrows use decorative vectors rather than emoji-capable text', () => {
   const html = renderPage();
   assert.doesNotMatch(html, /[↗↘↓↑→]/u, 'Arrow glyphs must not depend on platform text/emoji presentation');

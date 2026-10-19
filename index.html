@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#191d1b" />
 
+    <!-- Reserve the opening state before the prerendered hero can paint. -->
+    <style>
+      html[data-apn-opening="pending"] .identity .apn-mark,
+      html[data-apn-opening="pending"] .opening-context,
+      html[data-apn-opening="pending"] .opening-name,
+      html[data-apn-opening="pending"] .opening-portrait,
+      html[data-apn-opening="pending"] .opening-narration { visibility: hidden; }
+    </style>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        root.dataset.apnOpening = 'complete';
+        if (!window.matchMedia || !Element.prototype.animate || location.hash || scrollY > 10 || document.hidden) return;
+        const preference = matchMedia('(prefers-reduced-motion: reduce)');
+        if (preference.matches) return;
+        try { if (sessionStorage.getItem('apn-opening-seen')) return; } catch {}
+
+        const events = ['pointerdown', 'keydown', 'wheel', 'touchmove', 'scroll', 'pagehide', 'hashchange'];
+        let timeout;
+        const cleanup = () => {
+          clearTimeout(timeout);
+          events.forEach(name => window.removeEventListener(name, complete));
+          document.removeEventListener('visibilitychange', hidden);
+          preference.removeEventListener('change', complete);
+          root.removeEventListener('apn-opening-ready', cleanup);
+        };
+        const complete = () => {
+          if (root.dataset.apnOpening === 'pending') {
+            root.dataset.apnOpening = 'complete';
+            try { sessionStorage.setItem('apn-opening-seen', 'true'); } catch {}
+          }
+          cleanup();
+        };
+        const hidden = () => { if (document.hidden) complete(); };
+        root.dataset.apnOpening = 'pending';
+        // Missing or late application scripts must reveal the usable static hero.
+        timeout = setTimeout(complete, 1700);
+        events.forEach(name => window.addEventListener(name, complete, { passive: true }));
+        document.addEventListener('visibilitychange', hidden);
+        preference.addEventListener('change', complete);
+        root.addEventListener('apn-opening-ready', cleanup);
+      })();
+    </script>
+
     <!-- SEO -->
     <title>Abraham Naiborhu | Cloud, Platform &amp; DevOps Engineering</title>
     <meta name="description" content="Application Engineer focused on Cloud, Platform and DevOps Engineering with hands-on experience in Google Cloud, Kubernetes, Terraform, CI/CD, and backend systems." />

@@ -5,11 +5,11 @@ import { useReducedMotion } from '../rebrand/useReducedMotion';
 
 export function APNMark() {
   return <svg className="apn-mark" viewBox="0 0 280 160" aria-hidden="true"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-    <path data-stroke="a-stem" pathLength="1" strokeWidth="5.5" d="M18 126C32 109 40 65 57 32C60 26 64 28 65 40C68 66 77 104 88 124" />
-    <path data-stroke="a-crossbar" pathLength="1" strokeWidth="4.5" d="M28 94C46 85 67 81 87 86" />
-    <path data-stroke="p-stem" pathLength="1" strokeWidth="5.5" d="M91 126C96 101 103 62 112 34" />
-    <path data-stroke="p-bowl" pathLength="1" strokeWidth="5" d="M109 42C132 23 162 29 160 51C158 73 129 86 103 86" />
-    <path data-stroke="n" pathLength="1" strokeWidth="5.5" d="M148 125C152 101 157 69 166 39C173 64 183 99 196 123C202 99 212 59 224 33" />
+    <path data-stroke="a-stem" strokeWidth="5.5" d="M18 126C32 109 40 65 57 32C60 26 64 28 65 40C68 66 77 104 88 124" />
+    <path data-stroke="a-crossbar" strokeWidth="4.5" d="M28 94C46 85 67 81 87 86" />
+    <path data-stroke="p-stem" strokeWidth="5.5" d="M91 126C96 101 103 62 112 34" />
+    <path data-stroke="p-bowl" strokeWidth="5" d="M109 42C132 23 162 29 160 51C158 73 129 86 103 86" />
+    <path data-stroke="n" strokeWidth="5.5" d="M148 125C152 101 157 69 166 39C173 64 183 99 196 123C202 99 212 59 224 33" />
   </g></svg>;
 }
 
@@ -18,29 +18,50 @@ export function Opening() {
   const finishRef = useRef<() => void>(() => {});
   const [playing, setPlaying] = useState(false);
   const resolved = useRef(false);
+  const claimed = useRef(false);
   const reduced = useReducedMotion();
 
   useEffect(() => {
+    const root = document.documentElement;
+    const releasePending = (state: 'ready' | 'complete' = 'complete') => {
+      root.dataset.apnOpening = state;
+      root.dispatchEvent(new Event('apn-opening-ready'));
+    };
     if (reduced) {
       setPlaying(false);
       // The server's conservative snapshot is also true before hydration.
       // Resolve only a real reduced-motion visit, not that temporary snapshot.
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) resolved.current = true;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        resolved.current = true;
+        releasePending();
+      }
       return;
     }
-    if (resolved.current) return;
+    if (resolved.current) { releasePending(); return; }
+    // Only the pre-paint reservation may start a first-visit opening. Once its
+    // fallback has shown the hero, late hydration must leave that state alone.
+    // The ref permits Strict Mode's synchronous setup/cleanup/setup replay.
+    if (root.dataset.apnOpening !== 'pending' && !claimed.current) return;
     const section = scope.current;
     const mark = document.querySelector<SVGSVGElement>('.identity .apn-mark');
-    if (!section || !mark || reduced || typeof Element.prototype.animate !== 'function' || location.hash || scrollY > 10) return;
-    try { if (sessionStorage.getItem('apn-opening-seen')) return; } catch { /* Storage is optional. */ }
+    if (!section || !mark || reduced || typeof Element.prototype.animate !== 'function' || location.hash || scrollY > 10) {
+      releasePending();
+      return;
+    }
+    try { if (sessionStorage.getItem('apn-opening-seen')) { releasePending(); return; } } catch { /* Storage is optional. */ }
+    claimed.current = true;
     let active = true;
     const animations: Animation[] = [];
+    const strokePaths: SVGPathElement[] = [];
+    const clearStrokeStyles = () => strokePaths.forEach(path => path.style.removeProperty('stroke-dasharray'));
     const finish = () => {
       if (!active) return;
       active = false;
       resolved.current = true;
       animations.forEach(animation => animation.cancel());
+      clearStrokeStyles();
       section.dataset.opening = 'complete';
+      releasePending();
       setPlaying(false);
       try { sessionStorage.setItem('apn-opening-seen', 'true'); } catch { /* No persistence required. */ }
     };
@@ -59,9 +80,24 @@ export function Opening() {
     section.dataset.opening = 'playing';
     setPlaying(true);
     const strokes = [['a-stem',80,390],['a-crossbar',440,180],['p-stem',590,260],['p-bowl',800,370],['n',1120,460]] as const;
-    for (const [name,delay,duration] of strokes) animate(mark.querySelector(`[data-stroke="${name}"]`), [
-      {strokeDashoffset:'1',opacity:0,offset:0}, {strokeDashoffset:'.995',opacity:1,offset:.025}, {strokeDashoffset:'0',opacity:1,offset:1},
-    ], {delay,duration,easing:'cubic-bezier(.45,.05,.35,1)'});
+    for (const [name,delay,duration] of strokes) {
+      const path = mark.querySelector<SVGPathElement>(`[data-stroke="${name}"]`);
+      if (!path) continue;
+      // Actual SVG lengths avoid WebKit dropping the normalized P bowl.
+      const length = Math.ceil(path.getTotalLength());
+      path.style.strokeDasharray = `${length} ${length}`;
+      strokePaths.push(path);
+      const stroke = animate(path, [
+        {strokeDashoffset:String(length),opacity:0,offset:0},
+        {strokeDashoffset:String(length * .995),opacity:1,offset:.025},
+        {strokeDashoffset:'0',opacity:1,offset:1},
+      ], {delay,duration,easing:'cubic-bezier(.45,.05,.35,1)'});
+      // Return each completed stroke to the solid CSS drawing before handoff.
+      void stroke?.finished.then(() => {
+        stroke.cancel();
+        path.style.removeProperty('stroke-dasharray');
+      }).catch(() => {});
+    }
     animate(mark, [{transform:`translate(${left - bounds.left}px,${top - bounds.top}px) scale(${width / bounds.width})`}, {transform:'translate(0,0) scale(1)'}], {delay:1930,duration:700,easing:'cubic-bezier(.65,0,.2,1)'});
     animate(section.querySelector('.opening-portrait'), [{clipPath:'inset(0 0 100% 0)',transform:'translateY(24px)'},{clipPath:'inset(0)',transform:'translateY(0)'}], {delay:2020,duration:720,easing:'cubic-bezier(.4,0,.2,1)'});
     for (const selector of ['.opening-name','.opening-narration','.opening-context']) animate(section.querySelector(selector), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {delay:2070,duration:700,easing:'cubic-bezier(.2,.7,.2,1)'});
@@ -78,10 +114,14 @@ export function Opening() {
     document.addEventListener('keydown',key);
     document.addEventListener('focusin',focus);
     document.addEventListener('visibilitychange',hidden);
+    // Initial animation keyframes now own visibility; remove the pre-paint guard.
+    releasePending('ready');
     return () => {
       active = false;
       animations.forEach(animation => animation.cancel());
+      clearStrokeStyles();
       section.dataset.opening = 'complete';
+      releasePending();
       window.removeEventListener('wheel',finish); window.removeEventListener('touchmove',finish);
       window.removeEventListener('resize',finish); window.removeEventListener('hashchange',finish); window.removeEventListener('pagehide',finish);
       document.removeEventListener('keydown',key); document.removeEventListener('focusin',focus); document.removeEventListener('visibilitychange',hidden);
