@@ -2,6 +2,7 @@ import { ArrowIcon } from './components/ArrowIcon';
 import { Navigation } from './rebrand/Navigation';
 import { APNMark, Opening } from './documentary/Opening';
 import { Applications, Perspective, Judgment, Contact } from './documentary/Story';
+import { Unfold } from './documentary/Unfold';
 import { Platform } from './documentary/Platform';
 import { Evidence } from './documentary/Evidence';
 import { profile } from './rebrand/profile';
@@ -13,6 +14,7 @@ export default function App() {
     <main id="main" tabIndex={-1}>
       <Opening />
       <Applications />
+      <Unfold />
       <Perspective />
       <Platform />
       <Judgment />

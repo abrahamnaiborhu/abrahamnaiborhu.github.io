@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from '../rebrand/useReducedMotion';
+import { bindPlatformPose } from './platformPose';
 
 const steps = ['source','build','config','runtime','complete'] as const;
 
@@ -10,48 +11,61 @@ export function usePlatformScroll() {
     const film = ref.current;
     const stage = film?.querySelector<HTMLElement>('.platform-stage');
     if (!film || !stage) return;
-    const roomy = matchMedia('(min-width: 1000px) and (min-height: 600px)');
+    const pose = bindPlatformPose(film);
+    const controls = film.querySelector<HTMLElement>('.platform-phase-controls')!;
+    const buttons = [...controls.querySelectorAll<HTMLButtonElement>('button')];
+    const life = new AbortController();
     let frame: number | null = null;
     let enabled = false;
     let start = 0;
     let range = 1;
-    const listSteps = [...film.querySelectorAll<HTMLElement>('.platform-mobile-flow li')];
-    // Unpinned: each step of the vertical list lights up once it passes 60% of the viewport.
-    const markList = () => listSteps.forEach(step => step.toggleAttribute('data-on', step.getBoundingClientRect().top < innerHeight * 0.6));
-    const draw = () => {
-      frame = null;
-      if (!enabled) { if (!reduced) markList(); return; }
-      const progress = Math.max(0,Math.min(1,(scrollY - start) / range));
-      const index = Math.min(4,Math.floor(progress * 5));
+    let progress = 1;
+    let rendered = false;
+    const apply = (p:number) => {
+      const next=Math.max(0,Math.min(1,p));
+      if(rendered && next===progress) return;
+      rendered=true;progress=next;
+      const index = Math.min(4,Math.floor(progress*5));
       film.dataset.step = steps[index];
       film.style.setProperty('--workflow-progress',String(progress));
+      pose(progress);
+      buttons.forEach((button,i) => button.setAttribute('aria-pressed',String(i===index)));
     };
+    const draw = () => { frame=null; if(enabled) apply((scrollY-start)/range); };
+    const queue = () => { if(enabled && frame===null) frame=requestAnimationFrame(draw); };
     const measure = () => {
-      const header = document.querySelector('header');
-      const height = header?.getBoundingClientRect().height || 80;
+      const height = document.querySelector('header')?.getBoundingClientRect().height || 80;
       document.documentElement.style.setProperty('--nav-height',`${height}px`);
-      enabled = roomy.matches && !reduced && CSS.supports('position','sticky');
-      film.dataset.scroll = String(enabled);
-      if (!enabled) { film.dataset.step = 'complete'; film.style.removeProperty('--workflow-progress'); if (!reduced) markList(); return; }
-      start = film.getBoundingClientRect().top + scrollY - height;
-      range = Math.max(1,film.offsetHeight - stage.offsetHeight);
-      draw();
+      // Touch devices retain the authored animation. Only available height and text fit govern pinning.
+      film.dataset.motion=String(!reduced);
+      enabled = !reduced && innerHeight-height>=500 && CSS.supports('position','sticky');
+      film.dataset.scroll=String(enabled);
+      const art = film.querySelector<HTMLElement>('.platform-payoff')!;
+      if(enabled && (stage.scrollHeight>stage.clientHeight+2 || art.clientHeight<150)) {
+        enabled=false;film.dataset.scroll='false';
+      }
+      start=film.getBoundingClientRect().top+scrollY-height;
+      range=Math.max(1,film.offsetHeight-stage.offsetHeight);
+      controls.hidden=reduced;
+      if(enabled) draw();else apply(reduced?1:progress);
     };
-    const queue = () => { if ((enabled || !reduced) && frame === null) frame = requestAnimationFrame(draw); };
+    buttons.forEach(button => button.addEventListener('click', () => {
+      const p=Number(button.dataset.platformSeek);
+      if(enabled) {scrollTo({top:start+range*p,behavior:'instant'});draw();}
+      else apply(p);
+    },{signal:life.signal}));
     const observer = new ResizeObserver(measure);
     observer.observe(film);
     measure();
-    window.addEventListener('scroll',queue,{passive:true});
-    window.addEventListener('resize',measure);
-    window.addEventListener('pageshow',measure);
-    roomy.addEventListener('change',measure);
+    addEventListener('scroll',queue,{passive:true,signal:life.signal});
+    addEventListener('resize',measure,{signal:life.signal});
+    addEventListener('pageshow',measure,{signal:life.signal});
+    addEventListener('portfolio-ready',measure,{signal:life.signal});
     return () => {
-      if (frame !== null) cancelAnimationFrame(frame);
-      observer.disconnect();
-      window.removeEventListener('scroll',queue);window.removeEventListener('resize',measure);window.removeEventListener('pageshow',measure);
-      roomy.removeEventListener('change',measure);
-      film.dataset.scroll = 'false';film.dataset.step = 'complete';film.style.removeProperty('--workflow-progress');
-      listSteps.forEach(step => step.removeAttribute('data-on'));
+      life.abort();observer.disconnect();
+      if(frame!==null) cancelAnimationFrame(frame);
+      film.dataset.scroll='false';film.dataset.motion='false';film.dataset.step='complete';
+      film.style.removeProperty('--workflow-progress');controls.hidden=true;
     };
   },[reduced]);
   return ref;

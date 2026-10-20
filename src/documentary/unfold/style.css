@@ -1,0 +1,711 @@
+.unfold * {
+  box-sizing: border-box;
+}
+.unfold {
+  font: 16px/1.5 Arial,Helvetica,sans-serif;
+  color: #171717;
+  background: #e9e9e9;
+  color-scheme: light;
+}
+.unfold {
+  margin: 0;
+}
+.unfold button,.unfold input,.unfold a {
+  -webkit-tap-highlight-color: transparent;
+}
+.unfold a {
+  color: inherit;
+}
+.unfold button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.unfold button,.unfold a {
+  min-height: 44px;
+}
+.unfold button:focus-visible,.unfold a:focus-visible,.unfold input:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 5px;
+}
+.unfold [hidden] {
+  display: none!important;
+}
+.unfold .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.unfold .study-nav {
+  position: fixed;
+  z-index: 20;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 4vw;
+  pointer-events: none;
+}
+.unfold .study-nav a {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+}
+.unfold .wordmark {
+  font-size: 27px;
+  letter-spacing: -2px;
+  font-style: italic;
+}
+.unfold .wordmark span {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-style: normal;
+}
+.unfold .skip {
+  font-size: 13px;
+  border-bottom: 1px solid;
+}
+.unfold .skip svg,.unfold .replay-link svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.unfold .film {
+  position: relative;
+  height: 100svh;
+}
+.unfold.motion-ready .film {
+  height: 480svh;
+}
+.unfold .stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 560px;
+  overflow: clip;
+  background: #e9e9e9;
+}
+.unfold .back-word {
+  position: absolute;
+  left: -2vw;
+  top: 14vh;
+  z-index: 0;
+  display: grid;
+  font-size: clamp(100px,20vw,330px);
+  line-height: .82;
+  font-weight: 900;
+  letter-spacing: -.09em;
+  color: transparent;
+  -webkit-text-stroke: 1px #c9c9c9;
+  transform: translateX(var(--word-x,0px));
+}
+.unfold .back-word span {
+  grid-area: 1/1;
+}
+.unfold .back-word span:last-child {
+  opacity: var(--behind,0);
+}
+.unfold .back-word span:first-child {
+  opacity: calc(1 - var(--behind,0));
+}
+.unfold .camera {
+  position: absolute;
+  left: 70%;
+  top: 44%;
+  width: 720px;
+  height: 520px;
+  margin-left: -360px;
+  margin-top: -260px;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+  z-index: 1;
+}
+.unfold .world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 520px;
+  transform-style: preserve-3d;
+  transform: scale(1.5) rotateZ(-7deg);
+  will-change: transform;
+}
+.unfold .world * {
+  transform-style: preserve-3d;
+}
+.unfold .application,.unfold .peer {
+  position: absolute;
+  left: 210px;
+  top: 155px;
+  width: 300px;
+  height: 210px;
+  background: #f8f8f8;
+  border: 2px solid #171717;
+  backface-visibility: hidden;
+  transform: translateZ(180px);
+  box-shadow: 0 3px 0 #171717,0 14px 24px #0002;
+}
+.unfold .window-bar {
+  height: 29px;
+  border-bottom: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font: 9px/1 Arial,sans-serif;
+  letter-spacing: 1px;
+}
+.unfold .window-bar i {
+  width: 9px;
+  height: 9px;
+  border: 1px solid;
+  transform: rotate(45deg);
+}
+.unfold .application-body {
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.unfold .receipt-label {
+  font-size: 8px;
+  letter-spacing: 1.6px;
+}
+.unfold .application-body strong {
+  font-size: 57px;
+  letter-spacing: -5px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+.unfold .account-ready {
+  font: italic 20px/1.1 Georgia,serif;
+}
+.unfold .receipt-rule {
+  width: 100%;
+  height: 1px;
+  background: #c3c3c3;
+  margin: 12px 0 8px;
+}
+.unfold .receipt-foot {
+  font-size: 8px;
+  letter-spacing: 1.1px;
+}
+.unfold .fold-edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 6px;
+  background: repeating-linear-gradient(90deg,#171717 0 1px,#e5e5e5 1px 4px);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+}
+.unfold .plane {
+  position: absolute;
+  left: 160px;
+  top: 120px;
+  width: 400px;
+  height: 280px;
+  border: 2px solid #171717;
+  background: #efefef;
+  backface-visibility: hidden;
+  opacity: 0;
+  box-shadow: 0 2px 0 #171717;
+}
+.unfold .plane strong {
+  position: absolute;
+  top: 54px;
+  left: 26px;
+  font-size: 78px;
+  line-height: .9;
+  letter-spacing: -6px;
+  font-weight: 800;
+}
+.unfold .plane-number {
+  position: absolute;
+  top: 17px;
+  left: 26px;
+  font: italic 22px Georgia,serif;
+}
+.unfold .plane-detail {
+  position: absolute;
+  bottom: 20px;
+  left: 26px;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.unfold .deploy {
+  transform-origin: left center;
+  transform: translateZ(60px) rotateY(-100deg);
+  background: #f5f5f5;
+}
+.unfold .runtime {
+  transform-origin: right center;
+  transform: translateZ(-60px) rotateY(100deg);
+  background: #d3d3d3;
+}
+.unfold .monitor {
+  transform-origin: center top;
+  transform: translateZ(-180px) rotateX(100deg);
+  background: #171717;
+  color: #f4f4f4;
+}
+.unfold .wave {
+  position: absolute;
+  left: 26px;
+  bottom: 48px;
+  width: 340px;
+  height: 65px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.unfold .deploy-route {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 65px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.unfold .deploy-route i {
+  width: 31px;
+  height: 31px;
+  background: #171717;
+}
+.unfold .deploy-route b {
+  height: 1px;
+  flex: 1;
+  background: #171717;
+}
+.unfold .runtime-cells {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 62px;
+  display: flex;
+  gap: 10px;
+}
+.unfold .runtime-cells i {
+  width: 44px;
+  height: 32px;
+  border: 1px solid;
+}
+.unfold .ground {
+  position: absolute;
+  left: -160px;
+  top: 5px;
+  width: 1040px;
+  height: 510px;
+  transform: translateZ(-215px) scale(.3);
+  background: #bdbdbd;
+  border: 2px solid #171717;
+  opacity: 0;
+  backface-visibility: hidden;
+}
+.unfold .ground-grid {
+  position: absolute;
+  inset: 60px 35px 45px;
+  background: linear-gradient(90deg,transparent 49.7%,#9999 50%,transparent 50.3%),linear-gradient(transparent 49.7%,#9999 50%,transparent 50.3%);
+  background-size: 80px 80px;
+  border: 1px solid #929292;
+}
+.unfold .ground-label {
+  position: absolute;
+  left: 35px;
+  top: 19px;
+  font-size: 24px;
+  letter-spacing: -1px;
+  font-weight: 700;
+}
+.unfold .ground-caption {
+  position: absolute;
+  bottom: 16px;
+  right: 35px;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+.unfold .peer {
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  transform: translateZ(180px) rotateY(85deg);
+  transform-origin: left center;
+}
+.unfold .peer-left {
+  left: -150px;
+}
+.unfold .peer-right {
+  left: 570px;
+  transform-origin: right center;
+}
+.unfold .peer strong {
+  font-size: 85px;
+  line-height: 1;
+  letter-spacing: -6px;
+  text-align: center;
+  margin-top: 28px;
+}
+.unfold .peer>span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-top: 6px;
+}
+.unfold .spine {
+  position: absolute;
+  left: 360px;
+  top: 260px;
+  width: 2px;
+  height: 395px;
+  background: #171717;
+  transform-origin: top;
+  transform: translateZ(180px) rotateX(-90deg);
+  opacity: 0;
+}
+.unfold .narration {
+  position: absolute;
+  left: 5vw;
+  bottom: 19vh;
+  width: 41%;
+  max-width: 600px;
+  z-index: 3;
+  pointer-events: none;
+}
+.unfold .eyebrow {
+  font-size: 11px;
+  letter-spacing: 1.3px;
+  margin: 0 0 20px;
+}
+.unfold .headlines,.unfold .descriptions {
+  display: grid;
+}
+.unfold .headlines>* {
+  grid-area: 1/1;
+  margin: 0;
+  font-size: clamp(46px,5.7vw,88px);
+  font-weight: 700;
+  line-height: .96;
+  letter-spacing: -.065em;
+}
+.unfold .headlines em {
+  font-family: Georgia,serif;
+  font-weight: 400;
+  letter-spacing: -.065em;
+}
+.unfold .headlines [data-copy],.unfold .descriptions [data-copy] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.unfold .headlines [data-copy=application],.unfold .descriptions [data-copy=application] {
+  opacity: 1;
+  transform: none;
+}
+.unfold .descriptions p {
+  grid-area: 1/1;
+  max-width: 34ch;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 24px 0 0;
+}
+.unfold .controls {
+  position: absolute;
+  bottom: 24px;
+  left: 5vw;
+  right: 5vw;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  z-index: 5;
+}
+.unfold .play {
+  background: transparent;
+  border: 1px solid;
+  padding: 8px 15px;
+  font-size: 12px;
+  min-width: 110px;
+}
+.unfold .controls input {
+  flex: 1;
+  min-width: 40px;
+  accent-color: #171717;
+  height: 44px;
+  cursor: ew-resize;
+}
+.unfold .progress {
+  font: 12px/1 monospace;
+  min-width: 30px;
+}
+.unfold .phase-controls {
+  position: absolute;
+  left: 5vw;
+  top: 115px;
+  display: flex;
+  gap: 14px;
+  z-index: 5;
+}
+.unfold .phase-controls button {
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: none;
+  font-size: 11px;
+  padding: 6px 0;
+  letter-spacing: .2px;
+  opacity: .5;
+}
+.unfold .phase-controls button[aria-pressed=true] {
+  border-color: currentColor;
+  opacity: 1;
+}
+.unfold .scroll-cue {
+  position: absolute;
+  bottom: 95px;
+  right: 5vw;
+  font-size: 9px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.unfold .scroll-cue svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.unfold .study-end {
+  position: relative;
+  z-index: 6;
+  min-height: 100svh;
+  background: #171717;
+  color: #efefef;
+  padding: 100px 6vw;
+}
+.unfold .study-end h2 {
+  font-size: clamp(38px,6vw,85px);
+  line-height: 1;
+  letter-spacing: -.055em;
+  margin: 25px 0 65px;
+}
+.unfold .transcript {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 40px;
+  max-width: 1180px;
+  list-style: none;
+  padding: 0;
+  counter-reset: frames;
+}
+.unfold .transcript li {
+  border-top: 1px solid #666;
+  padding-top: 20px;
+  counter-increment: frames;
+}
+.unfold .transcript li:before {
+  content: '0' counter(frames);
+  display: block;
+  font: italic 32px Georgia,serif;
+  margin-bottom: 25px;
+}
+.unfold .transcript strong {
+  font-size: 18px;
+}
+.unfold .transcript p,.unfold .review-prompt {
+  font-size: 15px;
+  color: #bdbdbd;
+  max-width: 45ch;
+}
+.unfold .review-prompt {
+  margin-top: 45px;
+  max-width: 65ch;
+}
+.unfold .replay-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  text-decoration: none;
+  border-bottom: 1px solid;
+  margin-top: 25px;
+  font-size: 14px;
+}
+@media(max-width:760px) {
+  .unfold .study-nav {
+    padding: 14px 6vw;
+  }
+  .unfold .wordmark {
+    font-size: 24px;
+  }
+  .unfold .wordmark span {
+    font-size: 8px;
+    letter-spacing: .7px;
+  }
+  .unfold .skip {
+    font-size: 11px;
+  }
+  .unfold .film {
+    height: 100svh;
+  }
+  .unfold.motion-ready .film {
+    height: 420svh;
+  }
+  .unfold .camera {
+    left: 50%;
+    top: 37%;
+  }
+  .unfold .back-word {
+    top: 23%;
+    font-size: 39vw;
+  }
+  .unfold .phase-controls {
+    top: 76px;
+    left: 6vw;
+    gap: 20px;
+  }
+  .unfold .phase-controls button {
+    font-size: 10px;
+  }
+  .unfold .narration {
+    left: 6vw;
+    bottom: 114px;
+    width: 88%;
+    max-width: none;
+  }
+  .unfold .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1px;
+    margin-bottom: 13px;
+  }
+  .unfold .headlines>* {
+    font-size: clamp(32px,8.8vw,49px);
+    line-height: .98;
+  }
+  .unfold .headlines br {
+    display: none;
+  }
+  .unfold .headlines br:after {
+    content: ' ';
+  }
+  .unfold .descriptions p {
+    font-size: 14px;
+    max-width: 35ch;
+    margin-top: 14px;
+  }
+  .unfold .controls {
+    left: 6vw;
+    right: 6vw;
+    bottom: 14px;
+    gap: 14px;
+  }
+  .unfold .play {
+    min-width: 95px;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  .unfold .scroll-cue {
+    display: none;
+  }
+  .unfold .transcript {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .unfold .study-end {
+    padding: 80px 6vw;
+  }
+  .unfold .study-end h2 {
+    margin-bottom: 45px;
+  }
+}
+@media(max-height:700px) {
+  .unfold .narration {
+    bottom: 110px;
+  }
+  .unfold .headlines>* {
+    font-size: clamp(30px,4.8vw,65px);
+  }
+  .unfold .descriptions p {
+    margin-top: 12px;
+  }
+  .unfold .phase-controls {
+    top: 76px;
+  }
+  .unfold .camera {
+    top: 41%;
+  }
+}
+@media(max-width:760px) and (max-height:700px) {
+  .unfold .camera {
+    top: 40%;
+  }
+  .unfold .headlines>* {
+    font-size: 32px;
+  }
+  .unfold .eyebrow {
+    margin-bottom: 9px;
+  }
+  .unfold .descriptions p {
+    font-size: 14px;
+    max-width: 39ch;
+  }
+  .unfold .narration {
+    bottom: 102px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .unfold.motion-ready .film {
+    height: 100svh;
+  }
+  .unfold .scroll-cue {
+    display: none;
+  }
+}
+@media(max-width:760px) {
+  .unfold .world {
+    transform: scale(.85) rotateZ(-7deg);
+  }
+}
+@media(min-width:761px) and (max-height:760px) {
+  .unfold .camera {
+    top: 46%;
+  }
+}
+
+/* Each sheet carries its resolved perspective matrix, with explicit paint order. */
+.unfold.motion-ready .camera { perspective:none; transform-style:flat; }
+.unfold.motion-ready .world { transform-style:flat; will-change:auto; }
+.unfold.motion-ready .world > * { transform-origin:0 0; transform-style:flat; }
+.unfold.motion-ready .ground { z-index:0; }
+.unfold.motion-ready .spine { z-index:1; }
+.unfold.motion-ready .monitor { z-index:2; }
+.unfold.motion-ready .runtime { z-index:3; }
+.unfold.motion-ready .deploy { z-index:4; }
+.unfold.motion-ready .application,.unfold.motion-ready .peer { z-index:5; }
+
+.unfold .stage {top:var(--nav-height,80px);height:calc(100svh - var(--nav-height,80px));min-height:480px;}
+.unfold .unfold-skip {position:absolute;top:16px;right:4vw;z-index:10;font-size:13px;}
+.unfold-transcript {padding:48px 6vw;background:#e9e9e9;color:#171717;}
+.unfold-transcript p {max-width:65ch;}
+
+.unfold .headlines h2 {font-family:Arial,Helvetica,sans-serif;text-wrap:initial;}
+@media(max-width:760px) and (max-height:700px) {.unfold .camera {top:34%;}}
+@media(max-width:760px) {
+  .unfold .unfold-skip {top:8px;min-height:32px;}
+  .unfold .phase-controls {top:40px;}
+}
+
+.unfold .unfold-skip {display:inline-flex;align-items:center;gap:8px;}
+.unfold .unfold-skip svg {width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;}
+
+/* A short optional reading beat connects the released stage to the next chapter. */
+.unfold .unfold-transcript {padding:20px 6vw 28px;border-top:1px solid #c9c9c9;}
+.unfold .unfold-transcript summary {display:list-item;cursor:pointer;min-height:44px;padding:10px 0;font-size:14px;}
+.unfold .unfold-transcript summary:focus-visible {outline:2px solid currentColor;outline-offset:4px;}
+.unfold .unfold-transcript p {font-size:15px;line-height:1.6;}

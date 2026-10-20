@@ -5,14 +5,16 @@ export type Parts = Record<string, Attrs>;
 
 export interface SceneDefinition {
   id: string;
-  states: readonly [string, string, string];
-  /** Progress where the caption changes to the second and third state. */
-  thresholds: readonly [number, number];
+  states: readonly string[];
+  /** Editorial words and direct beat controls for the product film. */
+  words?: readonly string[];
+  /** Progress boundaries between successive states. */
+  thresholds: readonly number[];
   /** Progress at which each state is complete; used for still frames. */
-  settled: readonly [number, number, number];
-  captions: readonly [string, string, string];
+  settled: readonly number[];
+  captions: readonly string[];
   /** Accessible description of the drawing in each state. */
-  alts: readonly [string, string, string];
+  alts: readonly string[];
   parts: (p: number) => Parts;
   /** Unpinned layouts: follow the drawing's centre (default), or spread over the full height of tall content. */
   flowAnchor?: 'center' | 'span';
@@ -25,7 +27,10 @@ const clamp = (value: number) => Math.max(0, Math.min(1, value));
 export const segment = (p: number, from: number, to: number) => clamp((p - from) / (to - from));
 export const ease = (t: number) => t * t * (3 - 2 * t);
 export const fixed = (value: number) => Math.round(value * 1000) / 1000;
-export const stateIndex = (scene: SceneDefinition, p: number) => (p < scene.thresholds[0] ? 0 : p < scene.thresholds[1] ? 1 : 2);
+export const stateIndex = (scene: SceneDefinition, p: number) => {
+  const next = scene.thresholds.findIndex(threshold => p < threshold);
+  return next < 0 ? scene.states.length - 1 : next;
+};
 /** Old value fades out completely before the new one fades in, so numerals never overlap. */
 export const swap = (p: number, from: number, to: number) => {
   const middle = (from + to) / 2;

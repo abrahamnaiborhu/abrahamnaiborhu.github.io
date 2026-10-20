@@ -24,12 +24,10 @@ function SceneCaptions({ captions }: { captions: readonly string[] }) {
   );
 }
 
-function Dashes() {
+function Dashes({ count = 3 }: { count?: number }) {
   return (
     <span className="scene-dashes" aria-hidden="true">
-      <i data-scrub-dash data-on />
-      <i data-scrub-dash />
-      <i data-scrub-dash />
+      {Array.from({ length:count }, (_, index) => <i key={index} data-scrub-dash data-on={index === 0 ? '' : undefined} />)}
     </span>
   );
 }
@@ -80,49 +78,31 @@ function PublicLink({ site }: { site: ProductSceneProps["site"] }) {
   );
 }
 
-/** A product scene: scroll-scrubbed when motion is allowed, three still frames otherwise. */
+/** A product scene: scroll-scrubbed when motion is allowed, settled frames otherwise. */
 export function ProductScene({ scene, product, role, next, site, account }: ProductSceneProps) {
   const track = useScrubScene(scene);
   const accountId = `${scene.id}-account`;
   return (
     <article id={scene.id} className="product-scene" aria-label={product} tabIndex={-1}>
-      <div ref={track} className="scene-track" data-mode="static">
+      <div ref={track} className="scene-track" data-mode="static" data-product-film="" data-flow-anchor="caption">
         <div className="scene-stage" data-scrub-stage>
+          <div className="product-film-word" aria-hidden="true">{(scene.words ?? scene.states).map((word,i) => <span key={word} data-film-word data-on={i === 0 ? '' : undefined}>{word}</span>)}</div>
+          <div className="product-film-heading"><h3 className="scene-product">{product}</h3><p className="scene-role">{role}</p></div>
           <div className="scene-grid">
             <div className="scene-copy">
-              <h3 className="scene-product">{product}</h3>
-              <p className="scene-role">{role}</p>
               <SceneCaptions captions={scene.captions} />
-              <ol className="sr-only">
-                {scene.captions.map((caption) => (
-                  <li key={caption}>{caption}</li>
-                ))}
-              </ol>
-              <Dashes />
-              <PublicLink site={site} />
-              <a
-                className="scene-more"
-                href={`#${accountId}`}
-                onClick={() => {
-                  const details = document.getElementById(accountId);
-                  if (details instanceof HTMLDetailsElement) details.open = true;
-                }}
-              >
-                How I built it <ArrowIcon direction="down" />
-              </a>
+              <ol className="sr-only">{scene.captions.map(caption => <li key={caption}>{caption}</li>)}</ol>
+              <Dashes count={scene.states.length} />
             </div>
-            <figure className="scene-art" data-scrub-art>
-              <SceneArt scene={scene} p={scene.settled[0]} label={scene.alts[0]} />
-            </figure>
+            <figure className="scene-art" data-scrub-art><SceneArt scene={scene} p={scene.settled[0]} label={scene.alts[0]} /></figure>
           </div>
-          <div className="scene-foot">
-            <span className="scene-progress" aria-hidden="true" />
-            <a href={next.href}>
-              Continue to {next.label} <ArrowIcon direction="down" />
-            </a>
+          <div className="product-film-controls" aria-label={`Choose a ${product.split(' · ')[0]} moment`}>
+            {(scene.words ?? scene.states).map((word,i) => <button type="button" key={word} data-scene-seek={scene.settled[i]} aria-pressed={i === 0}>{String(i + 1).padStart(2,'0')} / {word}</button>)}
           </div>
+          <div className="scene-foot"><span className="scene-progress" aria-hidden="true" /><a href={next.href}>Continue to {next.label} <ArrowIcon direction="down" /></a></div>
         </div>
       </div>
+      <div className="product-film-links"><PublicLink site={site} /><a className="scene-more" href={`#${accountId}`} onClick={() => {const details=document.getElementById(accountId);if(details instanceof HTMLDetailsElement) details.open=true;}}>How I built it <ArrowIcon direction="down" /></a></div>
       <div className="scene-still">
         <h3 className="scene-product">{product}</h3>
         <p className="scene-role">{role}</p>

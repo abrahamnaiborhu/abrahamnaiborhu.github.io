@@ -20,7 +20,8 @@
         if (!window.matchMedia || !Element.prototype.animate || location.hash || scrollY > 10 || document.hidden) return;
         const preference = matchMedia('(prefers-reduced-motion: reduce)');
         if (preference.matches) return;
-        try { if (sessionStorage.getItem('apn-opening-seen')) return; } catch {}
+        const reload = performance.getEntriesByType('navigation')[0]?.type === 'reload';
+        try { if (sessionStorage.getItem('apn-opening-seen') && !reload) return; } catch {}
 
         const events = ['pointerdown', 'keydown', 'wheel', 'touchmove', 'scroll', 'pagehide', 'hashchange'];
         let timeout;
@@ -73,7 +74,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <link rel="preload" as="image" href="/assets/abraham.png" />
+    <link rel="preload" as="image" href="/assets/abraham.png" fetchpriority="high" />
 
 
     <!-- DNS prefetch for external domains -->

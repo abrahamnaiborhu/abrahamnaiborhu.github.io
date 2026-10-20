@@ -1,3 +1,5 @@
+import '../src/documentary/platform-payoff.css';
+import '../src/documentary/unfold/style.css';
 import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from '../src/App.tsx';

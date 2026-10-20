@@ -7,15 +7,11 @@ function parts(p: number): Parts {
   const toWorker = segment(p, 0.12, 0.2);
   const step1 = segment(p, 0.2, 0.28);
   const fail = ease(segment(p, 0.4, 0.48));
-  const cut = ease(segment(p, 0.44, 0.52));
   const retry = segment(p, 0.6, 0.68);
   const clear = ease(segment(p, 0.66, 0.7));
   const step2 = segment(p, 0.68, 0.74);
   const step3 = segment(p, 0.74, 0.78);
-  const rejoin = ease(segment(p, 0.76, 0.82));
   const account = swap(p, 0.82, 0.88);
-  const gap = cut * (1 - rejoin);
-  const half = 15 * gap;
   return {
     paid: drawn(paid),
     toWorker: drawn(toWorker),
@@ -25,10 +21,7 @@ function parts(p: number): Parts {
     step3: drawn(step3),
     retry: drawn(retry),
     retryLabel: { opacity: fixed(retry) },
-    linkLeft: { d: `M365 180H${fixed(398 - half)}` },
-    linkRight: { d: `M${fixed(398 + half)} 180H430` },
-    linkSignal: drawn(rejoin),
-    cut: { opacity: fixed(gap), transform: `translate(398 180) scale(${fixed(0.4 + 0.6 * gap)}) translate(-398 -180)` },
+    accountSurface: { transform:`translate(360 ${fixed(38-18*ease(segment(p,.82,.9)))}) rotate(${fixed(5*(1-ease(segment(p,.82,.9))))} 96 102)` },
     count0: { opacity: fixed(0.35 * account.out) },
     count1: { opacity: fixed(account.in) },
   };
@@ -36,43 +29,47 @@ function parts(p: number): Parts {
 
 function Drawing({ a }: { a: Parts }) {
   return <>
-    <rect className="s-panel" x="40" y="96" width="130" height="168" rx="5" />
-    <text className="s-num s-paid" x="105" y="150" fontSize="26" textAnchor="middle">Paid</text>
-    <path data-part="paid" className="s-strong" d="M84 196L98 210L126 180" pathLength={1} strokeDasharray="1" {...a.paid} />
-    <path className="s-soft" d="M170 180H235" />
-    <path data-part="toWorker" className="s-line" d="M170 180H235" pathLength={1} strokeDasharray="1" {...a.toWorker} />
-    <rect className="s-panel" x="235" y="116" width="130" height="128" rx="5" />
-    <rect className="s-line" x="255" y="138" width="16" height="16" rx="2" /><path className="s-soft" d="M283 146H345" />
-    <rect className="s-line" x="255" y="172" width="16" height="16" rx="2" /><path className="s-soft" d="M283 180H345" />
-    <rect className="s-line" x="255" y="206" width="16" height="16" rx="2" /><path className="s-soft" d="M283 214H345" />
-    <path data-part="step1" className="s-strong" d="M258 146L262 150L269 141" pathLength={1} strokeDasharray="1" {...a.step1} />
-    <path data-part="stepFail" className="s-break" d="M257 174L269 186M269 174L257 186" {...a.stepFail} />
-    <path data-part="step2" className="s-strong" d="M258 180L262 184L269 175" pathLength={1} strokeDasharray="1" {...a.step2} />
-    <path data-part="step3" className="s-strong" d="M258 214L262 218L269 209" pathLength={1} strokeDasharray="1" {...a.step3} />
-    <path data-part="retry" className="s-line" d="M262 104A44 26 0 0 1 338 104L330 96M338 104L328 110" pathLength={1} strokeDasharray="1" {...a.retry} />
-    <text data-part="retryLabel" className="s-label" x="300" y="70" textAnchor="middle" {...a.retryLabel}>Retry</text>
-    <path data-part="linkLeft" className="s-line" {...a.linkLeft} /><path data-part="linkRight" className="s-line" {...a.linkRight} />
-    <path data-part="linkSignal" className="s-strong" d="M365 180H430" pathLength={1} strokeDasharray="1" {...a.linkSignal} />
-    <g data-part="cut" {...a.cut}><path className="s-break" d="M388 170L408 190M408 170L388 190" /></g>
-    <rect className="s-panel" x="430" y="96" width="130" height="168" rx="5" />
-    <path className="s-line" d="M454 122H536V170H454ZM454 122L495 152L536 122" />
-    <text data-part="count0" className="s-num" x="495" y="238" fontSize="44" textAnchor="middle" {...a.count0}>0</text>
-    <text data-part="count1" className="s-num" x="495" y="238" fontSize="44" textAnchor="middle" {...a.count1}>1</text>
-    <text className="s-label" x="105" y="300" textAnchor="middle">Payment</text>
-    <text className="s-label" x="300" y="300" textAnchor="middle">Worker</text>
-    <text className="s-label" x="495" y="300" textAnchor="middle">Accounts</text>
+    <path d="M40 327H560" className="product-art-hairline"/>
+    <g transform="translate(66 36) rotate(-7 104 134)">
+      <rect x="4" y="8" width="208" height="268" className="product-art-shadow"/>
+      <path d="M0 0H208V268L195 260 182 268 169 260 156 268 143 260 130 268 117 260 104 268 91 260 78 268 65 260 52 268 39 260 26 268 13 260 0 268Z" className="product-art-screen"/>
+      <text x="20" y="30" className="product-art-small">PAYMENT RECEIVED</text><path d="M20 43H188" className="product-art-hairline"/>
+      <text x="20" y="110" className="product-receipt-title">PAID.</text>
+      <path data-part="paid" d="M28 148L40 160L65 132" className="s-strong" pathLength="1" strokeDasharray="1" {...a.paid}/>
+      <path d="M20 193H184M20 208H157M20 223H174" className="product-art-hairline"/>
+    </g>
+    <g transform="translate(244 180)">
+      <rect x="4" y="5" width="176" height="130" className="product-art-shadow"/>
+      <rect width="176" height="130" rx="4" className="product-art-screen"/>
+      <text x="14" y="23" className="product-art-small">ACCOUNT SETUP</text>
+      <path d="M0 34H176" className="product-art-hairline"/>
+      {[0,1,2].map(i => <g key={i}><rect x="16" y={48+i*25} width="14" height="14" rx="2" className="product-art-hairline"/><path d={`M44 ${55+i*25}H150`} className="product-art-hairline"/><path data-part={`step${i+1}`} d={`M19 ${54+i*25}L23 ${58+i*25}L29 ${49+i*25}`} className="s-strong" pathLength="1" strokeDasharray="1" {...a[`step${i+1}`]}/></g>)}
+      <path data-part="stepFail" d="M17 74L29 86M29 74L17 86" className="s-break" {...a.stepFail}/>
+    </g>
+    <g data-part="accountSurface" {...a.accountSurface}>
+      <rect x="4" y="7" width="192" height="204" className="product-art-shadow"/>
+      <rect width="192" height="204" rx="4" className="product-art-screen"/>
+      <text x="16" y="26" className="product-art-small">WORKSPACE ACCOUNT</text><path d="M0 39H192" className="product-art-hairline"/>
+      <text data-part="count0" x="96" y="154" textAnchor="middle" className="product-account-count" {...a.count0}>0</text>
+      <text data-part="count1" x="96" y="154" textAnchor="middle" className="product-account-count" {...a.count1}>1</text>
+      <text x="96" y="188" textAnchor="middle" className="product-art-small">ONE PAYMENT. ONE ACCOUNT.</text>
+    </g>
+    <path data-part="toWorker" d="M203 172H248V182" className="s-strong" pathLength="1" strokeDasharray="1" {...a.toWorker}/>
+    <path data-part="retry" d="M286 160A31 20 0 1 1 346 160L338 151M346 160L335 165" className="s-strong" pathLength="1" strokeDasharray="1" {...a.retry}/>
+    <text data-part="retryLabel" x="316" y="117" textAnchor="middle" className="product-art-small" {...a.retryLabel}>RETRY SAFELY</text>
   </>;
 }
 
 export const glinstaScene: SceneDefinition = {
   id: 'glinsta',
   states: ['start', 'fail', 'recover'],
-  thresholds: [0.38, 0.62],
+  words: ['PAID', 'RETRY', 'ONE ACCOUNT'],
+  thresholds: [0.48, 0.86],
   settled: [0.34, 0.54, 0.9],
   captions: [
-    'A business pays. A background worker sets up its Google Workspace account.',
-    'A setup step fails halfway.',
-    'The worker retries safely. One payment, exactly one account.',
+    'One payment starts the account setup.',
+    'Setup fails halfway. The work isn’t lost.',
+    'Retry safely. Exactly one account.',
   ],
   alts: [
     'A paid receipt flows into a worker; the first setup step is done.',

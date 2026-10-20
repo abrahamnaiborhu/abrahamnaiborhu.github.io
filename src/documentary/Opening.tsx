@@ -1,6 +1,7 @@
 import { ArrowIcon } from '../components/ArrowIcon';
 import { useEffect, useRef, useState } from 'react';
 import { profile } from '../rebrand/profile';
+import { waitForPortfolio } from './portfolioReady';
 import { useReducedMotion } from '../rebrand/useReducedMotion';
 
 export function APNMark() {
@@ -48,16 +49,26 @@ export function Opening() {
       releasePending();
       return;
     }
-    try { if (sessionStorage.getItem('apn-opening-seen')) { releasePending(); return; } } catch { /* Storage is optional. */ }
+    const reload = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type === 'reload';
+    try { if (sessionStorage.getItem('apn-opening-seen') && !reload) { releasePending(); return; } } catch { /* Storage is optional. */ }
     claimed.current = true;
     let active = true;
+    const loading = new AbortController();
+    const startedAt = performance.now();
+    section.dataset.loading = 'pending';
+    root.dataset.apnLoading = 'pending';
     const animations: Animation[] = [];
     const strokePaths: SVGPathElement[] = [];
+    let removeInterruptions = () => {};
     const clearStrokeStyles = () => strokePaths.forEach(path => path.style.removeProperty('stroke-dasharray'));
     const finish = () => {
       if (!active) return;
       active = false;
       resolved.current = true;
+      loading.abort();
+      section.dataset.loading = 'complete';
+      root.dataset.apnLoading = 'complete';
+      removeInterruptions();
       animations.forEach(animation => animation.cancel());
       clearStrokeStyles();
       section.dataset.opening = 'complete';
@@ -98,14 +109,37 @@ export function Opening() {
         path.style.removeProperty('stroke-dasharray');
       }).catch(() => {});
     }
-    animate(mark, [{transform:`translate(${left - bounds.left}px,${top - bounds.top}px) scale(${width / bounds.width})`}, {transform:'translate(0,0) scale(1)'}], {delay:1930,duration:700,easing:'cubic-bezier(.65,0,.2,1)'});
-    animate(section.querySelector('.opening-portrait'), [{clipPath:'inset(0 0 100% 0)',transform:'translateY(24px)'},{clipPath:'inset(0)',transform:'translateY(0)'}], {delay:2020,duration:720,easing:'cubic-bezier(.4,0,.2,1)'});
-    for (const selector of ['.opening-name','.opening-narration','.opening-context']) animate(section.querySelector(selector), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {delay:2070,duration:700,easing:'cubic-bezier(.2,.7,.2,1)'});
-    const last = animate(section.querySelector('.opening-portrait img'), [{transform:'scale(1.045)'},{transform:'scale(1)'}], {delay:2020,duration:900,easing:'cubic-bezier(.2,.7,.2,1)'});
+    // Handwriting runs immediately. The transfer and introduction wait for actual page readiness.
+    const handoffAnimations: Animation[] = [];
+    const hold = (animation: Animation | null) => {
+      if (animation) { animation.pause(); animation.currentTime = 0; handoffAnimations.push(animation); }
+      return animation;
+    };
+    const handoff = { delay:1770, duration:600 };
+    const introductionAt = handoff.delay + handoff.duration + 80;
+    hold(animate(mark, [{transform:`translate(${left - bounds.left}px,${top - bounds.top}px) scale(${width / bounds.width})`}, {transform:'translate(0,0) scale(1)'}], {...handoff,easing:'cubic-bezier(.65,0,.2,1)'}));
+    // Keep the complete silhouette together, with no animated crop or image zoom.
+    // The introduction stays hidden until the signature has reached the header.
+    hold(animate(section.querySelector('.opening-portrait'), [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {delay:introductionAt,duration:600,easing:'cubic-bezier(.2,.7,.2,1)'}));
+    for (const selector of ['.opening-name','.opening-context']) hold(animate(section.querySelector(selector), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {delay:introductionAt,duration:600,easing:'cubic-bezier(.2,.7,.2,1)'}));
+    const last = hold(animate(section.querySelector('.opening-narration'), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {delay:introductionAt + 80,duration:600,easing:'cubic-bezier(.2,.7,.2,1)'}));
     void last?.finished.then(finish).catch(() => {});
+    void waitForPortfolio(loading.signal).then(result => {
+      if (!active || result === 'aborted') return;
+      section.dataset.loading = result;
+      root.dataset.apnLoading = result;
+      // Preserve the original timing on a warm load; a slow load holds the written mark centrally.
+      const time = Math.min(performance.now() - startedAt, handoff.delay);
+      handoffAnimations.forEach(animation => { animation.currentTime = time; animation.play(); });
+    });
     const key = (event: KeyboardEvent) => { if (['Escape','ArrowDown','PageDown','End',' '].includes(event.key)) finish(); };
     const focus = (event: FocusEvent) => { if (!(event.target instanceof Element) || !event.target.closest('.skip-opening')) finish(); };
     const hidden = () => { if (document.hidden) finish(); };
+    removeInterruptions = () => {
+      window.removeEventListener('wheel',finish); window.removeEventListener('touchmove',finish);
+      window.removeEventListener('resize',finish); window.removeEventListener('hashchange',finish); window.removeEventListener('pagehide',finish);
+      document.removeEventListener('keydown',key); document.removeEventListener('focusin',focus); document.removeEventListener('visibilitychange',hidden);
+    };
     window.addEventListener('wheel',finish,{passive:true});
     window.addEventListener('touchmove',finish,{passive:true});
     window.addEventListener('resize',finish);
@@ -118,13 +152,14 @@ export function Opening() {
     releasePending('ready');
     return () => {
       active = false;
+      loading.abort();
+      root.dataset.apnLoading = 'complete';
+      section.dataset.loading = 'complete';
       animations.forEach(animation => animation.cancel());
       clearStrokeStyles();
       section.dataset.opening = 'complete';
       releasePending();
-      window.removeEventListener('wheel',finish); window.removeEventListener('touchmove',finish);
-      window.removeEventListener('resize',finish); window.removeEventListener('hashchange',finish); window.removeEventListener('pagehide',finish);
-      document.removeEventListener('keydown',key); document.removeEventListener('focusin',focus); document.removeEventListener('visibilitychange',hidden);
+      removeInterruptions();
     };
   }, [reduced]);
 
@@ -133,6 +168,7 @@ export function Opening() {
     <div className="opening-name" aria-hidden="true">ABRAHAM</div>
     <figure className="opening-portrait"><img src="/assets/abraham.png" width="408" height="612" alt="Portrait of Abraham Naiborhu" loading="eager" /></figure>
     <div className="opening-narration"><h1 id="hero-title">I like making things<br /><em>work together.</em></h1><div className="opening-actions"><a href="#work">View Engineering Work <ArrowIcon direction="down-right" /></a><a href={profile.resume}>View Resume <ArrowIcon /></a><a href="#contact">Contact me <ArrowIcon /></a></div></div>
+    <p className="opening-load-status" role="status">Preparing portfolio…</p>
     <button type="button" className="skip-opening" hidden={!playing} onClick={() => finishRef.current()}>Skip opening <ArrowIcon /></button>
   </section>;
 }

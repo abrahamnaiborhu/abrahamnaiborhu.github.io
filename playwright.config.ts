@@ -6,7 +6,7 @@ export default defineConfig({
   reporter: 'list',
   use: { baseURL: 'http://127.0.0.1:4174', ...(process.env.CROSS_BROWSER === '1' ? {} : { channel: 'chrome' }) },
   ...(process.env.CROSS_BROWSER === '1' ? {
-    testMatch: ['**/accessibility.spec.ts', '**/compatibility.spec.ts', '**/apn.spec.ts'],
+    testMatch: ['**/accessibility.spec.ts', '**/compatibility.spec.ts', '**/apn.spec.ts', '**/loading.spec.ts', '**/handoff.spec.ts'],
     projects: [
       { name: 'chrome', use: { browserName: 'chromium' as const, channel: 'chrome' } },
       { name: 'firefox', use: { browserName: 'firefox' as const } },

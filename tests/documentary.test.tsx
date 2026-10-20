@@ -50,8 +50,8 @@ test('failure and recovery scenes ship complete still frames, captions and accou
   for (const text_ of [
     'I build applications that keep working when part of them',
     'Each door keeps its own copy of who may enter',
-    'Over WebSocket, every screen follows the moment it changes',
-    'One payment, exactly one account',
+    'I chose WebSocket',
+    'Exactly one account',
     'When something broke, it simply broke',
     'One problem is still open',
     'key override',
@@ -61,7 +61,7 @@ test('failure and recovery scenes ship complete still frames, captions and accou
   ]) assert.ok(text.includes(text_), text_);
   for (const id of ['sattabi', 'avad', 'glinsta']) {
     const scene = html.slice(html.indexOf(`id="${id}"`), html.indexOf(`id="${id}-account"`));
-    assert.equal((scene.match(/class="scene-svg"/g) ?? []).length, 4, `${id}: live drawing plus three still frames`);
+    assert.equal((scene.match(/class="scene-svg"/g) ?? []).length, 4, `${id}: live drawing plus its settled story frames`);
     assert.ok(scene.includes('class="scene-still"'), `${id}: still frames are server-rendered`);
   }
   assert.ok(!html.includes('project-motion'), 'Looping illustrations and their pause control are retired');

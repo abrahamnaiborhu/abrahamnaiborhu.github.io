@@ -63,7 +63,7 @@ export function Applications() {
         scene={glinstaScene}
         product="Glinsta · Google Workspace for business"
         role="Full-stack developer."
-        next={{ href: "#perspective", label: "the starting point" }}
+        next={{ href: "#behind-the-application", label: "what runs behind the app" }}
         site={{ href: "https://glinsta.com/", name: "Glinsta" }}
         account={{
           product:
@@ -93,9 +93,18 @@ export function Perspective() {
         <span>The starting point</span>
         <span>On premises · Development and staging</span>
       </div>
-      <h2 id="perspective-title" className="sr-only">
-        The starting point: why I built the platform
-      </h2>
+      <div className="perspective-bridge">
+        <div className="narration">
+          <h2 id="perspective-title">
+            The team needed<br />
+            <em>a better way to ship.</em>
+          </h2>
+        </div>
+        <p>
+          Every application meant another manual deployment. I wanted to give the team a shared
+          way to deploy and understand their applications, starting with development and staging.
+        </p>
+      </div>
       <div ref={track} className="scene-track" data-mode="static">
         <div className="scene-stage" data-scrub-stage>
           <div className="scene-grid starting-grid">

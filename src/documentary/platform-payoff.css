@@ -1,0 +1,52 @@
+/* Platform chapter: an editorial transformation, with a complete static workflow beneath it. */
+.platform-payoff {display:none;position:relative;isolation:isolate;min-height:0;}
+.platform-payoff svg {display:block;width:100%;height:100%;overflow:visible;color:#eee;position:relative;z-index:1;}
+.platform-payoff .payoff-paper {fill:#1b1e1c;stroke:#eee;stroke-width:2;}
+.platform-payoff .payoff-line {fill:none;stroke:#eee;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.platform-payoff .payoff-muted {fill:none;stroke:#666;stroke-width:2;}
+.platform-payoff .payoff-label {fill:#eee;font:14px Arial,sans-serif;letter-spacing:1.5px;}
+.platform-payoff .payoff-code {fill:#eee;font:20px ui-monospace,monospace;}
+.platform-payoff .payoff-ink {fill:#eee;}
+.platform-payoff .payoff-version {fill:#171b18;font:12px ui-monospace,monospace;letter-spacing:.4px;}
+.platform-payoff .payoff-trace {stroke-width:3;}
+.payoff-words {position:absolute;inset:0;display:grid;align-items:center;pointer-events:none;overflow:hidden;}
+.payoff-words span {grid-area:1/1;font:900 clamp(110px,19vw,260px)/.8 Arial,sans-serif;letter-spacing:-.08em;text-align:center;color:#303832;opacity:0;}
+.payoff-scope {position:absolute;bottom:0;inset-inline:0;display:flex;justify-content:center;gap:36px;opacity:0;z-index:2;background:#171b18;font-size:13px;}
+.payoff-scope span {display:flex;align-items:baseline;gap:8px;}
+.payoff-scope strong {font:500 32px/1 Arial,sans-serif;letter-spacing:-1px;}
+.platform-phase-controls {display:flex;gap:8px;justify-content:center;}
+.platform-phase-controls[hidden] {display:none;}
+.platform-phase-controls button {font:12px Arial,sans-serif;color:inherit;min-width:48px;min-height:44px;border:0;border-bottom:1px solid #60675f;background:transparent;cursor:pointer;padding:6px 12px;}
+.platform-phase-controls button[aria-pressed=true] {border-color:#eee;background:#ffffff0a;}
+.platform-phase-controls button:focus-visible {outline:2px solid currentColor;outline-offset:3px;}
+.platform-film[data-motion=true] .platform-payoff {display:block;height:clamp(220px,40svh,380px);}
+.platform-film[data-motion=true] .platform-static-drawing,
+.platform-film[data-motion=true] .platform-mobile-flow,
+.platform-film[data-motion=true] .platform-story figcaption {display:none;}
+.platform-film[data-motion=true] .platform-explanation {display:none;}
+.platform-film[data-motion=true] .platform-notes {display:grid;list-style:none;padding:0;margin:0;min-height:66px;max-width:70ch;}
+.platform-film[data-motion=true] .platform-notes li {grid-area:1/1;opacity:0;margin:0;display:block;transition:none;font-size:16px;line-height:1.4;}
+.platform-film[data-step=source] [data-note=source],.platform-film[data-step=build] [data-note=build],.platform-film[data-step=config] [data-note=config],.platform-film[data-step=runtime] [data-note=runtime],.platform-film[data-step=complete] [data-note=complete] {opacity:1;}
+.platform-film[data-scroll=true] {height:400svh;}
+.platform-film[data-scroll=true] .platform-stage {display:grid;grid-template-rows:auto minmax(0,1fr) auto auto auto;gap:12px;padding:24px 0;justify-content:initial;}
+.platform-film[data-scroll=true] .platform-story {display:grid;min-height:0;margin:0;}
+.platform-film[data-scroll=true] .platform-payoff {height:100%;min-height:0;}
+.platform-film[data-scroll=true] .platform-payoff svg {max-height:100%;}
+.platform-film[data-scroll=true] .platform-stage-actions {margin:0;}
+.platform-film[data-scroll=true] .platform-stage-heading h3 {font-size:clamp(26px,3.3vw,44px);}
+.platform-film[data-scroll=true] .platform-stage-heading .eyebrow {font-size:11px;margin-bottom:8px;letter-spacing:1.2px;}
+@media(max-width:999px) {
+  .platform-film[data-motion=true] .platform-story {margin:0;}
+  .platform-film[data-scroll=true] .platform-stage {gap:8px;padding:16px 0;}
+  .platform-film[data-scroll=true] .platform-stage-heading h3 {font-size:26px;}
+  .platform-film[data-motion=true] .platform-notes {min-height:78px;}
+  .platform-film[data-motion=true] .platform-notes li {font-size:15px;}
+  .platform-phase-controls {justify-content:space-between;gap:4px;}
+  .platform-phase-controls button {padding:6px;min-width:44px;}
+  .platform-film[data-scroll=true] .platform-stage-actions {margin-bottom:0;}
+  .platform-film[data-scroll=true] .workflow-progress {width:54px;flex-shrink:0;}
+  .platform-stage-actions a {font-size:12px;}
+  .payoff-scope {gap:16px;font-size:12px;}
+  .payoff-scope strong {font-size:26px;}
+}
+@media(prefers-reduced-motion:reduce) {.payoff-words span {transition:none;}}

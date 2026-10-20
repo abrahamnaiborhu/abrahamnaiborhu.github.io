@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('APN entrance settles, can be skipped, and does not repeat on a return', async ({ page }) => {
+test('APN entrance settles, can be skipped, and replays its loading gate on reload', async ({ page }) => {
   await page.emulateMedia({ reducedMotion:'no-preference' });
   await page.goto('/');
   await expect(page.locator('.opening')).toHaveAttribute('data-opening','playing');
@@ -9,6 +9,8 @@ test('APN entrance settles, can be skipped, and does not repeat on a return', as
   await expect(page.locator('h1')).toHaveText('I like making thingswork together.');
   expect(await page.locator('.opening').evaluate(el => el.getAnimations({subtree:true}).length)).toBe(0);
   await page.reload();
+  await expect(page.locator('.opening')).toHaveAttribute('data-opening','playing');
+  await page.getByRole('button',{name:'Skip opening'}).click();
   await expect(page.locator('.opening')).toHaveAttribute('data-opening','complete');
   await expect(page.getByRole('button',{name:'Skip opening'})).not.toBeVisible();
 });
@@ -48,7 +50,9 @@ test('scroll scrubs each pinned scene forward and backward, holds when stopped a
     await page.setViewportSize({width,height});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/#work');
     for(const [id,states] of [['sattabi',['start','fail','recover']],['avad',['start','fail','recover']],['glinsta',['start','fail','recover']],['perspective',['start','change','settled']]] as const) {
       const track=page.locator(`#${id} .scene-track`);await expect(track).toHaveAttribute('data-mode','pin');
-      for(const [p,state] of [[0.1,states[0]],[0.5,states[1]],[0.95,states[2]],[0.5,states[1]],[0.1,states[0]]] as const) { await scrubTo(page,id,p);await expect(track).toHaveAttribute('data-state',state); }
+      const failure = .5;
+      const recovery = .95;
+      for(const [p,state] of [[0.1,states[0]],[failure,states[1]],[recovery,states[2]],[failure,states[1]],[0.1,states[0]]] as const) { await scrubTo(page,id,p);await expect(track).toHaveAttribute('data-state',state); }
       const stage=track.locator('[data-scrub-stage]');expect(Math.round((await stage.boundingBox())!.y)).toBe(Math.round(await page.locator('header').evaluate(el=>el.getBoundingClientRect().height)));
       await scrubTo(page,id,0.5);await page.waitForTimeout(700);const held=await track.getAttribute('style');await page.waitForTimeout(300);expect(await track.getAttribute('style')).toBe(held);
       await expect(track.locator('.scene-caption')).toHaveText(/./);
@@ -57,22 +61,50 @@ test('scroll scrubs each pinned scene forward and backward, holds when stopped a
   }
 });
 
-test('phones follow the scene with natural scrolling; reduced motion shows complete still frames', async ({ page }) => {
+test('phones pin product films; reduced motion shows complete still frames', async ({ page }) => {
   await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/#work');
-  const track=page.locator('#sattabi .scene-track');await expect(track).toHaveAttribute('data-mode','flow');
-  expect(await track.locator('[data-scrub-stage]').evaluate(el=>getComputedStyle(el).position)).toBe('static');
-  await expect(page.locator('#sattabi .scene-foot')).toBeHidden();
+  const track=page.locator('#sattabi .scene-track');await expect(track).toHaveAttribute('data-mode','pin');
+  expect(await track.locator('[data-scrub-stage]').evaluate(el=>getComputedStyle(el).position)).toBe('sticky');
+  await expect(page.locator('#sattabi .scene-foot')).toBeVisible();
   await page.emulateMedia({reducedMotion:'reduce'});
   await expect(track).toBeHidden();await expect(page.locator('#sattabi .scene-still')).toBeVisible();
   await expect(page.locator('#sattabi .scene-still .scene-frame-caption')).toHaveCount(3);
   await page.emulateMedia({reducedMotion:'no-preference'});await expect(track).toBeVisible();
-  const steps=page.locator('#team .platform-mobile-flow li');
-  await steps.first().evaluate(el=>scrollTo(0,el.getBoundingClientRect().top+scrollY-innerHeight*0.5));
-  await expect(steps.first()).toHaveAttribute('data-on','');await expect(steps.last()).not.toHaveAttribute('data-on','');
-  await steps.last().evaluate(el=>scrollTo(0,el.getBoundingClientRect().top+scrollY-innerHeight*0.5));
-  await expect(steps.last()).toHaveAttribute('data-on','');
-  await steps.first().evaluate(el=>scrollTo(0,el.getBoundingClientRect().top+scrollY-innerHeight*0.9));
-  await expect(steps.first()).not.toHaveAttribute('data-on','');
+  await expect(page.locator('#team .platform-payoff')).toBeVisible();
+  await page.locator('[data-platform-seek]').first().click();
+  await expect(page.locator('.platform-film')).toHaveAttribute('data-step','source');
+  await page.locator('[data-platform-seek]').last().click();
+  await expect(page.locator('.platform-film')).toHaveAttribute('data-step','complete');
+});
+
+test('phone project scenes keep the drawing and its current explanation together', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion:'no-preference' });
+  for (const [width, height] of [[360,640], [390,844]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto('/#work');
+    for (const id of ['sattabi', 'avad']) {
+      const track = page.locator(`#${id} .scene-track`);
+      await expect(track).toHaveAttribute('data-mode', 'pin');
+      const art = track.locator('[data-scrub-art]');
+      const caption = track.locator('.scene-caption');
+      const headingBox = (await track.locator('.scene-product').boundingBox())!;
+      const artBox = (await art.boundingBox())!;
+      const captionBox = (await caption.boundingBox())!;
+      expect(headingBox.y + headingBox.height).toBeLessThanOrEqual(artBox.y);
+      expect(captionBox.y - artBox.y - artBox.height).toBeLessThanOrEqual(24);
+      for (const [progress, state] of [[0.1,'start'],[0.5,'fail'],[0.95,'recover'],[0.5,'fail']] as const) {
+        await scrubTo(page,id,progress);
+        await expect(track).toHaveAttribute('data-state', state);
+        await expect(track.locator('[data-scrub-caption][data-on]')).toHaveCSS('opacity', '1');
+        const drawing = (await art.boundingBox())!;
+        const explanation = (await caption.boundingBox())!;
+        const headerHeight = await page.locator('header').evaluate(el => el.getBoundingClientRect().height);
+        expect(drawing.y).toBeGreaterThanOrEqual(headerHeight);
+        expect(explanation.y + explanation.height).toBeLessThanOrEqual(height);
+      }
+      await page.screenshot({ path:testInfo.outputPath(`${id}-${width}.png`) });
+    }
+  }
 });
 
 test('enabling motion does not replay a completed reduced-motion entrance', async ({ page }) => {
@@ -104,11 +136,11 @@ test('native motion cleans up across Strict Mode remounts and resize after unmou
   expect(errors).toEqual([]);
 });
 
-test('desktop keeps each drawing beside its caption while phones put the drawing first', async ({ page }) => {
+test('desktop keeps each drawing beside its caption while phones put the drawing above its caption', async ({ page }) => {
   await page.emulateMedia({reducedMotion:'no-preference'});
   for(const width of [1440,390]) {
     await page.setViewportSize({width,height:1000});await page.goto('/#work');
-    for(const [copySelector,evidenceSelector] of [['#sattabi .scene-copy','#sattabi [data-scrub-art]'],['#glinsta .scene-copy','#glinsta [data-scrub-art]']]) {
+    for(const [copySelector,evidenceSelector] of [['#sattabi .scene-caption','#sattabi [data-scrub-art]'],['#glinsta .scene-caption','#glinsta [data-scrub-art]']]) {
       await page.locator(copySelector).scrollIntoViewIfNeeded();
       const copy=await page.locator(copySelector).boundingBox();const evidence=await page.locator(evidenceSelector).boundingBox();
       expect(copy).not.toBeNull();expect(evidence).not.toBeNull();
@@ -120,13 +152,18 @@ test('desktop keeps each drawing beside its caption while phones put the drawing
   }
 });
 
-test('below the pinned layout one readable platform workflow is shown, with or without motion and JS', async ({ browser }) => {
+test('phones animate the platform while static preferences retain one readable workflow', async ({ browser }) => {
   for(const [width,height] of [[360,640],[390,844],[768,1024],[999,800]]) for(const javaScriptEnabled of [true,false]) for(const reducedMotion of ['no-preference','reduce'] as const) {
     const context=await browser.newContext({javaScriptEnabled,reducedMotion,viewport:{width,height}});const page=await context.newPage();
     await page.goto('/#team');
     const label=`${width}x${height} JS ${javaScriptEnabled} ${reducedMotion}`;
-    await expect(page.locator('#team .platform-mobile-flow'),label).toBeVisible();
-    await expect(page.locator('#team .platform-story svg'),label).toBeHidden();
+    if(javaScriptEnabled && reducedMotion === 'no-preference') {
+      await expect(page.locator('#team .platform-payoff'),label).toBeVisible();
+      await expect(page.locator('#team .platform-mobile-flow'),label).toBeHidden();
+    } else {
+      await expect(page.locator('#team .platform-mobile-flow'),label).toBeVisible();
+      await expect(page.locator('#team .platform-payoff'),label).toBeHidden();
+    }
     await context.close();
   }
 });
@@ -152,6 +189,7 @@ test('captions change without moving the surrounding copy in pinned scenes', asy
   for(const [width,height] of [[1440,900],[1024,600]]) {
     await page.setViewportSize({width,height});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/#work');
     for(const id of ['sattabi','avad','glinsta','perspective']) {
+      await expect(page.locator(`#${id} .scene-track`)).toHaveAttribute('data-mode','pin');
       const positions:string[]=[];
       for(const p of [0.1,0.5,0.95]) {
         await scrubTo(page,id,p);await page.waitForTimeout(500);

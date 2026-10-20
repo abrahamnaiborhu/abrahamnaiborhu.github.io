@@ -1,5 +1,75 @@
 import { expect, test } from '@playwright/test';
 
+test('APN settles before the introduction and the portrait reveals as a whole', async ({ page }, testInfo) => {
+  for (const [width, height] of [[390, 700], [1280, 720], [1440, 900]]) {
+    await page.setViewportSize({ width, height });
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/');
+    await expect(page.locator('.opening')).toHaveAttribute('data-opening', 'playing');
+    await expect(page.locator('.opening')).toHaveAttribute('data-loading', 'ready');
+    const seek = async (time: number) => {
+      await page.evaluate(time => document.getAnimations().forEach(animation => {
+        animation.pause();
+        animation.currentTime = time;
+      }), time);
+    };
+    await seek(2200);
+    for (const selector of ['.opening-context', '.opening-name', '.opening-narration', '.opening-portrait']) {
+      await expect(page.locator(selector)).toHaveCSS('opacity', '0');
+    }
+    await seek(2400);
+    await expect(page.locator('.identity .apn-mark')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+    await expect(page.locator('.opening-portrait')).toHaveCSS('opacity', '0');
+    await seek(2700);
+    const portrait = page.locator('.opening-portrait');
+    await expect(portrait).toHaveCSS('clip-path', 'none');
+    const opacity = await portrait.evaluate(el => Number(getComputedStyle(el).opacity));
+    expect(opacity).toBeGreaterThan(0);
+    expect(opacity).toBeLessThan(1);
+    await page.screenshot({ path: testInfo.outputPath(`reveal-${width}.png`) });
+    await page.getByRole('button', { name: 'Skip opening' }).click();
+    await expect(portrait).toHaveCSS('opacity', '1');
+    await page.evaluate(() => sessionStorage.removeItem('apn-opening-seen'));
+  }
+});
+
+test('opening releases interruption listeners on completion, skip and interruption', async ({ browser }) => {
+  for (const ending of ['complete', 'skip', 'escape', 'resize', 'reduced'] as const) {
+    const context = await browser.newContext({ reducedMotion: 'no-preference' });
+    await context.addInitScript(() => {
+      const listeners = new Set<EventListenerOrEventListenerObject>();
+      const add = window.addEventListener.bind(window);
+      const remove = window.removeEventListener.bind(window);
+      window.addEventListener = (type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | AddEventListenerOptions) => {
+        // The unfolding scene owns separate signal-based wheel controls. Track the opening's
+        // explicitly removed listeners, including its pre-paint reservation.
+        const signalled = typeof options === 'object' && Boolean(options.signal);
+        if (type === 'wheel' && listener && !signalled) listeners.add(listener);
+        if (listener) add(type, listener, options);
+      };
+      window.removeEventListener = (type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | EventListenerOptions) => {
+        if (type === 'wheel' && listener) listeners.delete(listener);
+        if (listener) remove(type, listener, options);
+      };
+      Object.defineProperty(window, '__openingWheelListeners', { get: () => listeners.size });
+    });
+    const page = await context.newPage();
+    try {
+      await page.goto('/');
+      await expect(page.locator('.opening')).toHaveAttribute('data-opening', 'playing');
+      const listenerCount = () => page.evaluate(() => Reflect.get(window, '__openingWheelListeners') as number);
+      expect(await listenerCount(), ending).toBe(1);
+      if (ending === 'skip') await page.getByRole('button', { name: 'Skip opening' }).click();
+      if (ending === 'escape') await page.keyboard.press('Escape');
+      if (ending === 'resize') await page.setViewportSize({ width: 390, height: 700 });
+      if (ending === 'reduced') await page.emulateMedia({ reducedMotion: 'reduce' });
+      await expect(page.locator('.opening')).toHaveAttribute('data-opening', 'complete');
+      await expect.poll(listenerCount, { message: ending }).toBe(0);
+      expect(await page.locator('.apn-mark').evaluate(el => el.getAnimations({ subtree: true }).length)).toBe(0);
+    } finally { await context.close(); }
+  }
+});
+
 test('first paint stays in the opening state while the application scripts load', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   let release!: () => void;
@@ -63,6 +133,7 @@ test('the P bowl paints during handwriting and the opening cleans up its strokes
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   await expect(page.locator('.opening')).toHaveAttribute('data-opening', 'playing');
+  await expect(page.locator('.opening')).toHaveAttribute('data-loading', 'ready');
   // Inspect an actual rendered handwriting frame, before any introduction text appears.
   await page.evaluate(() => {
     for (const animation of document.getAnimations()) {
