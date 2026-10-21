@@ -5,9 +5,10 @@ test('career and credentials remain complete and readable without motion or Java
     const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width, height: 1000 } });
     const page = await context.newPage();
     await page.goto('http://127.0.0.1:4174/#experience');
+    await page.locator('#career-responsibilities summary').click();
     await expect(page.locator('.career-timeline > li')).toHaveCount(4);
-    await expect(page.locator('.career-timeline h3').first()).toHaveText('Application Engineer');
-    await expect(page.locator('.career-timeline time').last()).toHaveAttribute('datetime', '2023-11');
+    await expect(page.locator('.career-timeline h3').first()).toHaveText('Software Engineer Intern');
+    await expect(page.locator('.career-timeline time').last()).toHaveAttribute('datetime', '2025-09');
     const certifications = page.locator('#certifications');
     await expect(certifications.getByRole('heading', { level: 3 })).toHaveCount(4);
     await expect(certifications.getByRole('link')).toHaveCount(5);

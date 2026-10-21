@@ -50,3 +50,23 @@ test('whole site stays usable across narrow, short, tablet and large viewports',
  expect(errors,'runtime errors').toEqual([]);
  expect(findings,'responsive findings').toEqual([]);
 });
+
+test('touch-sized navigation, chapter controls and resume remain usable',async({browser})=>{
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ const page=await context.newPage();await page.goto('/#home');
+ await page.getByText('Menu',{exact:true}).tap();
+ await page.getByRole('dialog',{name:'Navigation'}).getByRole('link',{name:'Work',exact:true}).tap();
+ await expect(page).toHaveURL(/#work$/);
+ await page.locator('#sattabi [data-scene-seek]').last().tap();
+ await expect(page.locator('#sattabi .scene-track')).toHaveAttribute('data-state','recover');
+ await page.locator('#sattabi .scene-foot a').tap();await expect(page).toHaveURL(/#avad$/);
+ await page.setViewportSize({width:844,height:390});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ await context.close();
+ for(const [width,height] of [[320,568],[1024,600],[2560,1440]]){
+  const c=await browser.newContext({viewport:{width,height}});const p=await c.newPage();await p.goto('/resume.html');
+  await expect(p.getByRole('heading',{level:1})).toHaveText('Abraham Naiborhu');
+  expect(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+  await expect(p.getByRole('link',{name:'Download Resume (PDF)'})).toBeVisible();await c.close();
+ }
+});

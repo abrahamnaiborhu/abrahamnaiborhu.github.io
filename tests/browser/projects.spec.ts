@@ -5,7 +5,8 @@ for (const width of [390, 768, 1440]) {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 1000 } });
     const page = await context.newPage();
     await page.goto('http://127.0.0.1:4174/#work');
-    const project = page.getByRole('article', { name: 'GCP Terraform Foundation' });
+    const project = page.locator('#foundation-notes');
+    await project.locator('summary').click();
     await expect(project).toBeVisible();
     await expect(project.getByText(/Object versioning.*remote state/)).toBeVisible();
     const repository = project.getByRole('link', { name: 'View repository' });
@@ -25,7 +26,7 @@ test('employer products have contribution credits, real destinations and origina
   await expect(page.locator('#work .scene-still svg[role="img"]')).toHaveCount(9);
   await expect(page.locator('#work .scene-track')).toHaveCount(3);
   for (const track of await page.locator('#work .scene-track').all()) await expect(track).toBeHidden();
-  await expect(page.locator('#work')).toContainText('Employer-owned products');
+  await expect(page.locator('#work .attribution-line')).toContainText('end-to-end engineering');
   await expect(page.locator('#work')).toContainText('deployment and monitoring');
 });
 
@@ -48,9 +49,11 @@ test('new case studies preserve semantic diagrams and evidence at mobile and des
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/');
     for (const [id, title] of [['delivery', 'Keyless CI/CD on Google Cloud'], ['platform', 'Production-Lite GCP Web Platform']]) {
-      const project = page.getByRole('article', { name: title });
+      await expect(page.getByRole('article',{name:title}).getByRole('heading',{level:3})).toBeVisible();
+      const project=page.locator(`#${id}-notes`);
+      await project.locator('summary').click();
       await expect(project.getByRole('link', { name: 'View repository' })).toHaveAttribute('href', 'https://github.com/abrahamnaiborhu/terraform-gcp-production-lite-web-platform');
-      await expect(project.getByRole('heading',{level:3})).toBeVisible();
+      await expect(project.locator('summary')).toHaveText(title);
       await expect(project.locator('ul li')).toHaveCount(3);
       await project.screenshot({ path: `docs/rebuild/production-captures/sprint3-${id}-${width}.png`, style: '.navigation-shell, .skip-link { visibility: hidden; }' });
     }

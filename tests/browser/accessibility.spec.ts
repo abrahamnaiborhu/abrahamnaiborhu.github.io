@@ -74,6 +74,7 @@ test('interactive elements meet 44px minimum touch target', async ({ page }) => 
     const elements = document.querySelectorAll('a[href], button, summary, [tabindex="0"]');
     const issues: string[] = [];
     elements.forEach(el => {
+      if(el.closest('[inert]') || !(el as HTMLElement).checkVisibility())return;
       const rect = (el as HTMLElement).getBoundingClientRect();
       if (rect.width === 0 && rect.height === 0) return; // hidden elements
       if (rect.height < 44 || rect.width < 44) {
@@ -145,7 +146,9 @@ test('visible link labels remain in accessible names and underlines stay continu
   await expect(page.getByRole('link', { name: /^View credential:/ })).toHaveCount(4);
   await expect(page.locator('.writing-row').first()).toHaveAccessibleName(/Terraform Drift Detection.*Terraform.*Google Cloud/);
 
-  const link = page.getByRole('link', { name: 'View repository' }).first();
+  const notes=page.locator('#foundation-notes');
+  await notes.locator('summary').click();
+  const link = notes.getByRole('link', { name: 'View repository' });
   await link.scrollIntoViewIfNeeded();
   await expect(link).not.toHaveAttribute('data-split', 'chars');
   await expect(link.locator('.char')).toHaveCount(0);
