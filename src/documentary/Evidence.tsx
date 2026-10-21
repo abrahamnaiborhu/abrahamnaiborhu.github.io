@@ -1,8 +1,8 @@
 import { ArrowIcon } from "../components/ArrowIcon";
-import { experience } from "../rebrand/experienceData";
+import { CareerReel } from "./CareerReel";
 import { primaryCredentials, additionalCredential } from "../rebrand/credentials";
 import { articles } from "../rebrand/articles";
-import { foundation, delivery, platform } from "../rebrand/projectData";
+import { PublicEngineeringDeck } from "./PublicEngineeringDeck";
 import { capabilities } from "../rebrand/capabilities";
 import { profile } from "../rebrand/profile";
 
@@ -25,48 +25,7 @@ export function Evidence() {
         <p className="eyebrow">Public engineering work</p>
         <h2 id="cloud-title">The decisions behind the implementation.</h2>
         <p>Public cloud projects and writing provide another way to explore my work.</p>
-        <div className="cloud-projects">
-          {[foundation, delivery, platform].map((project) => (
-            <article
-              id={project.id}
-              key={project.id}
-              tabIndex={-1}
-              aria-labelledby={`${project.id}-title`}
-            >
-              <h3 id={`${project.id}-title`}>{project.title}</h3>
-              <p>{project.summary}</p>
-              <ul>
-                {project.highlights.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              {project.id === "foundation" && (
-                <p className="evidence-note">
-                  Object versioning · remote state. A reusable learning foundation, not a full
-                  landing zone.
-                </p>
-              )}
-              {project.id === "delivery" && (
-                <p className="evidence-note">
-                  PR plan is for review; apply uses a fresh plan and an approval gate.
-                </p>
-              )}
-              {project.id === "platform" && (
-                <p className="evidence-note">
-                  Outbound only through Cloud NAT; public entry is handled by the load balancer.
-                </p>
-              )}
-              <div className="evidence-links">
-                <a href={project.repository}>
-                  View repository <ArrowIcon />
-                </a>
-                <a href={project.article}>
-                  Read case study <ArrowIcon />
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+        <PublicEngineeringDeck />
       </section>
       <section id="capabilities" className="evidence-section" aria-labelledby="capabilities-title">
         <p className="eyebrow">Tools across the work</p>
@@ -91,24 +50,7 @@ export function Evidence() {
       >
         <p className="eyebrow">Experience</p>
         <h2 id="experience-title">The work that brought me here.</h2>
-        <ol className="career-timeline">
-          {experience.map((job) => (
-            <li key={job.company}>
-              <p className="career-date">
-                <time dateTime={job.start}>{job.startLabel}</time> —{" "}
-                {job.end ? <time dateTime={job.end}>{job.endLabel}</time> : job.endLabel} ·{" "}
-                {job.location}
-              </p>
-              <h3>{job.role}</h3>
-              <p className="career-company">{job.company}</p>
-              <ul>
-                {job.highlights.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
+        <CareerReel />
       </section>
       <section
         id="certifications"

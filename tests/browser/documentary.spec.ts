@@ -168,21 +168,23 @@ test('phones animate the platform while static preferences retain one readable w
   }
 });
 
-test('judgment draws the cut and sketches the fallback with scrolling, never pinned, and stays complete for reduced motion', async ({ page }) => {
-  const at=(p:number)=>page.evaluate(p=>{const t=document.querySelector('.judgment-track')!.getBoundingClientRect();scrollTo(0,t.top+scrollY-(innerHeight*0.85-p*(t.height+innerHeight*0.2)));},p);
-  const questions=()=>page.locator('#judgment [data-part^="question"]').evaluateAll(els=>els.map(el=>el.getAttribute('data-shown')).join());
-  for(const [width,height] of [[1440,900],[390,844]]) {
-    await page.setViewportSize({width,height});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/#judgment');
-    await expect(page.locator('.judgment-track')).toHaveAttribute('data-mode','flow');
-    await at(0.05);await expect.poll(questions).toBe('false,false,false');
-    await expect(page.locator('#judgment [data-part="cut"]')).toHaveAttribute('opacity','0');
-    await at(0.95);await expect.poll(questions).toBe('true,true,true');
-    await expect(page.locator('#judgment [data-part="sketch"]')).toHaveAttribute('stroke-dashoffset','0');
-    await at(0.3);await expect.poll(questions).toBe('false,false,false');
+test('judgment holds an interruption, uses the fallback, and separates platform recovery limits',async({page})=>{
+ for(const [width,height] of [[1440,900],[390,844]]) {
+  await page.setViewportSize({width,height});await page.goto('/#judgment');
+  const track=page.locator('.judgment-track');await expect(track).toHaveAttribute('data-mode','pin');
+  for(const [i,state] of ['primary','cut','continue','cut'].entries()) {
+   await track.locator('[data-scene-seek]').nth(i===3?1:i).click();await expect(track).toHaveAttribute('data-state',state);
   }
-  await page.emulateMedia({reducedMotion:'reduce'});await page.reload();
-  await expect(page.locator('.judgment-track')).toHaveAttribute('data-mode','static');
-  expect(await questions()).toBe('true,true,true');
+  await expect(track.locator('[data-part=cut]')).toHaveAttribute('opacity','1');
+  await expect(track.locator('[data-part=fallback]')).toHaveAttribute('stroke-dashoffset','1');
+  await track.locator('[data-scene-seek]').last().click();
+  await expect(track.locator('[data-part=arrival]')).toHaveAttribute('opacity','1');
+  await expect(page.locator('#judgment-decisions')).toContainText('backup and restore validation is ongoing');
+  await page.screenshot({path:`/tmp/judgment-film-${width}.png`});
+ }
+ await page.emulateMedia({reducedMotion:'reduce'});await page.reload();
+ await expect(page.locator('.judgment-track')).toBeHidden();
+ await expect(page.locator('#judgment .scene-frames li')).toHaveCount(3);
 });
 
 test('captions change without moving the surrounding copy in pinned scenes', async ({ page }) => {

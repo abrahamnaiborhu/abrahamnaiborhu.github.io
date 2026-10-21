@@ -5,7 +5,7 @@ import { sattabiScene } from "./scenes/sattabi";
 import { avadScene } from "./scenes/avad";
 import { glinstaScene } from "./scenes/glinsta";
 import { startingScene } from "./scenes/startingPoint";
-import { judgmentScene } from "./scenes/judgment";
+import { JudgmentFilm } from "./JudgmentFilm";
 
 export function Applications() {
   useScenesLive();
@@ -173,41 +173,7 @@ export function Perspective() {
   );
 }
 
-export function Judgment() {
-  const track = useScrubScene(judgmentScene);
-  const { Drawing } = judgmentScene;
-  return (
-    <section
-      id="judgment"
-      tabIndex={-1}
-      className="scene failure-scene"
-      aria-labelledby="failure-title"
-    >
-      <div className="scene-top">
-        <span>Engineering judgment</span>
-        <span>Reliability within constraints</span>
-      </div>
-      <div className="failure-heading">
-        <div className="narration">
-          <h2 id="failure-title">
-            I keep asking:
-            <br />
-            <em>what if this fails?</em>
-          </h2>
-        </div>
-        <p>
-          High availability has a cost. When the ideal design is out of reach, I still look for
-          practical fallback paths and think through recovery.
-        </p>
-      </div>
-      <div ref={track} className="judgment-track" data-mode="static">
-        <div data-scrub-stage data-scrub-art>
-          <Drawing a={judgmentScene.parts(judgmentScene.settled[2])} />
-        </div>
-      </div>
-    </section>
-  );
-}
+export function Judgment() { return <JudgmentFilm />; }
 
 export function Contact() {
   return (

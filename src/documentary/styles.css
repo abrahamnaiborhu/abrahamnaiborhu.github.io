@@ -632,3 +632,119 @@ html:not(.scenes-live) .product-film-links {display:none;}
 .product-account-count {fill:#292929;font:700 124px Arial,sans-serif;letter-spacing:-7px;}
 .product-scene .scene-track[data-mode="pin"] .scene-stage {padding:24px 4vw;}
 @media(max-width:999px) {.product-scene .scene-track[data-mode="pin"] .scene-stage {padding:16px 6vw;}}
+/* Engineering judgment: one interrupted movement, then a deliberate alternative. */
+.judgment-chapter {--chapter-inset:max(24px,6vw);}
+.judgment-film .scene-track[data-mode="pin"] {height:300svh;}
+.judgment-film .product-film-word span {font-size:clamp(80px,13vw,210px);color:#dedede;}
+.judgment-film .scene-caption {font-size:clamp(32px,3.8vw,58px);}
+.judgment-route-muted {fill:none;stroke:#aaa;stroke-width:2;stroke-linecap:round;}
+.judgment-route-live {fill:none;stroke:#252525;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+.judgment-route-cut {fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;}
+.judgment-endpoint {fill:#eee;stroke:#555;stroke-width:1.5;}
+.judgment-request {fill:#222;stroke:#eee;stroke-width:1;}
+.judgment-request-fold {fill:none;stroke:#eee;stroke-width:1;}
+.judgment-art-label {fill:#444;font:14px Arial,sans-serif;letter-spacing:1px;}
+.judgment-art-small {fill:#666;font:11px Arial,sans-serif;letter-spacing:.5px;}
+.judgment-decisions {padding:56px 0 16px;}
+.judgment-premise {font:700 clamp(30px,3.5vw,50px)/1.05 Arial,sans-serif;letter-spacing:-.045em;max-width:24ch;margin:0 0 40px;}
+.judgment-decision-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;}
+.judgment-decision-grid article {border-top:1px solid #aaa;padding-top:20px;}
+.judgment-decision-grid article>span {font:11px Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#666;}
+.judgment-decision-grid h3 {font:600 24px/1.1 Arial,sans-serif;letter-spacing:-.035em;margin:22px 0 16px;}
+.judgment-decision-grid p {font-size:15px;line-height:1.6;color:#555;}
+.judgment-next {display:inline-flex;align-items:center;min-height:44px;gap:12px;margin-top:24px;font-size:14px;}
+@media(max-width:999px) {
+ .judgment-film .scene-caption {font-size:clamp(25px,6.8vw,40px);}
+ .judgment-film .product-film-word span {font-size:80px;}
+ .judgment-decision-grid {grid-template-columns:1fr;gap:24px;}
+ .judgment-art-label {font-size:18px;}
+ .judgment-art-small {font-size:14px;}
+}
+/* Public work: a short, scroll-dealt stack with reading pauses. */
+.engineering-stack {margin-top:32px;}
+.engineering-stack-stage {position:relative;}
+.engineering-stack-canvas {position:relative;isolation:isolate;}
+.engineering-stack-canvas article {background:#fff;border:1px solid #d5d5d5;border-radius:6px;box-shadow:0 12px 30px #0000000d;padding:32px;min-width:0;margin:0 0 24px;}
+.engineering-card-top {display:flex;justify-content:space-between;gap:16px;font:11px/1.4 Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#666;}
+.engineering-stack-canvas h3 {font:700 clamp(30px,4vw,58px)/1.02 Arial,sans-serif;letter-spacing:-.05em;max-width:20ch;margin:24px 0 16px;}
+.stack-premise {font-size:15px;color:#555;margin:0 0 24px;}
+.stack-decision>span {font:10px Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;color:#777;}
+.stack-decision p {font:400 clamp(18px,2vw,25px)/1.3 Georgia,serif;max-width:48ch;margin:10px 0 24px;}
+.engineering-stack .evidence-links {font-size:13px;gap:8px 20px;}
+.engineering-stack-track[data-mode=pin] {height:280svh;position:relative;}
+.engineering-stack-track[data-mode=pin] .engineering-stack-stage {position:sticky;top:var(--nav-height,80px);height:calc(100svh - var(--nav-height,80px));}
+.engineering-stack-track:not([data-mode=static]) .engineering-stack-stage {display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:12px;padding:28px 0 16px;overflow:clip;}
+.engineering-stack-track:not([data-mode=static]) .engineering-stack-canvas {min-height:0;margin:16px 5% 38px;}
+.engineering-stack-track:not([data-mode=static]) article {position:absolute;inset:0;display:flex;flex-direction:column;margin:0;transform-origin:50% 90%;}
+.engineering-stack-track:not([data-mode=static]) article .evidence-links {margin-top:auto;}
+.engineering-stack-track[data-mode=manual] .engineering-stack-stage {height:640px;}
+.engineering-stack-controls {display:none;align-items:center;justify-content:space-between;gap:18px;}
+.engineering-stack-track:not([data-mode=static]) .engineering-stack-controls {display:flex;}
+.engineering-stack-controls button {background:none;border:0;border-bottom:1px solid #bbb;min-height:44px;font:12px Arial,sans-serif;padding:8px 0;cursor:pointer;color:inherit;}
+.engineering-stack-controls button[aria-pressed=true] {border-color:#222;}
+.engineering-stack-controls>span {font:11px Arial,sans-serif;color:#666;}
+.engineering-stack-skip {display:inline-flex;min-height:44px;align-items:center;justify-self:end;gap:8px;font-size:12px;}
+.engineering-notes {padding-top:36px;}
+.engineering-notes details {border-top:1px solid #bbb;padding:16px 0;}
+.engineering-notes summary {cursor:pointer;min-height:44px;font-size:16px;padding:10px 0;}
+.engineering-notes p,.engineering-notes li {max-width:75ch;font-size:15px;line-height:1.6;}
+.engineering-stack-controls button:focus-visible,.engineering-notes summary:focus-visible {outline:2px solid currentColor;outline-offset:4px;}
+@media(max-width:767px) {
+ .engineering-stack-track:not([data-mode=static]) .engineering-stack-stage {padding:14px 0 8px;gap:8px;}
+ .engineering-stack-track:not([data-mode=static]) .engineering-stack-canvas {margin:12px 3% 36px;}
+ .engineering-stack-canvas article {padding:20px;}
+ .engineering-card-top {font-size:9px;letter-spacing:.4px;}
+ .engineering-stack-canvas h3 {font-size:clamp(26px,7.5vw,34px);margin:20px 0 12px;}
+ .stack-premise {font-size:13px;margin-bottom:16px;}
+ .stack-decision p {font-size:17px;line-height:1.25;margin:8px 0 16px;}
+ .engineering-stack .evidence-links {font-size:11px;gap:8px 12px;}
+ .engineering-stack-controls {gap:10px;}
+ .engineering-stack-controls button {font-size:10px;}
+ .engineering-stack-controls>span {display:none;}
+ .engineering-stack-skip {font-size:11px;}
+}
+
+/* Career: one continuous chronological rail, rather than another card deck. */
+.career-reel { margin-top:48px; --career-position:0; --career-arrival:0; }
+.career-reel-stage { position:relative; }
+.career-reel-rail { display:none; }
+.career-reel-window article { padding:32px 0; border-top:1px solid #bbb; }
+.career-reel-counter,.career-reel-company { font-size:14px; color:#555; }
+.career-reel-window h3 { font:400 clamp(32px,4.3vw,64px)/1.04 Georgia,serif; letter-spacing:-.04em; margin:24px 0; max-width:15ch; }
+.career-reel-role { font-size:20px; margin:0 0 8px; }
+.career-reel-contribution { font-size:20px; line-height:1.5; max-width:42ch; }
+.career-reel-scope { display:flex; flex-wrap:wrap; gap:12px 24px; border-top:1px solid #999; padding-top:18px; }
+.career-reel-exit { display:inline-flex; align-items:center; gap:12px; min-height:44px; }
+.career-responsibilities { margin-top:32px; scroll-margin-top:100px; }
+.career-responsibilities summary { cursor:pointer; padding:20px 0; border-top:1px solid #aaa; }
+.career-reel[data-mode="pin"] { height:330svh; }
+.career-reel:not([data-mode="static"]) .career-reel-stage { display:grid; grid-template-columns:minmax(180px,.65fr) minmax(0,1.35fr); grid-template-rows:minmax(0,1fr) 48px; gap:16px 48px; height:min(760px,calc(100svh - 80px)); padding:32px 0 16px; box-sizing:border-box; }
+.career-reel[data-mode="pin"] .career-reel-stage { position:sticky; top:80px; }
+.career-reel[data-mode="manual"] .career-reel-stage { height:640px; }
+.career-reel:not([data-mode="static"]) .career-reel-rail { display:flex; flex-direction:column; justify-content:center; position:relative; }
+.career-reel-rail::before { content:''; position:absolute; right:7px; top:var(--career-line-top,0px); height:var(--career-line-height,0px); width:1px; background:#bbb; }
+.career-reel-rail button { appearance:none; border:0; background:transparent; text-align:left; color:#666; font:inherit; display:grid; grid-template-columns:1fr 16px; column-gap:8px; align-items:center; min-height:76px; padding:8px 0; cursor:pointer; position:relative; }
+.career-reel-year { font:400 32px/1 Georgia,serif; grid-column:1; }
+.career-reel-rail button > span:nth-child(2) { grid-column:1; font-size:12px; margin-top:6px; }
+.career-rail-dot { grid-column:2; grid-row:1 / span 2; width:8px; height:8px; border-radius:50%; border:1px solid #777; background:#fff; justify-self:center; }
+.career-reel-rail button[aria-pressed="true"] { color:#171b18; }
+.career-reel-rail button[data-reached="true"] .career-rail-dot { background:#171b18; }
+.career-reel:not([data-mode="static"]) .career-reel-window { position:relative; overflow:hidden; min-width:0; transform:translateX(calc(var(--career-arrival) * -12px)); }
+.career-reel:not([data-mode="static"]) .career-reel-window article { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:0 12px 0 0; border:0; }
+.career-reel:not([data-mode="static"]) .career-reel-exit { grid-column:1 / -1; justify-self:end; font-size:14px; }
+@media(max-width:767px) {
+ .career-reel:not([data-mode="static"]) .career-reel-stage { grid-template-columns:78px minmax(0,1fr); gap:12px; padding-top:16px; }
+ .career-reel-rail button { min-height:88px; grid-template-columns:1fr 12px; gap:4px; }
+ .career-reel-year { font-size:24px; }
+ .career-reel-rail button > span:nth-child(2) { font-size:10px; line-height:1.25; overflow-wrap:anywhere; }
+ .career-reel-rail::before { right:5px; }
+ .career-reel-window h3 { font-size:clamp(29px,8vw,42px); margin:16px 0; }
+ .career-reel-role { font-size:16px; }
+ .career-reel-company,.career-reel-counter { font-size:11px; line-height:1.5; }
+ .career-reel-contribution { font-size:16px; line-height:1.45; margin:16px 0; }
+ .career-reel-scope { font-size:12px; gap:8px 12px; padding-top:12px; }
+ .career-reel:not([data-mode="static"]) .career-reel-window { transform:none; }
+}
+.career-reel-rail::after { content:''; position:absolute; right:7px; top:var(--career-line-top,0px); height:var(--career-fill,0px); width:1px; background:#171b18; pointer-events:none; }
+.career-reel-rail button { z-index:1; }
+@media(max-width:767px) { .career-reel-rail::after { right:5px; } }
