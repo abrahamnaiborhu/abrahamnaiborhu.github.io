@@ -4,13 +4,16 @@ import { profile } from '../rebrand/profile';
 import { waitForPortfolio } from './portfolioReady';
 import { useReducedMotion } from '../rebrand/useReducedMotion';
 
-export function APNMark() {
-  return <svg className="apn-mark" viewBox="0 0 280 160" aria-hidden="true"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+export function AbrahamMark() {
+  return <svg className="apn-mark" data-wordmark="Abraham" viewBox="0 0 500 160" aria-hidden="true"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
     <path data-stroke="a-stem" strokeWidth="5.5" d="M18 126C32 109 40 65 57 32C60 26 64 28 65 40C68 66 77 104 88 124" />
     <path data-stroke="a-crossbar" strokeWidth="4.5" d="M28 94C46 85 67 81 87 86" />
-    <path data-stroke="p-stem" strokeWidth="5.5" d="M91 126C96 101 103 62 112 34" />
-    <path data-stroke="p-bowl" strokeWidth="5" d="M109 42C132 23 162 29 160 51C158 73 129 86 103 86" />
-    <path data-stroke="n" strokeWidth="5.5" d="M148 125C152 101 157 69 166 39C173 64 183 99 196 123C202 99 212 59 224 33" />
+    <path data-stroke="b" strokeWidth="5" d="M94 124C105 95 118 48 119 33C120 20 112 25 106 42C99 62 95 91 98 110C101 128 124 127 137 105C149 83 130 78 116 91C109 98 104 112 106 119C121 125 139 116 149 102" />
+    <path data-stroke="r" strokeWidth="5" d="M145 124L158 86C162 76 166 82 161 94C170 81 185 80 188 89C190 94 185 98 181 94" />
+    <path data-stroke="a-first" strokeWidth="5" d="M233 91C220 77 204 86 199 104C194 121 207 128 220 114L236 87L228 116C226 129 240 123 251 108" />
+    <path data-stroke="h" strokeWidth="5" d="M255 124C264 96 278 49 281 32C283 20 275 26 269 41C263 58 257 85 256 109C270 80 292 80 288 98L282 117C280 129 296 121 306 109" />
+    <path data-stroke="a-second" strokeWidth="5" d="M347 91C334 77 318 86 313 104C308 121 321 128 334 114L350 87L342 116C340 129 354 123 365 108" />
+    <path data-stroke="m" strokeWidth="5" d="M368 124L380 85C383 79 387 81 383 92L378 111C389 89 407 81 407 96L400 121C412 99 428 80 437 87C442 91 437 104 433 115C429 129 450 125 465 112" />
   </g></svg>;
 }
 
@@ -85,16 +88,16 @@ export function Opening() {
       return animation;
     };
     const bounds = mark.getBoundingClientRect();
-    const width = Math.min(innerWidth * .74, 480);
+    const width = Math.min(innerWidth * .84, 600);
     const left = (innerWidth - width) / 2;
-    const top = innerHeight * .44 - width * 160 / 280 / 2;
+    const top = innerHeight * .44 - width * mark.viewBox.baseVal.height / mark.viewBox.baseVal.width / 2;
     section.dataset.opening = 'playing';
     setPlaying(true);
-    const strokes = [['a-stem',80,390],['a-crossbar',440,180],['p-stem',590,260],['p-bowl',800,370],['n',1120,460]] as const;
+    const strokes = [['a-stem',80,390],['a-crossbar',440,160],['b',560,270],['r',790,150],['a-first',910,210],['h',1080,240],['a-second',1290,200],['m',1460,250]] as const;
     for (const [name,delay,duration] of strokes) {
       const path = mark.querySelector<SVGPathElement>(`[data-stroke="${name}"]`);
       if (!path) continue;
-      // Actual SVG lengths avoid WebKit dropping the normalized P bowl.
+      // Measured SVG lengths keep curved handwriting solid in WebKit.
       const length = Math.ceil(path.getTotalLength());
       path.style.strokeDasharray = `${length} ${length}`;
       strokePaths.push(path);
@@ -115,14 +118,23 @@ export function Opening() {
       if (animation) { animation.pause(); animation.currentTime = 0; handoffAnimations.push(animation); }
       return animation;
     };
-    const handoff = { delay:1770, duration:600 };
+    const handoff = { delay:1930, duration:600 };
     const introductionAt = handoff.delay + handoff.duration + 80;
     hold(animate(mark, [{transform:`translate(${left - bounds.left}px,${top - bounds.top}px) scale(${width / bounds.width})`}, {transform:'translate(0,0) scale(1)'}], {...handoff,easing:'cubic-bezier(.65,0,.2,1)'}));
-    // Keep the complete silhouette together, with no animated crop or image zoom.
-    // The introduction stays hidden until the signature has reached the header.
-    hold(animate(section.querySelector('.opening-portrait'), [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {delay:introductionAt,duration:600,easing:'cubic-bezier(.2,.7,.2,1)'}));
-    for (const selector of ['.opening-name','.opening-context']) hold(animate(section.querySelector(selector), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {delay:introductionAt,duration:600,easing:'cubic-bezier(.2,.7,.2,1)'}));
-    const last = hold(animate(section.querySelector('.opening-narration'), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {delay:introductionAt + 80,duration:600,easing:'cubic-bezier(.2,.7,.2,1)'}));
+    // Establish the opaque portrait first. The title crosses behind its stationary silhouette.
+    const cutIn = (selector: string, delay: number) => hold(animate(section.querySelector(selector), [{opacity:0},{opacity:1}], {delay,duration:1}));
+    cutIn('.opening-introduction', introductionAt);
+    cutIn('.opening-context', introductionAt + 220);
+    const title = section.querySelector<HTMLElement>('.opening-name');
+    if (title) {
+      const travel = innerWidth - title.getBoundingClientRect().left + 24;
+      hold(animate(title, [{transform:`translateX(${travel}px)`},{transform:'translateX(0)'}], {delay:introductionAt + 100,duration:900,easing:'cubic-bezier(.22,.8,.22,1)'}));
+    }
+    // Two clipped typographic beats reveal the existing words without moving their baselines.
+    const lines = [...section.querySelectorAll<HTMLElement>('[data-hero-line]')];
+    const lineAnimations = lines.map((line, index) => hold(animate(line, [{transform:'translateY(130%)'},{transform:'translateY(0)'}], {delay:introductionAt + 520 + index * 170,duration:index === 0 ? 540 : 620,easing:'cubic-bezier(.16,1,.3,1)'})));
+    const last = lineAnimations[lineAnimations.length - 1];
+    cutIn('.opening-actions', introductionAt + 1190);
     void last?.finished.then(finish).catch(() => {});
     void waitForPortfolio(loading.signal).then(result => {
       if (!active || result === 'aborted') return;
@@ -164,10 +176,12 @@ export function Opening() {
   }, [reduced]);
 
   return <section ref={scope} id="home" className="opening" data-opening="complete" aria-labelledby="hero-title">
-    <div className="opening-context"><p className="eyebrow">01 / A starting point</p><p>{profile.name}</p><span>{profile.role} · Jakarta</span><span>Cloud · Platform · DevOps</span></div>
-    <div className="opening-name" aria-hidden="true">ABRAHAM</div>
-    <figure className="opening-portrait"><img src="/assets/abraham.png" width="408" height="612" alt="Portrait of Abraham Naiborhu" loading="eager" /></figure>
-    <div className="opening-narration"><h1 id="hero-title">I like making things<br /><em>work together.</em></h1><div className="opening-actions"><a href="#work">View Engineering Work <ArrowIcon direction="down-right" /></a><a href={profile.resume}>View Resume <ArrowIcon /></a><a href="#contact">Contact me <ArrowIcon /></a></div></div>
+    <div className="opening-introduction">
+      <div className="opening-context"><p className="eyebrow">01 / A starting point</p><p>{profile.name}</p><span>{profile.role} · Jakarta</span><span>Cloud · Platform · DevOps</span></div>
+      <div className="opening-name" aria-hidden="true">ABRAHAM</div>
+      <figure className="opening-portrait"><img src="/assets/abraham.png" width="408" height="612" alt="Portrait of Abraham Naiborhu" loading="eager" /></figure>
+      <div className="opening-narration"><h1 id="hero-title"><span className="opening-line"><span data-hero-line>I like making things</span></span><span className="opening-line"><span data-hero-line><em>work together.</em></span></span></h1><div className="opening-actions"><a href="#work">View Engineering Work <ArrowIcon direction="down-right" /></a><a href={profile.resume}>View Resume <ArrowIcon /></a><a href="#contact">Contact me <ArrowIcon /></a></div></div>
+    </div>
     <p className="opening-load-status" role="status">Preparing portfolio…</p>
     <button type="button" className="skip-opening" hidden={!playing} onClick={() => finishRef.current()}>Skip opening <ArrowIcon /></button>
   </section>;

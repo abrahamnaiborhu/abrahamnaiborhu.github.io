@@ -1,12 +1,13 @@
 import { expect, test } from '@playwright/test';
 
-test('APN settles before the introduction and the portrait reveals as a whole', async ({ page }, testInfo) => {
-  for (const [width, height] of [[390, 700], [1280, 720], [1440, 900]]) {
+test('title sequence moves the name behind a stationary portrait and reveals the headline in two beats', async ({ page }, testInfo) => {
+  for (const [width, height] of [[390, 700], [1280, 720], [1440, 900], [1920, 1080], [2560, 1440]]) {
     await page.setViewportSize({ width, height });
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.goto('/');
     await expect(page.locator('.opening')).toHaveAttribute('data-opening', 'playing');
     await expect(page.locator('.opening')).toHaveAttribute('data-loading', 'ready');
+    await expect(page.locator('.identity .apn-mark')).toHaveAttribute('data-wordmark', 'Abraham');
     const seek = async (time: number) => {
       await page.evaluate(time => document.getAnimations().forEach(animation => {
         animation.pause();
@@ -14,21 +15,45 @@ test('APN settles before the introduction and the portrait reveals as a whole', 
       }), time);
     };
     await seek(2200);
-    for (const selector of ['.opening-context', '.opening-name', '.opening-narration', '.opening-portrait']) {
-      await expect(page.locator(selector)).toHaveCSS('opacity', '0');
-    }
-    await seek(2400);
+    const introduction = page.locator('.opening-introduction');
+    await expect(introduction).toHaveCSS('opacity', '0');
+    await expect(page.locator('.opening-name')).toHaveText('ABRAHAM');
+    await seek(2550);
     await expect(page.locator('.identity .apn-mark')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
-    await expect(page.locator('.opening-portrait')).toHaveCSS('opacity', '0');
-    await seek(2700);
+    await expect(introduction).toHaveCSS('opacity', '0');
+    const before = await page.locator('.opening-portrait').boundingBox();
+    await seek(2850);
     const portrait = page.locator('.opening-portrait');
+    await expect(portrait).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
     await expect(portrait).toHaveCSS('clip-path', 'none');
-    const opacity = await portrait.evaluate(el => Number(getComputedStyle(el).opacity));
-    expect(opacity).toBeGreaterThan(0);
-    expect(opacity).toBeLessThan(1);
-    await page.screenshot({ path: testInfo.outputPath(`reveal-${width}.png`) });
+    await expect(portrait).toHaveCSS('transform', 'none');
+    expect(await portrait.boundingBox()).toEqual(before);
+    await expect(introduction).toHaveCSS('opacity', '1');
+    const title = page.locator('.opening-name');
+    const titleX = await title.evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41);
+    expect(titleX).toBeGreaterThan(1);
+    expect(await title.evaluate(el => Number(getComputedStyle(el).zIndex))).toBeLessThan(await portrait.evaluate(el => Number(getComputedStyle(el).zIndex)));
+    const lines = page.locator('[data-hero-line]');
+    await expect(lines).toHaveCount(2);
+    await seek(3200);
+    const travel = await lines.evaluateAll(elements => elements.map(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42 / el.getBoundingClientRect().height));
+    expect(travel[0]).toBeGreaterThan(0);
+    expect(travel[0]).toBeLessThan(1.3);
+    expect(travel[1]).toBeCloseTo(1.3, 2);
+    await page.screenshot({ path: testInfo.outputPath(`headline-first-${width}.png`) });
+    await seek(3740);
+    await expect(lines.nth(0)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+    expect(await lines.nth(1).evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42)).toBeGreaterThan(0);
+    expect(await portrait.boundingBox()).toEqual(before);
+    await page.screenshot({ path: testInfo.outputPath(`headline-second-${width}.png`) });
     await page.getByRole('button', { name: 'Skip opening' }).click();
-    await expect(portrait).toHaveCSS('opacity', '1');
+    await expect(introduction).toHaveCSS('opacity', '1');
+    await expect(title).toHaveCSS('transform', 'none');
+    const photo = await portrait.boundingBox();
+    const copy = await page.locator('.opening-narration').boundingBox();
+    if (width > 900) expect(copy!.x + copy!.width).toBeLessThan(photo!.x);
+    else expect(copy!.y).toBeGreaterThanOrEqual(photo!.y + photo!.height);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => sessionStorage.removeItem('apn-opening-seen'));
   }
 });
@@ -83,7 +108,7 @@ test('first paint stays in the opening state while the application scripts load'
     await expect(page.locator('.header-resume')).toBeVisible();
     release();
     await expect(page.locator('.opening')).toHaveAttribute('data-opening', 'playing');
-    await expect(page.locator('.opening-context')).toHaveCSS('opacity', '0');
+    await expect(page.locator('.opening-introduction')).toHaveCSS('opacity', '0');
     await page.getByRole('button', { name: 'Skip opening' }).click();
     await expect(page.locator('.opening-context')).toHaveCSS('visibility', 'visible');
   } finally { release(); }
@@ -128,7 +153,7 @@ test('return visits, direct entry, reduced motion and no JavaScript paint the st
   }
 });
 
-test('the P bowl paints during handwriting and the opening cleans up its strokes', async ({ page }) => {
+test('the curved b paints during handwriting and the opening cleans up its strokes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 700 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
@@ -142,13 +167,13 @@ test('the P bowl paints during handwriting and the opening cleans up its strokes
     }
   });
   await page.waitForTimeout(80);
-  const point = await page.locator('[data-stroke="p-bowl"]').evaluate(node => {
+  const point = await page.locator('[data-stroke="b"]').evaluate(node => {
     const path = node as SVGPathElement;
-    const local = path.getPointAtLength(path.getTotalLength() * .25);
+    const local = path.getPointAtLength(path.getTotalLength() * .7);
     const screen = new DOMPoint(local.x, local.y).matrixTransform(path.getScreenCTM()!);
     return { x: screen.x, y: screen.y };
   });
-  // This region is on the curved bowl, away from the stem and neighbouring letters.
+  // Sample the curved lowercase letter, away from its ascender and neighbouring letters.
   const crop = await page.screenshot({ clip: { x: Math.floor(point.x - 4), y: Math.floor(point.y - 4), width: 8, height: 8 } });
   const painted = await page.evaluate(async data => {
     const image = new Image();
@@ -166,7 +191,7 @@ test('the P bowl paints during handwriting and the opening cleans up its strokes
     }
     return light;
   }, crop.toString('base64'));
-  expect(painted, 'The curved part of P must be painted, not only present in the DOM').toBeGreaterThan(5);
+  expect(painted, 'The curved b must be painted, not only present in the DOM').toBeGreaterThan(5);
 
   // Resume the opening and verify both temporary dashes and animation effects clear.
   await page.evaluate(() => document.getAnimations().forEach(animation => animation.play()));

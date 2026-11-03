@@ -8,7 +8,7 @@ test('APN holds for the portrait download, then hands over with scrolling unlock
     await expect(page.locator('.opening')).toHaveAttribute('data-opening','playing');
     await page.waitForTimeout(2000);
     await expect(page.locator('.opening')).toHaveAttribute('data-loading','pending');
-    await expect(page.locator('.opening-portrait')).toHaveCSS('opacity','0');
+    await expect(page.locator('.opening-introduction')).toHaveCSS('opacity','0');
     await expect(page.locator('html')).toHaveCSS('overflow','hidden');
     expect((await page.locator('.identity .apn-mark').boundingBox())!.width).toBeGreaterThan(200);
     release();

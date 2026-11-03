@@ -25,7 +25,7 @@ export function Applications() {
           I build applications that keep working when part of them <em>fails.</em>
         </h2>
         <p className="attribution-line">
-          My role: end-to-end engineering, from design and development to deployment and monitoring.
+          Employer-owned products. My role: end-to-end engineering, from design and development to deployment and monitoring.
         </p>
       </div>
       <ProductScene

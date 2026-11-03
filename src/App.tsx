@@ -1,6 +1,6 @@
 import { ArrowIcon } from './components/ArrowIcon';
 import { Navigation } from './rebrand/Navigation';
-import { APNMark, Opening } from './documentary/Opening';
+import { AbrahamMark, Opening } from './documentary/Opening';
 import { Applications, Perspective, Judgment, Contact } from './documentary/Story';
 import { Unfold } from './documentary/Unfold';
 import { Platform } from './documentary/Platform';
@@ -10,7 +10,7 @@ import { profile } from './rebrand/profile';
 export default function App() {
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
-    <Navigation brand={<><APNMark /><span className="sr-only">Abraham Naiborhu · Back to top</span></>} />
+    <Navigation brand={<><AbrahamMark /><span className="sr-only">Abraham Naiborhu · Back to top</span></>} />
     <main id="main" tabIndex={-1}>
       <Opening />
       <Applications />

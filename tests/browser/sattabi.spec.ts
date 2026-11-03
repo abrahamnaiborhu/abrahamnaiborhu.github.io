@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 
-test('Sattabi shows the contact, hinge and local fallback forward and backward',async({page})=>{
+test('Sattabi shows one tap, a cloud interruption and local door access forward and backward',async({page})=>{
  for(const [width,height] of [[360,640],[390,844],[1280,720],[1440,900]]) {
   await page.setViewportSize({width,height});await page.goto('/#sattabi');
   const track=page.locator('#sattabi .scene-track');
@@ -18,19 +18,19 @@ test('Sattabi shows the contact, hinge and local fallback forward and backward',
    await page.waitForTimeout(350);
   };
   await expect(track).toHaveAttribute('data-mode','pin');
-  for(const [p,name] of [[.11,'contact'],[.35,'first-open'],[.54,'offline'],[.74,'local'],[.94,'still-open']] as const) {
+  for(const [p,name] of [[.2,'contact'],[.46,'offline'],[.64,'local'],[.96,'open']] as const) {
    await seek(p);
    const art=track.locator('[data-scrub-art]');
    await expect(art).toBeVisible();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
-   await page.screenshot({path:`/tmp/sattabi-tactile-${width}-${name}.png`});
+   await page.screenshot({path:`/tmp/sattabi-doorway-${width}-${name}.png`});
   }
   await expect(track).toHaveAttribute('data-state','recover');
   await expect(track.locator('[data-part=local]')).toHaveAttribute('opacity','1');
   await expect(track.locator('[data-part=cut]')).toHaveAttribute('opacity','1');
   const finalDoor=await track.locator('[data-part=door]').getAttribute('d');
-  await seek(.54);await expect(track).toHaveAttribute('data-state','fail');
+  await seek(.46);await expect(track).toHaveAttribute('data-state','fail');
   await expect(track.locator('[data-part=local]')).toHaveAttribute('opacity','0');
-  await seek(.94);await expect(track.locator('[data-part=door]')).toHaveAttribute('d',finalDoor!);
+  await seek(.96);await expect(track.locator('[data-part=door]')).toHaveAttribute('d',finalDoor!);
  }
 });

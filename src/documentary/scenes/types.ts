@@ -5,6 +5,8 @@ export type Parts = Record<string, Attrs>;
 
 export interface SceneDefinition {
   id: string;
+  /** Artwork can use a portrait composition while retaining the shared film controls. */
+  viewBox?: string;
   states: readonly string[];
   /** Editorial words and direct beat controls for the product film. */
   words?: readonly string[];

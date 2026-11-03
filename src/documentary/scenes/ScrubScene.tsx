@@ -5,7 +5,7 @@ import type { SceneDefinition } from "./types";
 function SceneArt({ scene, p, label }: { scene: SceneDefinition; p: number; label: string }) {
   const { Drawing } = scene;
   return (
-    <svg className="scene-svg" viewBox="0 0 600 360" role="img" aria-label={label}>
+    <svg className="scene-svg" viewBox={scene.viewBox ?? '0 0 600 360'} role="img" aria-label={label}>
       <Drawing a={scene.parts(p)} />
     </svg>
   );

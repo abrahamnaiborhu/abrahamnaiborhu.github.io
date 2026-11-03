@@ -176,8 +176,8 @@ button { border:1px solid currentColor; color:inherit; background:transparent; p
 :focus-visible { outline:2px solid currentColor; outline-offset:5px; }
 .navigation-shell { position:fixed; inset:0 0 auto; z-index:40; background:#191d1b; color:#eee9df; }
 .site-header { min-height:80px; padding:12px max(24px,5vw); display:flex; align-items:center; gap:40px; }
-.identity { display:flex; flex-shrink:0; align-items:center; width:86px; height:50px; text-decoration:none; }
-.apn-mark { display:block; width:86px; height:50px; overflow:visible; transform-origin:0 0; }
+.identity { display:flex; flex-shrink:0; align-items:center; width:112px; height:50px; text-decoration:none; }
+.apn-mark { display:block; width:112px; height:auto; overflow:visible; transform-origin:0 0; }
 .apn-mark path { stroke-dasharray:none; stroke-dashoffset:0; }
 .desktop-navigation { display:flex; align-items:center; justify-content:center; gap:28px; margin:auto; }
 .site-header a { display:inline-flex; align-items:center; min-height:44px; font-size:14px; }
@@ -192,6 +192,7 @@ button { border:1px solid currentColor; color:inherit; background:transparent; p
 .drawer-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .drawer-note { color:#b2b7ae; font-size:14px; margin-top:32px; }
 .opening { position:relative; min-height:100svh; overflow:clip; isolation:isolate; background:#191d1b; color:#eee9df; }
+.opening-introduction { min-height:100svh; }
 .opening-context { position:absolute; z-index:3; top:15%; left:6vw; }
 .opening-context p { margin:0 0 4px; }
 .opening-context .eyebrow { color:#e6b89a; margin-bottom:16px; }
@@ -202,6 +203,8 @@ button { border:1px solid currentColor; color:inherit; background:transparent; p
 .opening-narration { position:absolute; z-index:3; left:6vw; bottom:8svh; width:44%; }
 .opening h1 { font:400 clamp(36px,3.9vw,56px)/1.12 Georgia,serif; letter-spacing:-.045em; margin:0; }
 .opening h1 em { font-weight:400; color:#e6b89a; }
+.opening-line { display:block; clip-path:inset(0 -.2em -.15em -.1em); }
+.opening-line > span { display:block; }
 .opening-actions { display:flex; flex-wrap:wrap; gap:12px 28px; margin-top:24px; }
 .opening-actions a { display:inline-flex; align-items:center; min-height:44px; font-size:14px; }
 .skip-opening { position:absolute; z-index:5; bottom:24px; right:5vw; background:#191d1b; }
@@ -282,7 +285,7 @@ button { border:1px solid currentColor; color:inherit; background:transparent; p
   .site-header { gap:24px; }
 }
 @media(max-width:900px) {
-  .opening { display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:112px 24px 48px; }
+  .opening-introduction { display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:112px 24px 48px; }
   .opening-context { position:relative; top:auto; left:auto; }
   .opening-context .eyebrow { margin-bottom:8px; }
   .opening-name { position:relative; top:auto; left:-.015em; margin-top:8px; font-size:18vw; }
@@ -535,38 +538,38 @@ html.scenes-live .judgment-reveal[data-shown="false"] { opacity:0; transform:tra
 
 /* The opening releases page scrolling once local startup assets have settled. */
 html[data-apn-loading="pending"] {overflow:hidden;}
-.opening-load-status {display:none;position:absolute;bottom:90px;left:6vw;margin:0;font-size:12px;color:#b2b7ae;z-index:5;}
+.opening-load-status {display:none;position:absolute;bottom:90px;left:6vw;margin:0;font-size:14px;color:#b2b7ae;z-index:5;}
 .opening[data-opening="playing"][data-loading="pending"] .opening-load-status {display:block;}
 
-/* Sattabi: tactile hardware, framed close for the tap and wider for its consequence. */
-#sattabi .scene-svg {background:#eeeeee;}
-.sattabi-camera {font-family:Arial,Helvetica,sans-serif;}
-.sattabi-floor {fill:none;stroke:#b0b0b0;stroke-width:1;}
-.sattabi-frame {fill:#d4d4d4;stroke:#292929;stroke-width:2.5;}
-.sattabi-opening {fill:#333333;stroke:none;}
-.sattabi-door {fill:#f4f4f4;stroke:#292929;stroke-width:2;stroke-linejoin:round;}
-.sattabi-door-inset {fill:none;stroke:#d1d1d1;stroke-width:1;}
-.sattabi-handle {fill:none;stroke:#333333;stroke-width:3;stroke-linecap:round;}
-.sattabi-hinge {fill:none;stroke:#848484;stroke-width:4;}
-.sattabi-shadow {fill:#313131;}
-.sattabi-device,.sattabi-card {fill:#f8f8f8;stroke:#292929;stroke-width:2;}
-.sattabi-screen {fill:#e4e4e4;stroke:#777777;stroke-width:1;}
-.sattabi-ink {fill:#343434;}
-.sattabi-detail {fill:none;stroke:#363636;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-.sattabi-wire {fill:none;stroke:#999999;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-.sattabi-signal {fill:none;stroke:#292929;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
-.sattabi-cut {fill:none;stroke:#343434;stroke-width:3;stroke-linecap:round;}
-.sattabi-card-shadow {fill:#171717;opacity:.14;}
-.sattabi-chip {fill:#cecece;stroke:#676767;stroke-width:1;}
-.sattabi-label {fill:#565656;font-size:14px;letter-spacing:.2px;}
-.sattabi-small {fill:#5c5c5c;font-size:14px;}
-.sattabi-offline {fill:#343434;font-size:22px;font-weight:700;letter-spacing:1px;}
-.sattabi-local-label {fill:#313131;font-size:20px;}
-@media(max-width:640px) {
- .sattabi-label,.sattabi-small {font-size:20px;}
- .sattabi-local-label {font-size:23px;}
- .sattabi-offline {font-size:26px;}
-}
+/* Sattabi: a portrait architectural elevation and one uninterrupted arrival. */
+.sattabi-architecture {font-family:Arial,Helvetica,sans-serif;}
+.sattabi-wall {fill:#dcdcdc;}
+.sattabi-wall-joint {fill:none;stroke:#c2c2c2;stroke-width:1;}
+.sattabi-floor {fill:#d1d1d1;}
+.sattabi-frame {fill:#696969;}
+.sattabi-reveal {fill:#242424;}
+.sattabi-opening,.sattabi-light {fill:#fff;}
+.sattabi-door {fill:#383838;stroke:#242424;stroke-width:1.5;stroke-linejoin:round;}
+.sattabi-door-inset {fill:none;stroke:#505050;stroke-width:1;}
+.sattabi-handle {fill:none;stroke:#e6e6e6;stroke-width:4;stroke-linecap:round;}
+.sattabi-hinge {fill:none;stroke:#919191;stroke-width:3;}
+.sattabi-threshold {fill:none;stroke:#999;stroke-width:3;}
+.sattabi-shadow {fill:#242424;}
+.sattabi-device-shadow,.sattabi-card-shadow {fill:#000;opacity:.15;}
+.sattabi-device {fill:#292929;stroke:#161616;stroke-width:1;}
+.sattabi-screen {fill:#414141;}
+.sattabi-signal {fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.sattabi-reader-slot {fill:none;stroke:#666;stroke-width:2;}
+.sattabi-reader-light {fill:none;stroke:#fff;stroke-width:2;}
+.sattabi-card {fill:#f9f9f9;stroke:#888;stroke-width:1;}
+.sattabi-chip {fill:#c5c5c5;stroke:#a2a2a2;stroke-width:.75;}
+.sattabi-card-detail {fill:none;stroke:#b3b3b3;stroke-width:1;}
+.sattabi-contact {fill:none;stroke:#575757;stroke-width:1.5;}
+.sattabi-label,.sattabi-local-label {fill:#454545;font-size:26px;letter-spacing:1px;}
+.sattabi-status {fill:#303030;font-size:27px;font-weight:600;letter-spacing:.3px;}
+.sattabi-cut,.sattabi-local-rule {fill:none;stroke:#454545;stroke-width:1.5;}
+#sattabi .scene-track[data-mode="pin"] {height:320svh;}
+#sattabi .product-film-word span {color:#d0d0d0;}
 
 /* Product films share the newer editorial language; each keeps its own choreography. */
 .work-chapter {--chapter-inset:max(24px,6vw);}
